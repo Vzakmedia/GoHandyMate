@@ -1,0 +1,416 @@
+import { useEffect } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/features/auth';
+import { useAudioNotifications } from './useAudioNotifications';
+import { toast } from 'sonner';
+import { useNavigate } from 'react-router-dom';
+import { getNotificationConfig, getNotificationTitle, getNotificationDescription } from '@/utils/notificationConfig';
+
+export const useRoleBasedNotifications = () => {
+  const { user, profile } = useAuth();
+  const navigate = useNavigate();
+  const {
+    playJobRequestTone,
+    playQuoteNotificationTone,
+    playMessageTone
+  } = useAudioNotifications();
+
+  useEffect(() => {
+    if (!user || !profile) return;
+
+    console.log('Setting up role-based notifications for:', profile.user_role);
+
+    const subscriptions: any[] = [];
+    const notificationConfig = getNotificationConfig(profile.user_role);
+
+    // Setup notifications based on configuration
+    setupConfigBasedNotifications();
+    
+    // Legacy specific setups for compatibility
+    switch (profile.user_role) {
+      case 'handyman':
+        setupHandymanNotifications();
+        break;
+      case 'contractor':
+        setupContractorNotifications();
+        break;
+      case 'customer':
+        setupCustomerNotifications();
+        break;
+      case 'property_manager':
+        setupPropertyManagerNotifications();
+        break;
+    }
+
+    function setupConfigBasedNotifications() {
+      // Common message notifications for all users
+      const messagesChannel = supabase
+        .channel('messages-universal')
+        .on(
+          'postgres_changes',
+          {
+            event: 'INSERT',
+            schema: 'public',
+            table: 'job_messages',
+            filter: `receiver_id=eq.${user.id}`
+          },
+          (payload) => {
+            console.log('New message received (universal):', payload);
+            playMessageTone();
+            
+            const title = getNotificationTitle('messages', profile.user_role, payload.new);
+            const description = getNotificationDescription('messages', profile.user_role, payload.new);
+            
+            toast.info(title, {
+              description,
+              duration: 3000,
+              action: {
+                label: 'View',
+                onClick: () => {
+                  if (payload.new.job_id) {
+                    if (profile.user_role === 'customer') {
+                      navigate('/', { state: { activeTab: 'bookings' } });
+                    } else {
+                      navigate(`/jobs?openJob=${payload.new.job_id}`);
+                    }
+                  } else {
+                    navigate('/jobs');
+                  }
+                },
+              },
+            });
+          }
+        )
+        .subscribe();
+      subscriptions.push(messagesChannel);
+
+      // System notifications for all users
+      const systemChannel = supabase
+        .channel('system-universal')
+        .on(
+          'postgres_changes',
+          {
+            event: 'INSERT',
+            schema: 'public',
+            table: 'notifications',
+            filter: `recipient_role=in.(${profile.user_role},all)`
+          },
+          (payload) => {
+            console.log('System notification received (universal):', payload);
+            
+            const title = getNotificationTitle('system', profile.user_role, payload.new);
+            const description = getNotificationDescription('system', profile.user_role, payload.new);
+            
+            toast.info(title, {
+              description,
+              duration: 5000,
+              action: payload.new.job_id ? {
+                label: 'View',
+                onClick: () => {
+                  if (profile.user_role === 'customer') {
+                    navigate('/', { state: { activeTab: 'bookings' } });
+                  } else {
+                    navigate(`/jobs?openJob=${payload.new.job_id}`);
+                  }
+                },
+              } : undefined,
+            });
+          }
+        )
+        .subscribe();
+      subscriptions.push(systemChannel);
+    }
+
+
+    function setupHandymanNotifications() {
+      // Job requests for handymen
+      const jobRequestsChannel = supabase
+        .channel('handyman-job-requests')
+        .on(
+          'postgres_changes',
+          {
+            event: 'INSERT',
+            schema: 'public',
+            table: 'job_requests',
+            filter: `status=eq.pending`
+          },
+          (payload) => {
+            console.log('New job request for handyman:', payload);
+            playJobRequestTone();
+            toast.info('New Job Available!', {
+              description: `${payload.new.job_type || 'Service'} job posted`,
+              duration: 5000,
+              action: {
+                label: 'View Jobs',
+                onClick: () => navigate('/?tab=jobs'),
+              },
+            });
+          }
+        )
+        .subscribe();
+      subscriptions.push(jobRequestsChannel);
+
+      // Custom quote requests
+      const quoteRequestsChannel = supabase
+        .channel('handyman-quote-requests')
+        .on(
+          'postgres_changes',
+          {
+            event: 'INSERT',
+            schema: 'public',
+            table: 'custom_quote_requests',
+            filter: `status=eq.pending`
+          },
+          (payload) => {
+            console.log('New quote request for handyman:', payload);
+            playQuoteNotificationTone();
+            toast.info('New Quote Request!', {
+              description: `${payload.new.service_name || 'Service'} - ${payload.new.location || 'Location'}`,
+              duration: 5000,
+              action: {
+                label: 'View Quotes',
+                onClick: () => navigate('/?tab=quotes'),
+              },
+            });
+          }
+        )
+        .subscribe();
+      subscriptions.push(quoteRequestsChannel);
+
+      // Job assignments
+      const assignmentChannel = supabase
+        .channel('handyman-assignments')
+        .on(
+          'postgres_changes',
+          {
+            event: 'UPDATE',
+            schema: 'public',
+            table: 'job_requests',
+            filter: `assigned_to_user_id=eq.${user.id}`
+          },
+          (payload) => {
+            if (payload.new.status === 'assigned' && payload.old.status !== 'assigned') {
+              console.log('Job assigned to handyman:', payload);
+              playJobRequestTone();
+              toast.success('Job Assigned!', {
+                description: `You've been assigned: ${payload.new.title || 'New job'}`,
+                duration: 5000,
+                action: {
+                  label: 'View Job',
+                  onClick: () => navigate(`/?tab=jobs&openJob=${payload.new.id}`),
+                },
+              });
+            }
+          }
+        )
+        .subscribe();
+      subscriptions.push(assignmentChannel);
+    }
+
+    function setupContractorNotifications() {
+      // Similar to handyman but for contractor-specific tables
+      const contractorJobsChannel = supabase
+        .channel('contractor-job-requests')
+        .on(
+          'postgres_changes',
+          {
+            event: 'INSERT',
+            schema: 'public',
+            table: 'job_requests',
+            filter: `job_type=eq.contractor_service`
+          },
+          (payload) => {
+            console.log('New contractor job:', payload);
+            playJobRequestTone();
+            toast.info('New Project Available!', {
+              description: `${payload.new.title || 'New project'} posted`,
+              duration: 5000,
+              action: {
+                label: 'View Projects',
+                onClick: () => navigate('/?tab=jobs'),
+              },
+            });
+          }
+        )
+        .subscribe();
+      subscriptions.push(contractorJobsChannel);
+
+      // Contractor quote requests
+      const contractorQuotesChannel = supabase
+        .channel('contractor-quote-requests')
+        .on(
+          'postgres_changes',
+          {
+            event: 'INSERT',
+            schema: 'public',
+            table: 'contractor_quote_requests',
+            filter: `status=eq.pending`
+          },
+          (payload) => {
+            console.log('New contractor quote request:', payload);
+            playQuoteNotificationTone();
+            toast.info('New Quote Request!', {
+              description: `${payload.new.service_name || 'Service'} request`,
+              duration: 5000,
+              action: {
+                label: 'View Quotes',
+                onClick: () => navigate('/?tab=quotes'),
+              },
+            });
+          }
+        )
+        .subscribe();
+      subscriptions.push(contractorQuotesChannel);
+    }
+
+    function setupCustomerNotifications() {
+      // Quote submissions for customers
+      const quoteSubmissionsChannel = supabase
+        .channel('customer-quote-submissions')
+        .on(
+          'postgres_changes',
+          {
+            event: 'INSERT',
+            schema: 'public',
+            table: 'quote_submissions'
+          },
+          async (payload) => {
+            console.log('New quote submission for customer:', payload);
+            
+            try {
+              // Check if this quote is for the current user's request
+              const { data: quoteRequest, error } = await supabase
+                .from('custom_quote_requests')
+                .select('customer_id, service_name')
+                .eq('id', payload.new.quote_request_id)
+                .maybeSingle();
+
+              if (error) {
+                console.error('Error fetching quote request:', error);
+                return;
+              }
+
+              if (quoteRequest?.customer_id === user.id) {
+                playQuoteNotificationTone();
+                toast.success('New Quote Received!', {
+                  description: `You received a quote for ${quoteRequest.service_name || 'your request'}`,
+                  duration: 5000,
+                  action: {
+                    label: 'View Quote',
+                    onClick: () => navigate('/?tab=quotes'),
+                  },
+                });
+              }
+            } catch (error) {
+              console.error('Error processing quote submission:', error);
+            }
+          }
+        )
+        .subscribe();
+      subscriptions.push(quoteSubmissionsChannel);
+
+      // Job status updates for customers
+      const jobUpdatesChannel = supabase
+        .channel('customer-job-updates')
+        .on(
+          'postgres_changes',
+          {
+            event: 'UPDATE',
+            schema: 'public',
+            table: 'job_requests',
+            filter: `customer_id=eq.${user.id}`
+          },
+          (payload) => {
+            if (payload.new.status !== payload.old.status) {
+              console.log('Job status updated for customer:', payload);
+              const statusMessages = {
+                'assigned': 'Your job has been assigned to a professional',
+                'in_progress': 'Work has started on your job',
+                'completed': 'Your job has been completed',
+                'cancelled': 'Your job has been cancelled'
+              };
+              
+              const message = statusMessages[payload.new.status as keyof typeof statusMessages] || 'Job status updated';
+              
+              toast.info('Job Update', {
+                description: message,
+                duration: 5000,
+                action: {
+                  label: 'View Job',
+                  onClick: () => navigate(`/?tab=jobs&openJob=${payload.new.id}`),
+                },
+              });
+            }
+          }
+        )
+        .subscribe();
+      subscriptions.push(jobUpdatesChannel);
+    }
+
+    function setupPropertyManagerNotifications() {
+      // Property-related notifications
+      const propertyUpdatesChannel = supabase
+        .channel('property-manager-updates')
+        .on(
+          'postgres_changes',
+          {
+            event: 'INSERT',
+            schema: 'public',
+            table: 'job_requests',
+            filter: `job_type=eq.maintenance`
+          },
+          (payload) => {
+            console.log('New maintenance request for property manager:', payload);
+            playJobRequestTone();
+            toast.info('New Maintenance Request!', {
+              description: `${payload.new.title || 'Maintenance'} request submitted`,
+              duration: 5000,
+              action: {
+                label: 'View Request',
+                onClick: () => navigate(`/?tab=jobs&openJob=${payload.new.id}`),
+              },
+            });
+          }
+        )
+        .subscribe();
+      subscriptions.push(propertyUpdatesChannel);
+
+      // Emergency requests
+      const emergencyChannel = supabase
+        .channel('property-manager-emergency')
+        .on(
+          'postgres_changes',
+          {
+            event: 'INSERT',
+            schema: 'public',
+            table: 'emergency_requests'
+          },
+          (payload) => {
+            console.log('Emergency request for property manager:', payload);
+            playJobRequestTone();
+            toast.error('Emergency Request!', {
+              description: `Urgent: ${payload.new.description || 'Emergency situation'}`,
+              duration: 10000,
+              action: {
+                label: 'View Emergency',
+                onClick: () => navigate('/?tab=emergency'),
+              },
+            });
+          }
+        )
+        .subscribe();
+      subscriptions.push(emergencyChannel);
+    }
+
+    return () => {
+      console.log('Cleaning up role-based notification subscriptions');
+      subscriptions.forEach(channel => {
+        try {
+          supabase.removeChannel(channel);
+        } catch (error) {
+          console.error('Error removing channel:', error);
+        }
+      });
+    };
+  }, [user, profile, navigate, playJobRequestTone, playQuoteNotificationTone, playMessageTone]);
+};
