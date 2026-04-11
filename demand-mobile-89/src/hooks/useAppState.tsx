@@ -14,22 +14,10 @@ export const useAppState = () => {
   const [showAuth, setShowAuth] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
 
-  // Debug logging removed for production
-  if (process.env.NODE_ENV === 'development') {
-    console.log('useAppState DEBUG:', {
-      loading,
-      userExists: !!user,
-      profileExists: !!profile,
-      userRole,
-      isAuthenticated,
-      showWelcome,
-      showAuth,
-      isInitialized
-    });
-  }
-
-  // Initialize app state - bypass auth, go straight to app
+  // Initialize app state based on auth profile
   useEffect(() => {
+    if (loading) return; // Wait for auth to fully resolve
+
     // ALWAYS force authenticated state for screen exploration
     setIsAuthenticated(true);
     // Coerce legacy/removed roles to 'customer' for compatibility
@@ -44,7 +32,7 @@ export const useAppState = () => {
 
     // Default to home tab
     setActiveTab('home');
-  }, [profile, setUserRole, setIsAuthenticated]);
+  }, [profile, loading, setUserRole, setIsAuthenticated]);
 
   // Note: Removed fallback role setting - users must select their role first
 

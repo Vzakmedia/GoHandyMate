@@ -11,6 +11,7 @@ import {
 import { useAppState } from '@/hooks/useAppState';
 import { VideoModal } from '@/components/hero/VideoModal';
 import { AuthModal } from '@/features/auth';
+import { useAuth } from '@/features/auth';
 import { supabase } from '@/integrations/supabase/client';
 import { HeroSection } from '@/components/HeroSection';
 import { ModernFeaturesSection } from '@/components/ModernFeaturesSection';
@@ -19,12 +20,20 @@ import { Footer } from '@/components/Footer';
 export const OnboardingPage = () => {
   const navigate = useNavigate();
   const { handleRoleSelect, isAuthenticated } = useAppState();
+  const { user, profile, loading } = useAuth();
   const [activeSection, setActiveSection] = useState('home');
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [demoVideoUrl, setDemoVideoUrl] = useState<string | null>(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [pendingRole, setPendingRole] = useState<'customer' | 'handyman' | 'contractor' | 'property_manager' | null>(null);
   const currentYear = new Date().getFullYear();
+
+  // Auto-redirect authenticated users to their dashboard
+  useEffect(() => {
+    if (!loading && user) {
+      navigate('/app', { replace: true });
+    }
+  }, [user, loading, navigate]);
 
   // Load demo video
   useEffect(() => {

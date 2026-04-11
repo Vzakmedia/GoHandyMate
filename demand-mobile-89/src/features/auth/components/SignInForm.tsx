@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { useAuth } from '@/features/auth';
 import { Loader2, Mail, Lock, ArrowRight } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useNavigate } from 'react-router-dom';
 
 interface SignInFormProps {
   onSwitchToSignUp: () => void;
@@ -17,6 +18,7 @@ export const SignInForm = ({ onSwitchToSignUp, onSuccess }: SignInFormProps) => 
   const [isLoading, setIsLoading] = useState(false);
   const { signIn } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,6 +39,8 @@ export const SignInForm = ({ onSwitchToSignUp, onSuccess }: SignInFormProps) => 
       });
       if (onSuccess) {
         onSuccess();
+      } else {
+        navigate('/app', { replace: true });
       }
     }
 
