@@ -24,13 +24,19 @@
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
-      }
+      },
+      "package": "com.gohandymate.app"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-image"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "2f116b48-1e11-435f-b974-c270c6af52fd"
+      }
+    }
   }
 }

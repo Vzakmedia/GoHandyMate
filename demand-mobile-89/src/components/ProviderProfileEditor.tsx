@@ -20,8 +20,8 @@ export const ProviderProfileEditor = () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
-      const { data: pData } = await supabase.from('profiles').select('*').eq('id', user.id).single();
-      const { data: hData } = await supabase.from('handymen').select('*').eq('user_id', user.id).single();
+      const { data: pData } = await supabase.from('profiles').select('*').eq('id', user.id).maybeSingle();
+      const { data: hData } = await supabase.from('handymen').select('*').eq('user_id', user.id).maybeSingle();
       
       if (pData) setProfile(pData);
       if (hData) setHandyman(hData);

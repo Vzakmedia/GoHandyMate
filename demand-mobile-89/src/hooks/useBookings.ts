@@ -70,7 +70,7 @@ export const useBookings = () => {
               .from('profiles')
               .select('full_name, email, phone')
               .eq('id', job.assigned_to_user_id)
-              .single();
+              .maybeSingle();
             
             if (profileError) {
               console.error('Error fetching profile for user', job.assigned_to_user_id, ':', profileError);
