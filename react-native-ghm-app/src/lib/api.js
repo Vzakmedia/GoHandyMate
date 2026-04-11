@@ -37,9 +37,9 @@ export async function getMyProfile(userId) {
     .from('profiles')
     .select('*')
     .eq('id', userId)
-    .single();
+    .maybeSingle();
   if (error) throw error;
-  return data;
+  return data; // null if no profile yet — caller should handle gracefully
 }
 
 /** Update the logged-in user's profile */
@@ -49,7 +49,7 @@ export async function updateProfile(userId, updates) {
     .update(updates)
     .eq('id', userId)
     .select()
-    .single();
+    .maybeSingle();
   if (error) throw error;
   return data;
 }

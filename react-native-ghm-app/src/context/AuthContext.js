@@ -21,17 +21,18 @@ export function AuthProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
-      loadProfile(session?.user?.id);
+      await loadProfile(session?.user?.id);
       setLoading(false);
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       setSession(session);
       setUser(session?.user ?? null);
-      loadProfile(session?.user?.id);
+      await loadProfile(session?.user?.id);
+      setLoading(false);
     });
 
     return () => subscription.unsubscribe();

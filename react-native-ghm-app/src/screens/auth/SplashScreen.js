@@ -50,7 +50,13 @@ export default function SplashScreen({ navigation }) {
       dotLoop.stop();
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
-        const role = session.user?.user_metadata?.user_role;
+        // Fetch actual role from DB (source of truth) — user_metadata can be stale
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('user_role')
+          .eq('id', session.user.id)
+          .maybeSingle();
+        const role = profile?.user_role ?? session.user?.user_metadata?.user_role;
         navigation.replace(role === 'handyman' || role === 'contractor' ? 'ProApp' : 'ClientApp');
       } else {
         navigation.replace('RoleSelection');

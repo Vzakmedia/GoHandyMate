@@ -23,9 +23,17 @@ export default function LoginSignupScreen({ navigation, route }) {
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  const { signIn, signUp } = useAuth();
+  const { signIn, signUp, profile } = useAuth();
   const role = route?.params?.role ?? 'client';
-  const destination = role === 'pro' ? 'ProApp' : 'ClientApp';
+
+  // Determine destination from DB profile (authoritative) with fallback to route param
+  const getDestination = (prof) => {
+    const dbRole = prof?.user_role;
+    if (dbRole === 'handyman' || dbRole === 'contractor') return 'ProApp';
+    if (dbRole === 'customer') return 'ClientApp';
+    // Fallback to route param if no profile yet
+    return role === 'pro' ? 'ProApp' : 'ClientApp';
+  };
 
   const handleContinue = async () => {
     if (!email.trim() || !password.trim()) {
@@ -45,8 +53,10 @@ export default function LoginSignupScreen({ navigation, route }) {
     try {
       setSubmitting(true);
       if (mode === 'login') {
-        await signIn(email.trim(), password);
-        navigation.replace(destination);
+        const data = await signIn(email.trim(), password);
+        // After signIn, AuthContext loads the profile. Use getDestination with
+        // the profile from context (now properly awaited) or fall back to route param.
+        navigation.replace(getDestination(profile));
       } else {
         await signUp(email.trim(), password, role);
         setStep('otp');
