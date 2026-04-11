@@ -265,6 +265,10 @@ export const SignUpPro = () => {
       <AuthModal
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
+        onSuccess={() => {
+          setShowAuthModal(false);
+          navigate('/');
+        }}
         defaultIsSignUp={true}
       />
     </div>
