@@ -12,7 +12,7 @@ const { width, height } = Dimensions.get('window');
 const SLIDES = [
   {
     id: '1',
-    image: require('../../../assets/onboard-1.png'),
+    image: require('../../../assets/onboard-1.jpg'),
     title: 'Find trusted pros\nnear you',
     subtitle: 'Browse hundreds of verified home service professionals in your area, complete with reviews and ratings.',
     features: [
@@ -22,7 +22,7 @@ const SLIDES = [
   },
   {
     id: '2',
-    image: require('../../../assets/onboard-2.png'),
+    image: require('../../../assets/onboard-2.jpg'),
     title: 'Book in minutes,\nnot hours',
     subtitle: 'Select your service, pick a time that works for you, and get instant confirmation from your pro.',
     features: [
@@ -32,7 +32,7 @@ const SLIDES = [
   },
   {
     id: '3',
-    image: require('../../../assets/onboard-3.png'),
+    image: require('../../../assets/onboard-3.jpg'),
     title: 'Stay connected\nwith your pro',
     subtitle: "Chat directly, track your pro's arrival in real time, and get updates throughout the job.",
     features: [
@@ -42,7 +42,7 @@ const SLIDES = [
   },
   {
     id: '4',
-    image: require('../../../assets/onboard-4.png'),
+    image: require('../../../assets/onboard-4.jpg'),
     title: 'Pay securely,\nevery time',
     subtitle: 'Your payment is only released when the job is done. Multiple payment options, zero hassle.',
     features: [

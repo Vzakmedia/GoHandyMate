@@ -12,7 +12,7 @@ const { width, height } = Dimensions.get('window');
 const SLIDES = [
   {
     id: '1',
-    image: require('../../../assets/onboard-1.png'),
+    image: require('../../../assets/onboard-1.jpg'),
     title: 'Grow your\nbusiness faster',
     subtitle: 'Reach thousands of homeowners actively searching for your skills. More visibility, more jobs.',
     features: [
@@ -22,7 +22,7 @@ const SLIDES = [
   },
   {
     id: '2',
-    image: require('../../../assets/onboard-2.png'),
+    image: require('../../../assets/onboard-2.jpg'),
     title: 'Manage jobs\nwith ease',
     subtitle: 'Track bookings, update job status, send invoices, and stay organized — all in one place.',
     features: [
@@ -32,7 +32,7 @@ const SLIDES = [
   },
   {
     id: '3',
-    image: require('../../../assets/onboard-3.png'),
+    image: require('../../../assets/onboard-3.jpg'),
     title: 'Get paid fast,\nevery time',
     subtitle: 'Receive payments directly to your bank account with automatic payouts after each completed job.',
     features: [
@@ -42,7 +42,7 @@ const SLIDES = [
   },
   {
     id: '4',
-    image: require('../../../assets/onboard-4.png'),
+    image: require('../../../assets/onboard-4.jpg'),
     title: 'Build your\nreputation',
     subtitle: 'Earn verified reviews, showcase your skills, and become the go-to pro in your area.',
     features: [
