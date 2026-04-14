@@ -162,7 +162,7 @@ export const DetailedSignUpForm = ({
     setIsLoading(true);
 
     try {
-      const { error } = await signUp(basicData.email, basicData.password, basicData.fullName, basicData.userRole);
+      const { data, error } = await signUp(basicData.email, basicData.password, basicData.fullName, basicData.userRole);
 
       if (error) {
         toast({
@@ -170,7 +170,15 @@ export const DetailedSignUpForm = ({
           description: error.message,
           variant: "destructive",
         });
+      } else if (data?.session) {
+        // User was auto-confirmed — no OTP needed, go straight in
+        toast({
+          title: "Account created!",
+          description: "Welcome to the platform.",
+        });
+        if (onSuccess) onSuccess();
       } else {
+        // Email confirmation required — show OTP step
         setPendingEmail(basicData.email);
         setStep('otp');
         toast({

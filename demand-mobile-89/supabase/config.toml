@@ -16,10 +16,30 @@ jwt_expiry = 3600
 enable_signup = true
 enable_manual_linking = false
 
+[auth.smtp]
+sender_name = "GoHandyMate"
+
 [auth.email]
 enable_signup = true
 double_confirm_changes = true
-enable_confirmations = false
+enable_confirmations = true
+secure_email_change_enabled = true
+
+[auth.email.template.confirmation]
+subject = "Your GoHandyMate verification code"
+content_path = "./supabase/templates/confirmation.html"
+
+[auth.email.template.recovery]
+subject = "Reset your GoHandyMate password"
+content_path = "./supabase/templates/recovery.html"
+
+[auth.email.template.magic_link]
+subject = "Your GoHandyMate sign-in link"
+content_path = "./supabase/templates/magic_link.html"
+
+[auth.email.template.email_change]
+subject = "Confirm your new GoHandyMate email"
+content_path = "./supabase/templates/email_change.html"
 
 [db]
 port = 54322

@@ -55,9 +55,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           }
         }
       });
-      return { error };
+      return { data, error };
     } catch (error: any) {
-      return { error };
+      return { data: null, error };
     }
   };
 
