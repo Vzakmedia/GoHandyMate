@@ -164,6 +164,9 @@ export const DetailedSignUpForm = ({
     try {
       const { data, error } = await signUp(basicData.email, basicData.password, basicData.fullName, basicData.userRole);
 
+      console.log('[SignUp] response data:', JSON.stringify({ user: data?.user?.id, session: !!data?.session, identities: data?.user?.identities?.length, email_confirmed_at: data?.user?.email_confirmed_at }));
+      console.log('[SignUp] error:', error);
+
       if (error) {
         toast({
           title: "Error creating account",
@@ -171,14 +174,21 @@ export const DetailedSignUpForm = ({
           variant: "destructive",
         });
       } else if (data?.session) {
-        // User was auto-confirmed — no OTP needed, go straight in
+        // Remote project has email confirmations disabled — user is auto-confirmed
         toast({
           title: "Account created!",
           description: "Welcome to the platform.",
         });
         if (onSuccess) onSuccess();
+      } else if (data?.user?.identities?.length === 0) {
+        // Email already registered — Supabase silently returns a fake user to prevent enumeration
+        toast({
+          title: "Email already in use",
+          description: "An account with this email already exists. Please sign in instead.",
+          variant: "destructive",
+        });
       } else {
-        // Email confirmation required — show OTP step
+        // Email confirmation required — OTP sent
         setPendingEmail(basicData.email);
         setStep('otp');
         toast({
