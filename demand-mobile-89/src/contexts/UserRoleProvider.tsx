@@ -1,8 +1,7 @@
 
 import { createContext, useContext, useState, ReactNode } from 'react';
 
-type UserRole = 'customer' | 'handyman' | null;
-// NOTE: 'contractor' removed (pending). 'property_manager' merged into customer upgrade features.
+type UserRole = 'customer' | 'provider' | 'admin' | null;
 
 interface UserRoleContextType {
   userRole: UserRole;

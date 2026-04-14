@@ -52,8 +52,7 @@ const AdminDashboard = () => {
   const [filterRole, setFilterRole] = useState('all');
   const [filterStatus, setFilterStatus] = useState('all');
 
-  // Check if user is admin - using email check since admin role is not in the user_role enum
-  const isAdmin = profile?.email === 'admin@gohandymate.com' || profile?.email?.endsWith('@admin.gohandymate.com');
+  const isAdmin = profile?.user_role === 'admin';
 
   useEffect(() => {
     if (isAdmin) {
@@ -208,8 +207,8 @@ const AdminDashboard = () => {
   const stats = {
     totalUsers: users.length,
     activeSubscriptions: users.filter(u => u.subscription_status === 'active').length,
-    handymen: users.filter(u => u.user_role === 'handyman').length,
-    contractors: users.filter(u => u.user_role === 'contractor').length,
+    providers: users.filter(u => u.user_role === 'provider').length,
+    admins: users.filter(u => u.user_role === 'admin').length,
     totalRevenue: subscriptionLogs
       .filter(log => log.status === 'succeeded')
       .reduce((sum, log) => sum + log.amount, 0) / 100, // Convert from cents
@@ -405,9 +404,8 @@ const AdminDashboard = () => {
                     <SelectContent className="rounded-xl border-black/5">
                       <SelectItem value="all">All Roles</SelectItem>
                       <SelectItem value="customer">Customer</SelectItem>
-                      <SelectItem value="handyman">Handyman</SelectItem>
-                      <SelectItem value="contractor">Contractor</SelectItem>
-                      <SelectItem value="property_manager">Property Manager</SelectItem>
+                      <SelectItem value="provider">Provider</SelectItem>
+                      <SelectItem value="admin">Admin</SelectItem>
                     </SelectContent>
                   </Select>
                   <Select value={filterStatus} onValueChange={setFilterStatus}>

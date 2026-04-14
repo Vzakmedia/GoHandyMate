@@ -23,37 +23,24 @@ export const BottomNavigation = ({ activeTab, onTabChange }: BottomNavigationPro
     { id: 'profile', label: 'Profile', icon: User },
   ];
 
-  const handymanTabs = [
+  const providerTabs = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'jobs', label: 'Jobs', icon: Briefcase },
     { id: 'earnings', label: 'Earnings', icon: DollarSign },
     { id: 'profile', label: 'Profile', icon: User },
   ];
 
-  // CONTRACTOR - PENDING (commented out)
-  // const contractorTabs = [
-  //   { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
-  //   { id: 'projects', label: 'Projects', icon: Building2 },
-  //   { id: 'quotes', label: 'Quotes', icon: DollarSign },
-  //   { id: 'profile', label: 'Profile', icon: User },
-  // ];
-
-  // PROPERTY_MANAGER - Moved to customer upgrade features (commented out as standalone)
-  // const propertyManagerTabs = [
-  //   { id: 'properties', label: 'Properties', icon: Building2 },
-  //   { id: 'jobs', label: 'Jobs', icon: Wrench },
-  //   { id: 'analytics', label: 'Analytics', icon: BarChart3 },
-  //   { id: 'profile', label: 'Profile', icon: User },
-  // ];
+  const adminTabs = [
+    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { id: 'users', label: 'Users', icon: User },
+    { id: 'analytics', label: 'Analytics', icon: BarChart3 },
+  ];
 
   const getTabsForRole = () => {
     switch (userRole) {
-      case 'handyman':
-        return handymanTabs;
-      // case 'contractor': return contractorTabs; // CONTRACTOR - PENDING
-      // case 'property_manager': return propertyManagerTabs; // PROPERTY_MANAGER - in customer upgrade
-      default:
-        return customerTabs;
+      case 'provider': return providerTabs;
+      case 'admin': return adminTabs;
+      default: return customerTabs;
     }
   };
 

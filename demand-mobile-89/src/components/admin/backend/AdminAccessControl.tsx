@@ -9,10 +9,7 @@ interface AdminAccessControlProps {
 }
 
 export const AdminAccessControl = ({ user, authLoading, onBackToRoles }: AdminAccessControlProps) => {
-  // Check if user is admin - temporarily including support@gohandymate.com for testing
-  const isAdmin = user?.email === 'admin@gohandymate.com' || 
-                  user?.email?.endsWith('@admin.gohandymate.com') ||
-                  user?.email === 'support@gohandymate.com';
+  const isAdmin = false; // Already checked in parent via profile.user_role === 'admin'
 
   console.log('AdminAccessControl: Admin check', { 
     userEmail: user?.email,

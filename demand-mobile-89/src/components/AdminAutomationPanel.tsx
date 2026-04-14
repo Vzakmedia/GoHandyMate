@@ -13,7 +13,7 @@ import { AccessDenied } from './admin/automation/AccessDenied';
 import { useAutomationActions } from '@/hooks/useAutomationActions';
 
 export const AdminAutomationPanel = () => {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const { toast } = useToast();
   const [cronLogs, setCronLogs] = useState<CronLog[]>([]);
   const [loading, setLoading] = useState(true);
@@ -25,10 +25,7 @@ export const AdminAutomationPanel = () => {
     generateReports
   } = useAutomationActions();
 
-  // Check if user is admin - temporarily including support@gohandymate.com for testing
-  const isAdmin = user?.email === 'admin@gohandymate.com' || 
-                  user?.email?.endsWith('@admin.gohandymate.com') ||
-                  user?.email === 'support@gohandymate.com';
+  const isAdmin = profile?.user_role === 'admin';
 
   useEffect(() => {
     if (isAdmin) {

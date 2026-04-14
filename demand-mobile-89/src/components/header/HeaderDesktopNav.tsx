@@ -27,7 +27,7 @@ export const HeaderDesktopNav = ({
 
   return (
     <div className="hidden md:flex items-center space-x-4 lg:space-x-6">
-      {user && (userRole === 'handyman' || userRole === 'contractor') && (
+      {user && userRole === 'provider' && (
         <Button
           variant="outline"
           size="sm"

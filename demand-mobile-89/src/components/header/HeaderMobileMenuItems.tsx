@@ -23,8 +23,8 @@ export const HeaderMobileMenuItems = ({
 
   return (
     <div className="p-4 space-y-1 flex-1 overflow-y-auto">
-      {/* Advertising Button - for handyman and contractor */}
-      {user && (userRole === 'handyman' || userRole === 'contractor') && (
+      {/* Advertising Button - for providers */}
+      {user && userRole === 'provider' && (
         <Button
           variant="ghost"
           className="w-full justify-start h-10 text-left"

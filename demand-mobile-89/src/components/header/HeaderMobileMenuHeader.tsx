@@ -24,14 +24,14 @@ export const HeaderMobileMenuHeader = ({
   const getUserDisplayName = () => {
     if (!user) return 'Guest';
     
-    // For contractors, prioritize business name over personal name
-    if (profile?.user_role === 'contractor') {
+    // For providers, prioritize business name over personal name
+    if (profile?.user_role === 'provider') {
       const businessName = profile?.business_name || profile?.company_name;
       if (businessName && businessName.trim()) {
         return businessName.trim();
       }
     }
-    
+
     // Use profile full_name first, then user metadata, then email
     const profileName = profile?.full_name;
     const metadataName = user.user_metadata?.full_name;
@@ -63,8 +63,8 @@ export const HeaderMobileMenuHeader = ({
   const getUserInitials = () => {
     if (!user) return 'G';
     
-    // For contractors, use business name initials if available
-    if (profile?.user_role === 'contractor') {
+    // For providers, use business name initials if available
+    if (profile?.user_role === 'provider') {
       const businessName = profile?.business_name || profile?.company_name;
       if (businessName && businessName.trim()) {
         const words = businessName.trim().split(' ');
@@ -96,9 +96,8 @@ export const HeaderMobileMenuHeader = ({
   const getRoleDisplayName = (role: string) => {
     const roleNames = {
       customer: 'Customer',
-      handyman: 'Handyman',
-      contractor: 'Contractor',
-      property_manager: 'Property Manager'
+      provider: 'Provider',
+      admin: 'Admin'
     };
     return roleNames[role as keyof typeof roleNames] || role;
   };

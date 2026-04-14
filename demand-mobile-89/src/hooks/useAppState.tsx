@@ -20,11 +20,11 @@ export const useAppState = () => {
 
     // ALWAYS force authenticated state for screen exploration
     setIsAuthenticated(true);
-    // Coerce legacy/removed roles to 'customer' for compatibility
     const dbRole = profile?.user_role;
-    const resolvedRole: 'customer' | 'handyman' =
-      dbRole === 'handyman' ? 'handyman' : 'customer';
-    // NOTE: 'contractor' (pending) and 'property_manager' (now in customer upgrade) are coerced to 'customer'
+    const resolvedRole: 'customer' | 'provider' | 'admin' =
+      dbRole === 'provider' ? 'provider' :
+      dbRole === 'admin' ? 'admin' :
+      'customer';
     setUserRole(resolvedRole);
     setShowWelcome(false);
     setShowAuth(false);
@@ -36,8 +36,7 @@ export const useAppState = () => {
 
   // Note: Removed fallback role setting - users must select their role first
 
-  const handleRoleSelect = (role: 'customer' | 'handyman') => {
-    // NOTE: 'contractor' pending. 'property_manager' merged into customer upgrade features.
+  const handleRoleSelect = (role: 'customer' | 'provider' | 'admin') => {
     setUserRole(role);
     setShowWelcome(false);
     setShowAuth(false);

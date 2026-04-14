@@ -228,7 +228,7 @@ export const GoHandyMateTrustSection = () => {
       const { data: customers } = await supabase
         .from('profiles')
         .select('id')
-        .in('user_role', ['customer', 'property_manager']);
+        .in('user_role', ['customer']);
 
       // Get completed jobs
       const { data: jobs } = await supabase
@@ -245,7 +245,7 @@ export const GoHandyMateTrustSection = () => {
       const { data: allProfiles } = await supabase
         .from('profiles')
         .select('id, user_role')
-        .in('user_role', ['handyman', 'contractor'])
+        .in('user_role', ['provider'])
         .eq('account_status', 'active');
 
       // Get unique cities from all user sources

@@ -19,7 +19,7 @@ interface HeaderProps {
 
 export const Header = ({ activeTab, onTabChange, onChangeRole }: HeaderProps) => {
   const { userRole, setUserRole, setIsAuthenticated } = useUserRole();
-  const { user, signOut } = useAuth();
+  const { user, profile, signOut } = useAuth();
   const { isMobile, isTablet } = useResponsiveBreakpoints();
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -86,10 +86,7 @@ export const Header = ({ activeTab, onTabChange, onChangeRole }: HeaderProps) =>
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-  // Check if user is admin - temporarily including support@gohandymate.com for testing
-  const isAdmin = user?.email === 'admin@gohandymate.com' ||
-    user?.email?.endsWith('@admin.gohandymate.com') ||
-    user?.email === 'support@gohandymate.com';
+  const isAdmin = profile?.user_role === 'admin';
 
   const handleAdminBackendClick = () => {
     console.log('Header: Navigating to admin backend');

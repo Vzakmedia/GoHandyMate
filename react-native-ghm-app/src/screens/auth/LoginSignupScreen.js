@@ -29,7 +29,7 @@ export default function LoginSignupScreen({ navigation, route }) {
   // Determine destination from DB profile (authoritative) with fallback to route param
   const getDestination = (prof) => {
     const dbRole = prof?.user_role;
-    if (dbRole === 'handyman' || dbRole === 'contractor') return 'ProApp';
+    if (dbRole === 'provider') return 'ProApp';
     if (dbRole === 'customer') return 'ClientApp';
     // Fallback to route param if no profile yet
     return role === 'pro' ? 'ProApp' : 'ClientApp';

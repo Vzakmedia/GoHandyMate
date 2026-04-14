@@ -22,19 +22,16 @@ export const AccountVerificationProvider = ({ children }: { children: ReactNode 
 
   const canAccessRole = (role: string) => {
     if (!profile) return true; // Auth disabled - allow all access
-    
-    // Property managers are automatically active
-    if (role === 'property_manager') return true;
-    
-    // Customers don't need verification
-    if (role === 'customer') return true;
-    
-    // For handyman and contractor roles, check both account status and subscription status
-    if (role === 'handyman' || role === 'contractor') {
-      return profile.account_status === 'active' && 
+
+    // Customers and admins don't need verification
+    if (role === 'customer' || role === 'admin') return true;
+
+    // Providers need active account and active/trialing subscription
+    if (role === 'provider') {
+      return profile.account_status === 'active' &&
              (profile.subscription_status === 'active' || profile.subscription_status === 'trialing');
     }
-    
+
     return false;
   };
 

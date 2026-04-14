@@ -59,7 +59,7 @@ interface AdminStats {
 }
 
 export const PropertyManagementAdmin = () => {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const [properties, setProperties] = useState<Property[]>([]);
   const [propertyManagers, setPropertyManagers] = useState<PropertyManager[]>([]);
   const [stats, setStats] = useState<AdminStats>({
@@ -78,10 +78,7 @@ export const PropertyManagementAdmin = () => {
   const [showPropertyDetails, setShowPropertyDetails] = useState(false);
   const [showManagerDetails, setShowManagerDetails] = useState(false);
 
-  // Check if user is admin
-  const isAdmin = user?.email === 'admin@gohandymate.com' || 
-                  user?.email?.endsWith('@admin.gohandymate.com') ||
-                  user?.email === 'support@gohandymate.com';
+  const isAdmin = profile?.user_role === 'admin';
 
   const fetchProperties = async () => {
     try {
@@ -112,7 +109,7 @@ export const PropertyManagementAdmin = () => {
           *,
           properties!properties_manager_id_fkey (*)
         `)
-        .eq('user_role', 'property_manager')
+        .eq('user_role', 'customer')
         .order('created_at', { ascending: false });
 
       if (error) throw error;

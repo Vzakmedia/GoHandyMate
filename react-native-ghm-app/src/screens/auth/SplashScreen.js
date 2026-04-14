@@ -57,7 +57,7 @@ export default function SplashScreen({ navigation }) {
           .eq('id', session.user.id)
           .maybeSingle();
         const role = profile?.user_role ?? session.user?.user_metadata?.user_role;
-        navigation.replace(role === 'handyman' || role === 'contractor' ? 'ProApp' : 'ClientApp');
+        navigation.replace(role === 'provider' ? 'ProApp' : 'ClientApp');
       } else {
         navigation.replace('RoleSelection');
       }

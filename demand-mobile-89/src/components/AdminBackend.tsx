@@ -33,7 +33,7 @@ import {
 export const AdminBackend = () => {
   console.log('AdminBackend: Component rendering');
 
-  const { user, loading: authLoading, signOut } = useAuth();
+  const { user, profile, loading: authLoading, signOut } = useAuth();
   const { setUserRole, setIsAuthenticated } = useUserRole();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
@@ -59,10 +59,7 @@ export const AdminBackend = () => {
     navigate('/');
   };
 
-  // Check if user is admin
-  const isAdmin = user?.email === 'admin@gohandymate.com' ||
-    user?.email?.endsWith('@admin.gohandymate.com') ||
-    user?.email === 'support@gohandymate.com';
+  const isAdmin = profile?.user_role === 'admin';
 
   // Show loading while auth is loading
   if (authLoading) {

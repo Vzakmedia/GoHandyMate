@@ -49,7 +49,7 @@ export const NotificationButton = () => {
         break;
       case 'quote':
         // Navigate to quotes section for handymen/contractors
-        if (profile?.user_role === 'handyman' || profile?.user_role === 'contractor') {
+        if (profile?.user_role === 'provider') {
           // Use notification ID as quote identifier
           navigate('/', { state: { activeTab: 'quotes', openQuote: notification.id } });
         } else {
@@ -80,9 +80,7 @@ export const NotificationButton = () => {
           }
         } else {
           // Navigate to appropriate dashboard based on user role
-          if (profile?.user_role === 'property_manager') {
-            navigate('/', { state: { activeTab: 'maintenance' } });
-          } else if (profile?.user_role === 'handyman' || profile?.user_role === 'contractor') {
+          if (profile?.user_role === 'provider') {
             navigate('/jobs');
           } else {
             navigate('/');

@@ -48,7 +48,7 @@ export function AuthProvider({ children }) {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
-      options: { data: { user_role: role === 'pro' ? 'handyman' : 'customer' } },
+      options: { data: { user_role: role === 'pro' ? 'provider' : 'customer' } },
     });
     if (error) throw error;
     return data;
@@ -67,8 +67,9 @@ export function AuthProvider({ children }) {
     session,
     profile,
     loading,
-    isHandyman: profile?.user_role === 'handyman',
+    isProvider: profile?.user_role === 'provider',
     isCustomer: profile?.user_role === 'customer',
+    isAdmin: profile?.user_role === 'admin',
     signIn,
     signUp,
     signOut,

@@ -17,15 +17,14 @@ export const HeaderUserInfo = ({ user, userRole, showBadge = true, size = 'md' }
   const getUserDisplayName = () => {
     if (!user) return 'Guest';
     
-    // For contractors, prioritize business name over personal name
-    if (profile?.user_role === 'contractor') {
+    // For providers, prioritize business name over personal name
+    if (profile?.user_role === 'provider') {
       const businessName = profile?.business_name || profile?.company_name;
       if (businessName && businessName.trim()) {
         return businessName.trim();
       }
-      // Fallback to personal name if no business name
       const ownerName = profile?.full_name || user.user_metadata?.full_name;
-      return ownerName || 'Contractor';
+      return ownerName || 'Provider';
     }
     
     // Use profile full_name first, then user metadata, then email
@@ -59,8 +58,8 @@ export const HeaderUserInfo = ({ user, userRole, showBadge = true, size = 'md' }
   const getUserInitials = () => {
     if (!user) return 'G';
     
-    // For contractors, use business name initials if available
-    if (profile?.user_role === 'contractor') {
+    // For providers, use business name initials if available
+    if (profile?.user_role === 'provider') {
       const businessName = profile?.business_name || profile?.company_name;
       if (businessName && businessName.trim()) {
         const words = businessName.trim().split(' ');
@@ -103,9 +102,8 @@ export const HeaderUserInfo = ({ user, userRole, showBadge = true, size = 'md' }
   const getRoleDisplayName = (role: string) => {
     const roleNames = {
       customer: 'Customer',
-      handyman: 'Handyman',
-      contractor: 'Contractor',
-      property_manager: 'Property Manager'
+      provider: 'Provider',
+      admin: 'Admin'
     };
     return roleNames[role as keyof typeof roleNames] || role;
   };

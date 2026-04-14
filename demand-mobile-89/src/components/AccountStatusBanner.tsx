@@ -10,8 +10,8 @@ export const AccountStatusBanner = () => {
   const { profile, signOut } = useAuth();
   const { accountStatus, isPendingVerification, isRejected, rejectionReason } = useAccountVerification();
 
-  // Don't show banner for customers, property managers, or if no profile
-  if (!profile || profile.user_role === 'customer' || profile.user_role === 'property_manager' || accountStatus === 'active') {
+  // Only show banner for providers with non-active status
+  if (!profile || profile.user_role !== 'provider' || accountStatus === 'active') {
     return null;
   }
 
