@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 interface DashboardTopbarProps {
     profileName?: string;
     userRole: string;
-    onChangeRole: () => void;
+    onChangeRole?: () => void;
 }
 
 export const DashboardTopbar = ({ profileName, userRole, onChangeRole }: DashboardTopbarProps) => {
@@ -73,13 +73,15 @@ export const DashboardTopbar = ({ profileName, userRole, onChangeRole }: Dashboa
                         </div>
                     </div>
 
-                    <button
-                        onClick={onChangeRole}
-                        className="flex items-center gap-3 px-5 py-3 rounded-2xl border border-black/5 bg-white text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-slate-900 hover:bg-slate-50 transition-all active:scale-95 group/role"
-                    >
-                        <RefreshCw className="w-3.5 h-3.5 group-hover/role:rotate-180 transition-transform duration-700" />
-                        Switch
-                    </button>
+                    {onChangeRole && (
+                        <button
+                            onClick={onChangeRole}
+                            className="flex items-center gap-3 px-5 py-3 rounded-2xl border border-black/5 bg-white text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-slate-900 hover:bg-slate-50 transition-all active:scale-95 group/role"
+                        >
+                            <RefreshCw className="w-3.5 h-3.5 group-hover/role:rotate-180 transition-transform duration-700" />
+                            Switch
+                        </button>
+                    )}
                 </div>
             </div>
         </header>

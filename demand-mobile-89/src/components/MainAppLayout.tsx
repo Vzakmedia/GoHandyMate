@@ -110,7 +110,7 @@ export const MainAppLayout = ({
           <DashboardTopbar
             profileName={user?.name}
             userRole={userRole || 'customer'}
-            onChangeRole={onChangeRole || (() => { })}
+            onChangeRole={onChangeRole}
           />
 
           <main className="flex-1 overflow-y-auto scrollbar-hide bg-slate-50/30">

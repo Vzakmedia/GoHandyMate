@@ -19,7 +19,7 @@ interface DashboardTabNavigationProps {
 
 export const DashboardTabNavigation = ({ activeTab, onTabChange }: DashboardTabNavigationProps) => {
   const tabs = [
-    { id: 'overview', label: 'Overview', icon: LayoutDashboard },
+    { id: 'dashboard', label: 'Overview', icon: LayoutDashboard },
     { id: 'jobs', label: 'Jobs', icon: Briefcase },
     { id: 'earnings', label: 'Earnings', icon: Wallet },
     { id: 'messages', label: 'Messages', icon: MessageSquare },

@@ -8,7 +8,7 @@ import { AuthScreen } from './AuthScreen';
 
 interface RoleProtectedRouteProps {
   children: ReactNode;
-  requiredRole: 'customer' | 'provider' | 'admin';
+  requiredRole: 'customer' | 'handyman' | 'provider' | 'admin';
   onBackToHome?: () => void;
 }
 

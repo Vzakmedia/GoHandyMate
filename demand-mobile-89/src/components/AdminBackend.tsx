@@ -54,9 +54,18 @@ export const AdminBackend = () => {
     navigate('/');
   };
 
-  const handleLogout = async () => {
-    await signOut();
-    navigate('/');
+  const handleLogout = async (e?: any) => {
+    if (e && typeof e.preventDefault === 'function') {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    try {
+      await signOut();
+      navigate('/');
+    } catch (error) {
+      console.error("Error signing out from admin:", error);
+      navigate('/');
+    }
   };
 
   const isAdmin = profile?.user_role === 'admin';

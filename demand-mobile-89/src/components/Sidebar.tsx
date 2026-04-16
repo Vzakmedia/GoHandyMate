@@ -62,12 +62,22 @@ export const Sidebar = ({ activeTab, onTabChange, onChangeRole }: SidebarProps) 
     const tabs = getTabsForRole();
     const isHandyman = userRole === 'handyman';
 
-    const handleSignOut = async () => {
-        await signOut();
-        setUserRole(null);
-        setIsAuthenticated(false);
-        onTabChange('home');
-        navigate('/');
+    const handleSignOut = async (e?: React.MouseEvent | any) => {
+        if (e && typeof e.preventDefault === 'function') {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        try {
+            await signOut();
+            setUserRole(null);
+            setIsAuthenticated(false);
+            onTabChange('home');
+            navigate('/');
+        } catch (error) {
+            console.error("Error in handleSignOut:", error);
+            // Fallback navigation if signout fails
+            navigate('/');
+        }
     };
 
     return (
@@ -137,6 +147,7 @@ export const Sidebar = ({ activeTab, onTabChange, onChangeRole }: SidebarProps) 
                     </div>
                     <div className="flex flex-col gap-2.5 pt-1">
                         <button
+                            type="button"
                             onClick={handleSignOut}
                             className="w-full flex items-center justify-center gap-2 py-1.5 bg-white border border-rose-200 text-rose-600 text-[11px] font-bold rounded-lg hover:bg-rose-50 transition-all shadow-sm"
                         >

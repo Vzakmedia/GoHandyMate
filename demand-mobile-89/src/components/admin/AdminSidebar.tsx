@@ -27,7 +27,12 @@ interface SidebarItemProps {
 
 const SidebarItem = ({ icon: Icon, label, value, active, onClick }: SidebarItemProps) => (
     <button
-        onClick={() => onClick(value)}
+        type="button"
+        onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onClick(value);
+        }}
         className={cn(
             "w-full flex items-center justify-between px-4 py-3 rounded-2xl transition-all duration-300 group",
             active

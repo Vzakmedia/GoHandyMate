@@ -9,7 +9,7 @@ export interface Profile {
   city?: string;
   zip_code?: string;
   avatar_url?: string;
-  user_role: 'customer' | 'provider' | 'admin';
+  user_role: 'customer' | 'handyman' | 'provider' | 'admin';
   subscription_plan?: string;
   subscription_status?: string;
   subscription_start_date?: string;
