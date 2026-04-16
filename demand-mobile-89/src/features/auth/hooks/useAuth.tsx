@@ -88,34 +88,46 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
-    // Initializing state with current session
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        await fetchProfile(session.user.id);
-      }
+    // Safety timeout — if auth never resolves (network error, Supabase down),
+    // unblock the loading screen after 10 seconds.
+    const safetyTimer = setTimeout(() => {
       setLoading(false);
-    });
+    }, 10000);
 
-    // Listen for auth changes
+    // Initializing state with current session
+    supabase.auth.getSession()
+      .then(async ({ data: { session } }) => {
+        setSession(session);
+        setUser(session?.user ?? null);
+        if (session?.user) {
+          await fetchProfile(session.user.id);
+        }
+      })
+      .catch((err) => {
+        console.error('[AuthProvider] getSession error:', err);
+      })
+      .finally(() => {
+        clearTimeout(safetyTimer);
+        setLoading(false);
+      });
+
+    // Listen for auth changes — does not touch loading (already resolved by getSession)
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         console.log('🔄 AuthProvider: Auth event:', event);
         setSession(session);
         setUser(session?.user ?? null);
-        
+
         if (session?.user && event !== 'SIGNED_OUT') {
           await fetchProfile(session.user.id);
         } else {
           setProfile(null);
         }
-        
-        setLoading(false);
       }
     );
 
     return () => {
+      clearTimeout(safetyTimer);
       subscription.unsubscribe();
     };
   }, []);

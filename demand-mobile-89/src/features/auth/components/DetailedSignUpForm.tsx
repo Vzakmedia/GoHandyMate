@@ -3,8 +3,9 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useAuth } from '@/features/auth';
-import { Loader2, ArrowRight, Mail } from 'lucide-react';
+import { Loader2, ArrowRight, Mail, ArrowLeft } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 
 import { BasicInfoSection } from './signup/BasicInfoSection';
@@ -75,6 +76,7 @@ export const DetailedSignUpForm = ({
   const [pendingEmail, setPendingEmail] = useState('');
   const { signUp } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleFileUpload = (file: File | null, type: 'validId' | 'license' | 'insurance') => {
     if (file && file.size > 10 * 1024 * 1024) { // 10MB limit
@@ -179,7 +181,7 @@ export const DetailedSignUpForm = ({
           title: "Account created!",
           description: "Welcome to the platform.",
         });
-        if (onSuccess) onSuccess();
+        if (onSuccess) onSuccess(); else navigate('/app', { replace: true });
       } else if (data?.user?.identities?.length === 0) {
         // Email already registered — Supabase silently returns a fake user to prevent enumeration
         toast({
@@ -221,7 +223,7 @@ export const DetailedSignUpForm = ({
         toast({ title: "Verification failed", description: error.message, variant: "destructive" });
       } else {
         toast({ title: "Email verified!", description: "Your account is now active." });
-        if (onSuccess) onSuccess();
+        if (onSuccess) onSuccess(); else navigate('/app', { replace: true });
       }
     } catch (err) {
       toast({ title: "Unexpected error", description: "Please try again.", variant: "destructive" });
@@ -233,6 +235,14 @@ export const DetailedSignUpForm = ({
   if (step === 'otp') {
     return (
       <div className="w-full mx-auto space-y-6">
+        <button
+          type="button"
+          onClick={() => { setStep('form'); setOtpCode(''); }}
+          className="flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-700 font-medium"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back
+        </button>
         <div className="text-center space-y-2">
           <div className="flex justify-center">
             <Mail className="w-12 h-12 text-green-700" />

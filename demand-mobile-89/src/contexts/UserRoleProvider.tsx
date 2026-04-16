@@ -1,7 +1,7 @@
 
 import { createContext, useContext, useState, ReactNode } from 'react';
 
-type UserRole = 'customer' | 'provider' | 'admin' | null;
+type UserRole = 'customer' | 'handyman' | 'provider' | 'admin' | null;
 
 interface UserRoleContextType {
   userRole: UserRole;

@@ -38,6 +38,7 @@ export const BottomNavigation = ({ activeTab, onTabChange }: BottomNavigationPro
 
   const getTabsForRole = () => {
     switch (userRole) {
+      case 'handyman':
       case 'provider': return providerTabs;
       case 'admin': return adminTabs;
       default: return customerTabs;
