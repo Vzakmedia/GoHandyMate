@@ -12,7 +12,7 @@ export const LoadingScreen = () => {
           mx-auto mb-4 animate-pulse
         `}>
           <img 
-            src="/lovable-uploads/eb567480-8cf9-4f27-a7fe-8c3ae2c6ab2f.png" 
+            src="/gohandymate-logo.png"
             alt="GoHandyMate Logo" 
             className="w-full h-full object-contain"
           />

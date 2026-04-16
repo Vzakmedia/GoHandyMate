@@ -10,7 +10,7 @@ import { ResponsiveLayout } from "@/components/ResponsiveLayout";
 import { AuthScreen } from "@/features/auth";
 import { useNavigate } from "react-router-dom";
 import { Sidebar } from "@/components/Sidebar";
-import { HandymanTopbar } from "./handyman/dashboard/HandymanTopbar";
+import { DashboardTopbar } from "@/components/DashboardTopbar";
 
 interface MainAppLayoutProps {
   userRole: 'customer' | 'handyman';
@@ -107,21 +107,14 @@ export const MainAppLayout = ({
           ${isMobile || isTablet ? 'pb-20 sm:pb-24' : ''}
           lg:pb-0
         `}>
-          {userRole === 'handyman' ? (
-            <HandymanTopbar
-              profileName={user?.name}
-              onChangeRole={onChangeRole || (() => { })}
-            />
-          ) : (
-            <Header
-              activeTab={activeTab}
-              onTabChange={onTabChange}
-              onChangeRole={onChangeRole}
-            />
-          )}
+          <DashboardTopbar
+            profileName={user?.name}
+            userRole={userRole || 'customer'}
+            onChangeRole={onChangeRole || (() => { })}
+          />
 
-          <main className={`flex-1 overflow-y-auto scrollbar-hide ${userRole === 'handyman' ? 'bg-background' : 'bg-[#FAFAF5]'}`}>
-            <div className={`w-full max-w-[1600px] mx-auto ${userRole === 'handyman' ? 'p-4 md:p-8' : 'p-4 sm:p-6 md:p-8 lg:p-12'}`}>
+          <main className="flex-1 overflow-y-auto scrollbar-hide bg-slate-50/30">
+            <div className="w-full max-w-[1600px] mx-auto p-4 md:p-8">
               <TabContent
                 activeTab={activeTab}
                 userRole={userRole || 'customer'}

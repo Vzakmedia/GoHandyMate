@@ -15,9 +15,10 @@ interface HeaderProps {
   activeTab?: string;
   onTabChange?: (tab: string) => void;
   onChangeRole?: () => void;
+  hideLogoOnDesktop?: boolean;
 }
 
-export const Header = ({ activeTab, onTabChange, onChangeRole }: HeaderProps) => {
+export const Header = ({ activeTab, onTabChange, onChangeRole, hideLogoOnDesktop = false }: HeaderProps) => {
   const { userRole, setUserRole, setIsAuthenticated } = useUserRole();
   const { user, profile, signOut } = useAuth();
   const { isMobile, isTablet } = useResponsiveBreakpoints();
@@ -97,7 +98,7 @@ export const Header = ({ activeTab, onTabChange, onChangeRole }: HeaderProps) =>
     <>
       <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/95">
         <div className="flex h-14 sm:h-16 md:h-18 items-center justify-between px-3 sm:px-4 md:px-6 lg:px-8">
-          <div className="flex-shrink-0">
+          <div className={`flex-shrink-0 ${hideLogoOnDesktop ? "lg:hidden" : ""}`}>
             <HeaderLogo />
           </div>
 

@@ -61,7 +61,7 @@ export const PublicHeader = () => {
                         >
                             <div className="transition-transform group-hover:scale-105 h-10 w-10 sm:h-12 sm:w-12 flex-shrink-0">
                                 <img
-                                    src="/lovable-uploads/eb567480-8cf9-4f27-a7fe-8c3ae2c6ab2f.png"
+                                    src="/gohandymate-logo.png"
                                     alt="GoHandyMate Logo"
                                     className="h-full w-full object-contain"
                                 />

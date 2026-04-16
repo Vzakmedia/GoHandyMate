@@ -72,9 +72,11 @@ export const AdminSidebar = ({ activeTab, onTabChange, onLogout }: AdminSidebarP
         <div className="w-72 h-screen fixed left-0 top-0 bg-white border-r border-black/5 flex flex-col p-6 z-50">
             <div className="mb-10 px-4">
                 <div className="flex items-center gap-3 mb-1">
-                    <div className="w-8 h-8 bg-[#166534] rounded-lg flex items-center justify-center">
-                        <ShieldCheck className="w-5 h-5 text-white" />
-                    </div>
+                    <img
+                        src="/gohandymate-logo.png"
+                        alt="GoHandyMate"
+                        className="w-9 h-9 object-contain flex-shrink-0"
+                    />
                     <span className="text-lg font-black tracking-tighter text-slate-900 uppercase">Admin Hub</span>
                 </div>
                 <div className="flex items-center gap-2">
