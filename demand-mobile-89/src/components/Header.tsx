@@ -54,19 +54,14 @@ export const Header = ({ activeTab, onTabChange, onChangeRole, hideLogoOnDesktop
     }
   };
 
-  const handleSignOut = async () => {
-    try {
-      await supabase.auth.signOut();
-    } catch (e) {
-      // ignore — still clear session below
-    }
+  const handleSignOut = () => {
+    supabase.auth.signOut().catch(() => {});
     try {
       Object.keys(localStorage).forEach(key => {
         if (key.startsWith('sb-')) localStorage.removeItem(key);
       });
-    } catch (e) {
-      // ignore storage errors
-    }
+      sessionStorage.clear();
+    } catch (_) {}
     window.location.replace('/');
   };
 

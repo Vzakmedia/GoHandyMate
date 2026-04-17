@@ -19,12 +19,13 @@ export const PublicHeader = () => {
     const { handleRoleSelect } = useAppState();
     const [isScrolled, setIsScrolled] = useState(false);
 
-    const handleSignOut = async () => {
-        try { await supabase.auth.signOut(); } catch (_) {}
+    const handleSignOut = () => {
+        supabase.auth.signOut().catch(() => {});
         try {
             Object.keys(localStorage).forEach(key => {
                 if (key.startsWith('sb-')) localStorage.removeItem(key);
             });
+            sessionStorage.clear();
         } catch (_) {}
         window.location.replace('/');
     };

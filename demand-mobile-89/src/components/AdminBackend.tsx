@@ -55,23 +55,18 @@ export const AdminBackend = () => {
     navigate('/');
   };
 
-  const handleLogout = async (e?: any) => {
+  const handleLogout = (e?: any) => {
     if (e && typeof e.preventDefault === 'function') {
       e.preventDefault();
       e.stopPropagation();
     }
-    try {
-      await supabase.auth.signOut();
-    } catch (e) {
-      // ignore — still clear session below
-    }
+    supabase.auth.signOut().catch(() => {});
     try {
       Object.keys(localStorage).forEach(key => {
         if (key.startsWith('sb-')) localStorage.removeItem(key);
       });
-    } catch (e) {
-      // ignore storage errors
-    }
+      sessionStorage.clear();
+    } catch (_) {}
     window.location.replace('/');
   };
 

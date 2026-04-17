@@ -61,22 +61,18 @@ export const Sidebar = ({ activeTab, onTabChange, onChangeRole }: SidebarProps) 
     const tabs = getTabsForRole();
     const isHandyman = userRole === 'handyman';
 
-    const handleSignOut = async () => {
-        // Sign out from Supabase
-        try {
-            await supabase.auth.signOut();
-        } catch (e) {
-            // ignore — still clear session below
-        }
-        // Failsafe: manually wipe all Supabase auth tokens from localStorage
-        // so OnboardingPage never bounces the user back to /app on reload.
+    const handleSignOut = () => {
+        // Fire sign-out in the background — do NOT await it.
+        // Waiting for the Supabase network call causes the button to appear frozen.
+        supabase.auth.signOut().catch(() => {});
+        // Immediately wipe all auth tokens from local storage
         try {
             Object.keys(localStorage).forEach(key => {
                 if (key.startsWith('sb-')) localStorage.removeItem(key);
             });
-        } catch (e) {
-            // ignore storage errors
-        }
+            sessionStorage.clear();
+        } catch (_) {}
+        // Hard redirect — clears all React state, lands on landing page
         window.location.replace('/');
     };
 
