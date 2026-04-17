@@ -20,7 +20,7 @@ import { Footer } from '@/components/Footer';
 export const OnboardingPage = () => {
   const navigate = useNavigate();
   const { handleRoleSelect, isAuthenticated } = useAppState();
-  const { user, profile, loading } = useAuth();
+  const { profile } = useAuth();
   const [activeSection, setActiveSection] = useState('home');
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [demoVideoUrl, setDemoVideoUrl] = useState<string | null>(null);
@@ -28,12 +28,8 @@ export const OnboardingPage = () => {
   const [pendingRole, setPendingRole] = useState<'customer' | 'handyman' | 'contractor' | 'property_manager' | null>(null);
   const currentYear = new Date().getFullYear();
 
-  // Auto-redirect authenticated users to their dashboard
-  useEffect(() => {
-    if (!loading && user) {
-      navigate('/app', { replace: true });
-    }
-  }, [user, loading, navigate]);
+  // Removed auto-redirect: authenticated users can browse the landing page freely.
+  // The header shows a "Dashboard" button when signed in.
 
   // Load demo video
   useEffect(() => {

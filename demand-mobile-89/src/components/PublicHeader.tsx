@@ -1,20 +1,33 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { ChevronDown, ArrowRight } from 'lucide-react';
+import { ChevronDown, ArrowRight, LayoutDashboard, LogOut } from 'lucide-react';
 import { AuthModal } from "@/features/auth";
 import { HeaderAuthModal } from "./header/HeaderAuthModal";
 import { useAppState } from '@/hooks/useAppState';
+import { useAuth } from '@/features/auth';
+import { supabase } from '@/integrations/supabase/client';
 
 export const PublicHeader = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    const { user } = useAuth();
     const [showAuthModal, setShowAuthModal] = useState(false);
     const [authModalRole, setAuthModalRole] = useState<'customer' | 'handyman'>('customer');
     const [authModalIsSignUp, setAuthModalIsSignUp] = useState(false);
     const [pendingRole, setPendingRole] = useState<'customer' | 'handyman' | 'contractor' | 'property_manager' | null>(null);
     const { handleRoleSelect } = useAppState();
     const [isScrolled, setIsScrolled] = useState(false);
+
+    const handleSignOut = async () => {
+        try { await supabase.auth.signOut(); } catch (_) {}
+        try {
+            Object.keys(localStorage).forEach(key => {
+                if (key.startsWith('sb-')) localStorage.removeItem(key);
+            });
+        } catch (_) {}
+        window.location.replace('/');
+    };
 
     useEffect(() => {
         const handleScroll = () => {
@@ -200,62 +213,86 @@ export const PublicHeader = () => {
 
                         {/* Buttons - Right */}
                         <div className="hidden lg:flex items-center space-x-4">
-                            {/* "Get Started" Dropdown */}
-                            <div className="group relative">
-                                <Button
-                                    variant="outline"
-                                    className="hidden sm:flex items-center gap-2 border-slate-300 text-slate-800 font-bold px-6 py-5 rounded-xl transition-colors duration-300 group-hover:bg-slate-50"
-                                >
-                                    Get Started <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
-                                </Button>
+                            {user ? (
+                                /* Signed-in state */
+                                <>
+                                    <Button
+                                        onClick={() => navigate('/app')}
+                                        className="flex items-center gap-2 bg-green-600 hover:bg-green-500 text-white font-bold px-6 py-5 rounded-xl shadow-lg shadow-green-200 transition-colors duration-300"
+                                    >
+                                        <LayoutDashboard className="w-4 h-4" />
+                                        Dashboard
+                                    </Button>
+                                    <Button
+                                        onClick={handleSignOut}
+                                        variant="outline"
+                                        className="flex items-center gap-2 border-slate-300 text-slate-700 font-bold px-5 py-5 rounded-xl hover:bg-rose-50 hover:border-rose-200 hover:text-rose-600 transition-colors duration-300"
+                                    >
+                                        <LogOut className="w-4 h-4" />
+                                        Sign Out
+                                    </Button>
+                                </>
+                            ) : (
+                                /* Guest state */
+                                <>
+                                    {/* "Get Started" Dropdown */}
+                                    <div className="group relative">
+                                        <Button
+                                            variant="outline"
+                                            className="hidden sm:flex items-center gap-2 border-slate-300 text-slate-800 font-bold px-6 py-5 rounded-xl transition-colors duration-300 group-hover:bg-slate-50"
+                                        >
+                                            Get Started <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
+                                        </Button>
 
-                                <div className="absolute top-full right-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                                    <div className="w-64 bg-white rounded-xl shadow-xl border border-slate-100 overflow-hidden flex flex-col transform origin-top right scale-95 group-hover:scale-100 transition-transform duration-200 p-2">
+                                        <div className="absolute top-full right-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                            <div className="w-64 bg-white rounded-xl shadow-xl border border-slate-100 overflow-hidden flex flex-col transform origin-top right scale-95 group-hover:scale-100 transition-transform duration-200 p-2">
 
-                                        {/* PROFESSIONALS Section */}
-                                        <div className="p-3">
-                                            <span className="text-xs font-bold text-slate-500 tracking-wider mb-2 block uppercase">Professionals</span>
-                                            <button
-                                                onClick={() => openAuthModal('handyman', false)}
-                                                className="w-full text-left px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-green-600 rounded-lg flex items-center justify-between transition-colors"
-                                            >
-                                                Log in <ArrowRight className="w-3 h-3" />
-                                            </button>
-                                            <button
-                                                onClick={() => openAuthModal('handyman', true)}
-                                                className="w-full text-left px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-green-600 rounded-lg flex items-center justify-between transition-colors"
-                                            >
-                                                Sign up <ArrowRight className="w-3 h-3" />
-                                            </button>
-                                        </div>
+                                                {/* PROFESSIONALS Section */}
+                                                <div className="p-3">
+                                                    <span className="text-xs font-bold text-slate-500 tracking-wider mb-2 block uppercase">Professionals</span>
+                                                    <button
+                                                        onClick={() => openAuthModal('handyman', false)}
+                                                        className="w-full text-left px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-green-600 rounded-lg flex items-center justify-between transition-colors"
+                                                    >
+                                                        Log in <ArrowRight className="w-3 h-3" />
+                                                    </button>
+                                                    <button
+                                                        onClick={() => openAuthModal('handyman', true)}
+                                                        className="w-full text-left px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-green-600 rounded-lg flex items-center justify-between transition-colors"
+                                                    >
+                                                        Sign up <ArrowRight className="w-3 h-3" />
+                                                    </button>
+                                                </div>
 
-                                        <div className="h-px bg-slate-100 my-1 mx-3" />
+                                                <div className="h-px bg-slate-100 my-1 mx-3" />
 
-                                        <div className="p-3">
-                                            <span className="text-xs font-bold text-slate-500 tracking-wider mb-2 block uppercase">Need a service</span>
-                                            <button
-                                                onClick={() => openAuthModal('customer', false)}
-                                                className="w-full text-left px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-green-600 rounded-lg flex items-center justify-between transition-colors"
-                                            >
-                                                Log in <ArrowRight className="w-3 h-3" />
-                                            </button>
-                                            <button
-                                                onClick={() => openAuthModal('customer', true)}
-                                                className="w-full text-left px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-green-600 rounded-lg flex items-center justify-between transition-colors"
-                                            >
-                                                Sign up <ArrowRight className="w-3 h-3" />
-                                            </button>
+                                                <div className="p-3">
+                                                    <span className="text-xs font-bold text-slate-500 tracking-wider mb-2 block uppercase">Need a service</span>
+                                                    <button
+                                                        onClick={() => openAuthModal('customer', false)}
+                                                        className="w-full text-left px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-green-600 rounded-lg flex items-center justify-between transition-colors"
+                                                    >
+                                                        Log in <ArrowRight className="w-3 h-3" />
+                                                    </button>
+                                                    <button
+                                                        onClick={() => openAuthModal('customer', true)}
+                                                        className="w-full text-left px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-green-600 rounded-lg flex items-center justify-between transition-colors"
+                                                    >
+                                                        Sign up <ArrowRight className="w-3 h-3" />
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
 
-                            <Button
-                                onClick={() => navigate('/professionals')}
-                                className="bg-green-600 hover:bg-green-500 text-white font-bold px-8 py-5 rounded-xl shadow-lg shadow-green-200 transition-colors duration-300"
-                            >
-                                Find Pros
-                            </Button>
+                                    <Button
+                                        onClick={() => navigate('/professionals')}
+                                        className="bg-green-600 hover:bg-green-500 text-white font-bold px-8 py-5 rounded-xl shadow-lg shadow-green-200 transition-colors duration-300"
+                                    >
+                                        Find Pros
+                                    </Button>
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>
