@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useUserRole } from "@/hooks/useUserRole";
 import { useAuth } from '@/features/auth';
+import { supabase } from '@/integrations/supabase/client';
 import { useResponsiveBreakpoints } from "@/hooks/useResponsiveBreakpoints";
 import { useNavigate } from "react-router-dom";
 import { HeaderLogo } from "./header/HeaderLogo";
@@ -55,12 +56,18 @@ export const Header = ({ activeTab, onTabChange, onChangeRole, hideLogoOnDesktop
 
   const handleSignOut = async () => {
     try {
-      await signOut();
-    } catch (error) {
-      console.error('Header: Error signing out:', error);
-    } finally {
-      window.location.href = '/';
+      await supabase.auth.signOut();
+    } catch (e) {
+      // ignore — still clear session below
     }
+    try {
+      Object.keys(localStorage).forEach(key => {
+        if (key.startsWith('sb-')) localStorage.removeItem(key);
+      });
+    } catch (e) {
+      // ignore storage errors
+    }
+    window.location.replace('/');
   };
 
   const handleSignInClick = () => {

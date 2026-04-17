@@ -10,6 +10,8 @@ export const PublicHeader = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [showAuthModal, setShowAuthModal] = useState(false);
+    const [authModalRole, setAuthModalRole] = useState<'customer' | 'handyman'>('customer');
+    const [authModalIsSignUp, setAuthModalIsSignUp] = useState(false);
     const [pendingRole, setPendingRole] = useState<'customer' | 'handyman' | 'contractor' | 'property_manager' | null>(null);
     const { handleRoleSelect } = useAppState();
     const [isScrolled, setIsScrolled] = useState(false);
@@ -21,6 +23,13 @@ export const PublicHeader = () => {
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
+
+    const openAuthModal = (role: 'customer' | 'handyman', isSignUp: boolean) => {
+        setAuthModalRole(role);
+        setAuthModalIsSignUp(isSignUp);
+        setPendingRole(role);
+        setShowAuthModal(true);
+    };
 
     const handleAuthSuccess = () => {
         setShowAuthModal(false);
@@ -207,13 +216,13 @@ export const PublicHeader = () => {
                                         <div className="p-3">
                                             <span className="text-xs font-bold text-slate-500 tracking-wider mb-2 block uppercase">Professionals</span>
                                             <button
-                                                onClick={() => navigate('/sign-up-pro')}
+                                                onClick={() => openAuthModal('handyman', false)}
                                                 className="w-full text-left px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-green-600 rounded-lg flex items-center justify-between transition-colors"
                                             >
                                                 Log in <ArrowRight className="w-3 h-3" />
                                             </button>
                                             <button
-                                                onClick={() => navigate('/sign-up-pro')}
+                                                onClick={() => openAuthModal('handyman', true)}
                                                 className="w-full text-left px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-green-600 rounded-lg flex items-center justify-between transition-colors"
                                             >
                                                 Sign up <ArrowRight className="w-3 h-3" />
@@ -225,13 +234,13 @@ export const PublicHeader = () => {
                                         <div className="p-3">
                                             <span className="text-xs font-bold text-slate-500 tracking-wider mb-2 block uppercase">Need a service</span>
                                             <button
-                                                onClick={() => setShowAuthModal(true)}
+                                                onClick={() => openAuthModal('customer', false)}
                                                 className="w-full text-left px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-green-600 rounded-lg flex items-center justify-between transition-colors"
                                             >
                                                 Log in <ArrowRight className="w-3 h-3" />
                                             </button>
                                             <button
-                                                onClick={() => setShowAuthModal(true)}
+                                                onClick={() => openAuthModal('customer', true)}
                                                 className="w-full text-left px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-green-600 rounded-lg flex items-center justify-between transition-colors"
                                             >
                                                 Sign up <ArrowRight className="w-3 h-3" />
@@ -256,6 +265,8 @@ export const PublicHeader = () => {
                 isOpen={showAuthModal}
                 onClose={handleAuthClose}
                 onSuccess={handleAuthSuccess}
+                defaultIsSignUp={authModalIsSignUp}
+                defaultRole={authModalRole}
             />
         </>
     );

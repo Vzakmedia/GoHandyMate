@@ -12,14 +12,15 @@ interface AuthScreenProps {
   onSuccess?: () => void;
   isModal?: boolean;
   defaultIsSignUp?: boolean;
+  defaultRole?: 'customer' | 'handyman';
 }
 
 type UserRole = 'customer' | 'handyman';
 // NOTE: 'contractor' pending. 'property_manager' moved to customer upgrade.
 
-export const AuthScreen = ({ onBack, onSuccess, isModal = false, defaultIsSignUp = false }: AuthScreenProps) => {
+export const AuthScreen = ({ onBack, onSuccess, isModal = false, defaultIsSignUp = false, defaultRole = 'customer' }: AuthScreenProps) => {
   const [isSignUp, setIsSignUp] = useState(defaultIsSignUp);
-  const [selectedRole, setSelectedRole] = useState<UserRole>('customer');
+  const [selectedRole, setSelectedRole] = useState<UserRole>(defaultRole);
   const navigate = useNavigate();
 
   const handleBack = () => {

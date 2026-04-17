@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '@/features/auth';
+import { supabase } from '@/integrations/supabase/client';
 import { useUserRole } from '@/hooks/useUserRole';
 import { useNavigate } from 'react-router-dom';
 import { AdminSidebar } from '@/components/admin/AdminSidebar';
@@ -33,7 +34,7 @@ import {
 export const AdminBackend = () => {
   console.log('AdminBackend: Component rendering');
 
-  const { user, profile, loading: authLoading, signOut } = useAuth();
+  const { user, profile, loading: authLoading } = useAuth();
   const { setUserRole, setIsAuthenticated } = useUserRole();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
@@ -60,12 +61,18 @@ export const AdminBackend = () => {
       e.stopPropagation();
     }
     try {
-      await signOut();
-    } catch (error) {
-      console.error("Error signing out from admin:", error);
-    } finally {
-      window.location.href = '/';
+      await supabase.auth.signOut();
+    } catch (e) {
+      // ignore — still clear session below
     }
+    try {
+      Object.keys(localStorage).forEach(key => {
+        if (key.startsWith('sb-')) localStorage.removeItem(key);
+      });
+    } catch (e) {
+      // ignore storage errors
+    }
+    window.location.replace('/');
   };
 
   const isAdmin = profile?.user_role === 'admin';

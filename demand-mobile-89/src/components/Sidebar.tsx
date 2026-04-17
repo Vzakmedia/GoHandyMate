@@ -2,6 +2,7 @@
 import { Home, Search, MessageSquare, User, Wrench, DollarSign, Building2, BarChart3, LayoutDashboard, Briefcase, Settings, LogOut, ChevronRight, Menu, Crown } from 'lucide-react';
 import { useUserRole } from '@/hooks/useUserRole';
 import { useAuth } from '@/features/auth';
+import { supabase } from '@/integrations/supabase/client';
 import { HeaderLogo } from './header/HeaderLogo';
 import { useCustomerUpgrade } from '@/hooks/useCustomerUpgrade';
 
@@ -13,7 +14,7 @@ interface SidebarProps {
 
 export const Sidebar = ({ activeTab, onTabChange, onChangeRole }: SidebarProps) => {
     const { userRole } = useUserRole();
-    const { user, signOut } = useAuth();
+    const { user } = useAuth();
     const { isUpgraded } = useCustomerUpgrade();
 
     const customerTabs = [
@@ -60,20 +61,23 @@ export const Sidebar = ({ activeTab, onTabChange, onChangeRole }: SidebarProps) 
     const tabs = getTabsForRole();
     const isHandyman = userRole === 'handyman';
 
-    const handleSignOut = async (e?: React.MouseEvent | any) => {
-        if (e && typeof e.preventDefault === 'function') {
-            e.preventDefault();
-            e.stopPropagation();
-        }
+    const handleSignOut = async () => {
+        // Sign out from Supabase
         try {
-            await signOut();
-        } catch (error) {
-            console.error("Error in handleSignOut:", error);
-        } finally {
-            // Full reload ensures no stale React auth state races with the
-            // OnboardingPage redirect effect. This is the standard sign-out pattern.
-            window.location.href = '/';
+            await supabase.auth.signOut();
+        } catch (e) {
+            // ignore — still clear session below
         }
+        // Failsafe: manually wipe all Supabase auth tokens from localStorage
+        // so OnboardingPage never bounces the user back to /app on reload.
+        try {
+            Object.keys(localStorage).forEach(key => {
+                if (key.startsWith('sb-')) localStorage.removeItem(key);
+            });
+        } catch (e) {
+            // ignore storage errors
+        }
+        window.location.replace('/');
     };
 
     return (

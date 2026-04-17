@@ -8,9 +8,10 @@ interface AuthModalProps {
   onClose: () => void;
   onSuccess?: () => void;
   defaultIsSignUp?: boolean;
+  defaultRole?: 'customer' | 'handyman';
 }
 
-export const AuthModal = ({ isOpen, onClose, onSuccess, defaultIsSignUp = false }: AuthModalProps) => {
+export const AuthModal = ({ isOpen, onClose, onSuccess, defaultIsSignUp = false, defaultRole = 'customer' }: AuthModalProps) => {
   const navigate = useNavigate();
 
   if (!isOpen) return null;
@@ -43,6 +44,7 @@ export const AuthModal = ({ isOpen, onClose, onSuccess, defaultIsSignUp = false 
           onSuccess={onSuccess}
           isModal={true}
           defaultIsSignUp={defaultIsSignUp}
+          defaultRole={defaultRole}
         />
       </div>
     </div>

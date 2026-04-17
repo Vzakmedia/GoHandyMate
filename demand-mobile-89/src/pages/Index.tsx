@@ -87,7 +87,7 @@ const Index = () => {
         selectedCategory={appState.selectedCategory}
         setSelectedCategory={appState.setSelectedCategory}
         mockTasks={mockTasks}
-        onChangeRole={appState.profile?.user_role === 'admin' ? appState.handleChangeRole : undefined}
+        onChangeRole={appState.userRole === 'handyman' || appState.userRole === 'admin' ? appState.handleChangeRole : undefined}
         showWelcome={appState.showWelcome}
       />
     );
