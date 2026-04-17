@@ -2,7 +2,6 @@
 import { Home, Search, MessageSquare, User, Wrench, DollarSign, Building2, BarChart3, LayoutDashboard, Briefcase, Settings, LogOut, ChevronRight, Menu, Crown } from 'lucide-react';
 import { useUserRole } from '@/hooks/useUserRole';
 import { useAuth } from '@/features/auth';
-import { useNavigate } from 'react-router-dom';
 import { HeaderLogo } from './header/HeaderLogo';
 import { useCustomerUpgrade } from '@/hooks/useCustomerUpgrade';
 
@@ -13,9 +12,8 @@ interface SidebarProps {
 }
 
 export const Sidebar = ({ activeTab, onTabChange, onChangeRole }: SidebarProps) => {
-    const { userRole, setUserRole, setIsAuthenticated } = useUserRole();
+    const { userRole } = useUserRole();
     const { user, signOut } = useAuth();
-    const navigate = useNavigate();
     const { isUpgraded } = useCustomerUpgrade();
 
     const customerTabs = [
@@ -69,14 +67,12 @@ export const Sidebar = ({ activeTab, onTabChange, onChangeRole }: SidebarProps) 
         }
         try {
             await signOut();
-            setUserRole(null);
-            setIsAuthenticated(false);
-            onTabChange('home');
-            navigate('/');
         } catch (error) {
             console.error("Error in handleSignOut:", error);
-            // Fallback navigation if signout fails
-            navigate('/');
+        } finally {
+            // Full reload ensures no stale React auth state races with the
+            // OnboardingPage redirect effect. This is the standard sign-out pattern.
+            window.location.href = '/';
         }
     };
 

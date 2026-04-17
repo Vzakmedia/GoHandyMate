@@ -55,25 +55,11 @@ export const Header = ({ activeTab, onTabChange, onChangeRole, hideLogoOnDesktop
 
   const handleSignOut = async () => {
     try {
-      console.log('Header: Signing out user...');
       await signOut();
-
-      // Reset user role and authentication state
-      setUserRole(null);
-      setIsAuthenticated(false);
-      setIsMenuOpen(false);
-
-      // Reset tab to home
-      if (onTabChange) {
-        onTabChange('home');
-      }
-
-      // Navigate to home page
-      navigate('/');
-
-      console.log('Header: User signed out successfully');
     } catch (error) {
       console.error('Header: Error signing out:', error);
+    } finally {
+      window.location.href = '/';
     }
   };
 
