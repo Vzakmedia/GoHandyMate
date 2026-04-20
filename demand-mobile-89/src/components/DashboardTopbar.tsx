@@ -21,7 +21,8 @@ export const DashboardTopbar = ({ profileName, userRole, onChangeRole }: Dashboa
         ? (profileName.split(' ')[0] + (profileName.split(' ')[1] ? ` ${profileName.split(' ')[1][0]}.` : ''))
         : user?.email?.split('@')[0] || (userRole === 'handyman' ? 'Handyman' : 'Customer');
 
-    const isHandyman = userRole === 'handyman';
+    const isAdmin = userRole === 'admin';
+    const isHandyman = userRole === 'handyman' || isAdmin;
 
     return (
         <header className="bg-white/80 backdrop-blur-xl border-b border-black/5 px-6 md:px-10 py-5 flex items-center justify-between sticky top-0 z-[100] transition-all duration-500 animate-fade-in outline-none">
@@ -35,7 +36,7 @@ export const DashboardTopbar = ({ profileName, userRole, onChangeRole }: Dashboa
                 <div className="flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-100/50 group cursor-default">
                     <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
                     <span className="text-[10px] font-black uppercase tracking-widest text-emerald-700">
-                        {isHandyman ? 'Handyman Dashboard' : 'Customer Dashboard'}
+                        {isAdmin ? 'Admin Dashboard' : isHandyman ? 'Handyman Dashboard' : 'Customer Dashboard'}
                     </span>
                     <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 ml-1 group-hover:scale-110 transition-transform" />
                 </div>
@@ -68,7 +69,7 @@ export const DashboardTopbar = ({ profileName, userRole, onChangeRole }: Dashboa
                         <div className="flex flex-col">
                             <span className="text-[11px] font-black text-slate-900 tracking-tight lowercase first-letter:uppercase">{shortName}</span>
                             <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">
-                                {isHandyman ? 'Senior pro' : 'Customer'}
+                                {isAdmin ? 'System Administrator' : isHandyman ? 'Senior pro' : 'Customer'}
                             </span>
                         </div>
                     </div>

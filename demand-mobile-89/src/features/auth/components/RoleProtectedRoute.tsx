@@ -31,7 +31,7 @@ export const RoleProtectedRoute = ({
     return <AuthScreen />;
   }
 
-  if (profile && profile.user_role !== requiredRole) {
+  if (profile && profile.user_role !== requiredRole && profile.user_role !== 'admin') {
     return (
       <div className="flex items-center justify-center min-h-[60vh] p-4">
         <Card className="max-w-md w-full">

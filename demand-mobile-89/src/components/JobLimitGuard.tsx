@@ -24,8 +24,8 @@ export const JobLimitGuard = ({ children, action, onUpgrade }: JobLimitGuardProp
         return;
       }
 
-      // Check if subscription is active
-      if (profile.subscription_status !== 'active') {
+      // Check if subscription is active - admins bypass this
+      if (profile.subscription_status !== 'active' && profile.user_role !== 'admin') {
         setCanAccess(false);
         setLoading(false);
         return;
@@ -49,8 +49,8 @@ export const JobLimitGuard = ({ children, action, onUpgrade }: JobLimitGuardProp
       const limit = limits[userRole][plan as keyof typeof limits.handyman];
       const used = profile.jobs_this_month || 0;
 
-      // -1 means unlimited
-      if (limit === -1) {
+      // -1 means unlimited, admins are also unlimited
+      if (limit === -1 || profile.user_role === 'admin') {
         setCanAccess(true);
       } else {
         setCanAccess(used < limit);

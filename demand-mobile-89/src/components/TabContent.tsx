@@ -49,6 +49,7 @@ export const TabContent = ({
       );
 
     case 'handyman':
+    case 'admin':
       return (
         <RoleProtectedRoute
           requiredRole="handyman"

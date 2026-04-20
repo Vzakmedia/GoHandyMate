@@ -57,7 +57,7 @@ export const HomeTabContent = ({
 
       {/* Content based on user role */}
       <div className="px-4 sm:px-6 lg:px-8 py-8 sm:py-12 max-w-7xl mx-auto">
-        {userRole === 'handyman' && (
+        {(userRole === 'handyman' || userRole === 'admin') && (
           <>
             <div className="text-center mb-8 sm:mb-12">
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">

@@ -21,23 +21,29 @@ export const useAppState = () => {
 
     setIsAuthenticated(!!user);
     const dbRole = profile?.user_role;
-    // DB stores 'handyman' (from signup form); also handle legacy 'provider' value.
-    const resolvedRole: 'customer' | 'handyman' | 'admin' =
-      dbRole === 'handyman' || dbRole === 'provider' ? 'handyman' :
-      dbRole === 'admin' ? 'admin' :
-      'customer';
-    setUserRole(resolvedRole);
-    setShowWelcome(false);
-    setShowAuth(false);
+    
+    // Only auto-resolve role if it hasn't been set yet
+    if (!userRole && dbRole) {
+      // DB stores 'handyman' (from signup form); also handle legacy 'provider' value.
+      const resolvedRole: 'customer' | 'handyman' | 'admin' =
+        dbRole === 'handyman' || dbRole === 'provider' ? 'handyman' :
+        dbRole === 'admin' ? 'admin' :
+        'customer';
+      setUserRole(resolvedRole);
+      setShowWelcome(false);
+      setShowAuth(false);
+    }
+    
     setIsInitialized(true);
 
-    // Only set the default tab on first initialization, not on every auth state
-    // change (e.g. token refresh) — otherwise the active tab keeps resetting.
-    if (!didInitRef.current) {
+    // Only set the default tab on first initialization
+    if (!didInitRef.current && dbRole) {
       didInitRef.current = true;
-      setActiveTab(resolvedRole !== 'customer' ? 'dashboard' : 'home');
+      const initialRole = dbRole === 'handyman' || dbRole === 'provider' ? 'handyman' :
+                         dbRole === 'admin' ? 'admin' : 'customer';
+      setActiveTab(initialRole !== 'customer' ? 'dashboard' : 'home');
     }
-  }, [user, profile, loading]);
+  }, [user, profile, loading, userRole]);
 
   // Note: Removed fallback role setting - users must select their role first
 

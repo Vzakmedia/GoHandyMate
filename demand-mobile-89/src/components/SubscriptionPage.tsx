@@ -19,7 +19,7 @@ export const SubscriptionPage = () => {
 
   const userRole = profile?.user_role;
 
-  if (!userRole || userRole !== 'handyman') {
+  if (!userRole || (userRole !== 'handyman' && userRole !== 'admin')) {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="text-center">
@@ -34,11 +34,11 @@ export const SubscriptionPage = () => {
     <div className="container mx-auto px-4 py-8">
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold mb-4">
-          {userRole === 'handyman' ? 'Handyman' : 'Contractor'} Subscription Plans
+          {(userRole === 'handyman' || userRole === 'admin') ? 'Handyman' : 'Contractor'} Subscription Plans
         </h1>
         <p className="text-gray-600 max-w-2xl mx-auto">
           Choose the perfect plan to grow your business and access more opportunities.
-          {userRole === 'handyman' ? ' Get more jobs' : ' Generate more leads'} with our premium features.
+          {(userRole === 'handyman' || userRole === 'admin') ? ' Get more jobs' : ' Generate more leads'} with our premium features.
         </p>
       </div>
 

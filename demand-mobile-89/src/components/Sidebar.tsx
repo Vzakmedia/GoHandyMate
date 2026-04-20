@@ -1,9 +1,10 @@
 
-import { Home, Search, MessageSquare, User, Wrench, DollarSign, BarChart3, LayoutDashboard, Briefcase, Settings, LogOut, ChevronRight, Menu, Crown } from 'lucide-react';
+import { Home, Search, MessageSquare, User, Wrench, DollarSign, BarChart3, LayoutDashboard, Briefcase, Settings, LogOut, ChevronRight, Menu, Crown, Shield } from 'lucide-react';
 import { useUserRole } from '@/hooks/useUserRole';
 import { useAuth } from '@/features/auth';
 import { supabase } from '@/integrations/supabase/client';
 import { HeaderLogo } from './header/HeaderLogo';
+import { useNavigate } from 'react-router-dom';
 
 interface SidebarProps {
     activeTab: string;
@@ -14,6 +15,8 @@ interface SidebarProps {
 export const Sidebar = ({ activeTab, onTabChange, onChangeRole }: SidebarProps) => {
     const { userRole } = useUserRole();
     const { user } = useAuth();
+    const navigate = useNavigate();
+    
     const customerTabs = [
         { id: 'home', label: 'Home', icon: Home },
         { id: 'search', label: 'Services', icon: Search },
@@ -30,13 +33,15 @@ export const Sidebar = ({ activeTab, onTabChange, onChangeRole }: SidebarProps) 
 
     const getTabsForRole = () => {
         switch (userRole) {
+            case 'admin':
             case 'handyman': return handymanTabs;
             default: return customerTabs;
         }
     };
 
     const tabs = getTabsForRole();
-    const isHandyman = userRole === 'handyman';
+    const isHandyman = userRole === 'handyman' || userRole === 'admin';
+    const isAdmin = userRole === 'admin';
 
     const handleSignOut = () => {
         // Fire sign-out in the background — do NOT await it.
@@ -102,6 +107,22 @@ export const Sidebar = ({ activeTab, onTabChange, onChangeRole }: SidebarProps) 
                         </button>
                     );
                 })}
+                {isAdmin && (
+                    <button
+                        onClick={() => navigate('/admin/backend')}
+                        className={`
+                            w-full flex items-center gap-2.5 px-3 py-2.5 rounded-[12px] transition-all duration-200 group
+                            mt-4 bg-slate-900 text-white hover:bg-slate-800 shadow-sm
+                        `}
+                    >
+                        <div className="flex items-center justify-center text-white">
+                            <Shield className="w-[18px] h-[18px]" strokeWidth={2.5} />
+                        </div>
+                        <span className="text-[13.5px] font-semibold tracking-tight">
+                            Admin Panel
+                        </span>
+                    </button>
+                )}
             </nav>
 
             {/* Sidebar Footer */}
