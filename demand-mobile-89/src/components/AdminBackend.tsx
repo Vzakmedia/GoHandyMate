@@ -8,7 +8,8 @@ import { AdminVerificationPanel } from '@/components/AdminVerificationPanel';
 import { AdminAutomationPanel } from '@/components/AdminAutomationPanel';
 import AdminDashboard from '@/components/AdminDashboard';
 import { CombinedVideoManager } from '@/components/admin/CombinedVideoManager';
-import { PropertyManagementAdmin } from '@/components/admin/property/PropertyManagementAdmin';
+// Property management import removed as it was archived to former/
+// import { PropertyManagementAdmin } from '@/components/admin/property/PropertyManagementAdmin';
 import { AdminAccessControl } from '@/components/admin/backend/AdminAccessControl';
 import { AdminOverviewCards } from '@/components/admin/backend/AdminOverviewCards';
 import { AdminQuickActions } from '@/components/admin/backend/AdminQuickActions';
@@ -118,10 +119,10 @@ export const AdminBackend = () => {
       case 'properties':
         return (
           <div className="space-y-8 animate-in fade-in duration-500">
-            <div className="bg-white p-8 rounded-[2rem] border border-black/5 shadow-sm">
-              <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tight mb-2">Property Management</h2>
-              <p className="text-slate-500 text-sm mb-6">Manage property registrations and property manager accounts</p>
-              <PropertyManagementAdmin />
+            <div className="bg-white p-8 rounded-[2rem] border border-black/5 shadow-sm text-center py-20">
+              <Building2 className="w-12 h-12 text-slate-300 mx-auto mb-4" />
+              <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tight mb-2">Feature Archived</h2>
+              <p className="text-slate-500 text-sm">Property management has been moved to the archived module.</p>
             </div>
           </div>
         );
