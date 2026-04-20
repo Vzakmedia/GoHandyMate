@@ -1,12 +1,12 @@
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { User, Users, ArrowRight } from "lucide-react";
+import { User, ArrowRight } from "lucide-react";
 
 interface ProfessionalTypeModalProps {
   open: boolean;
   onClose: () => void;
-  onSelectType: (type: 'handyman' | 'contractor') => void;
+  onSelectType: (type: 'handyman') => void;
 }
 
 export const ProfessionalTypeModal = ({ open, onClose, onSelectType }: ProfessionalTypeModalProps) => {
@@ -39,23 +39,7 @@ export const ProfessionalTypeModal = ({ open, onClose, onSelectType }: Professio
               <ArrowRight className="w-4 h-4 text-green-600 opacity-0 group-hover:opacity-100 transition-opacity" />
             </Button>
 
-            <Button
-              onClick={() => onSelectType('contractor')}
-              variant="outline"
-              size="lg"
-              className="h-auto p-6 flex flex-col items-center space-y-3 hover:bg-blue-50 hover:border-blue-500 group"
-            >
-              <div className="bg-blue-100 rounded-full p-3 group-hover:bg-blue-200 transition-colors">
-                <Users className="w-6 h-6 text-blue-600" />
-              </div>
-              <div className="text-center">
-                <h3 className="font-semibold text-gray-800">Contractor</h3>
-                <p className="text-sm text-gray-600 mt-1">
-                  For specialized projects and larger renovations
-                </p>
-              </div>
-              <ArrowRight className="w-4 h-4 text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity" />
-            </Button>
+            {/* Contractor option removed — contractor role archived */}
           </div>
 
           <div className="text-center">

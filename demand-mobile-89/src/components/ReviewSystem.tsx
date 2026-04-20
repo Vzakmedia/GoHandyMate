@@ -12,7 +12,7 @@ interface Review {
   jobTitle: string;
   providerName: string;
   providerAvatar: string;
-  providerType: 'handyman' | 'contractor';
+  providerType: 'handyman';
   rating: number;
   review: string;
   images?: string[];
@@ -31,7 +31,7 @@ interface PendingReview {
   jobTitle: string;
   providerName: string;
   providerAvatar: string;
-  providerType: 'handyman' | 'contractor';
+  providerType: 'handyman';
   completedDate: string;
   location: string;
   category: string;
@@ -39,7 +39,7 @@ interface PendingReview {
 }
 
 interface ReviewSystemProps {
-  userType: 'customer' | 'property_manager';
+  userType: 'customer';
 }
 
 export const ReviewSystem = ({ userType }: ReviewSystemProps) => {
@@ -62,18 +62,7 @@ export const ReviewSystem = ({ userType }: ReviewSystemProps) => {
       category: "Plumbing",
       cost: 125
     },
-    {
-      id: "2",
-      jobId: "job-002",
-      jobTitle: "Bathroom Renovation",
-      providerName: "Elite Construction Co.",
-      providerAvatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50&h=50&fit=crop&crop=face",
-      providerType: "contractor",
-      completedDate: "2024-06-18",
-      location: "Midtown House",
-      category: "Construction",
-      cost: 3500
-    }
+    // contractor mock entry removed — contractor role archived
   ];
 
   const completedReviews: Review[] = [
@@ -93,23 +82,7 @@ export const ReviewSystem = ({ userType }: ReviewSystemProps) => {
       reviewDate: "2024-06-11",
       helpful: 12
     },
-    {
-      id: "2",
-      jobId: "job-004",
-      jobTitle: "Deck Construction",
-      providerName: "BuildRight Contractors",
-      providerAvatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=50&h=50&fit=crop&crop=face",
-      providerType: "contractor",
-      rating: 4,
-      review: "Great work on the deck construction. The team was professional and completed the project on time. Quality is excellent and the design exceeded our expectations. Only minor issue was some cleanup that needed follow-up.",
-      images: ["https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=300&h=200&fit=crop"],
-      completedDate: "2024-06-05",
-      location: "Suburban Home",
-      category: "Construction",
-      cost: 4200,
-      reviewDate: "2024-06-08",
-      helpful: 8
-    }
+    // contractor completed review mock removed — contractor role archived
   ];
 
   const handleSubmitReview = async () => {
@@ -146,10 +119,8 @@ export const ReviewSystem = ({ userType }: ReviewSystemProps) => {
     ));
   };
 
-  const getProviderTypeColor = (type: 'handyman' | 'contractor') => {
-    return type === 'handyman' 
-      ? 'bg-blue-100 text-blue-700' 
-      : 'bg-purple-100 text-purple-700';
+  const getProviderTypeColor = (type: 'handyman') => {
+    return 'bg-blue-100 text-blue-700'; // only handyman type exists now
   };
 
   return (
@@ -158,9 +129,7 @@ export const ReviewSystem = ({ userType }: ReviewSystemProps) => {
         <div>
           <h2 className="text-2xl font-bold text-gray-900">Review System</h2>
           <p className="text-gray-600">
-            {userType === 'customer' 
-              ? 'Rate and review your service providers' 
-              : 'Manage property service reviews'}
+            Rate and review your service providers
           </p>
         </div>
       </div>

@@ -8,7 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { AddressInput } from '@/components/ui/address-input';
 import { Calendar, CreditCard } from 'lucide-react';
 import { expandedServiceCategories } from '@/data/expandedServiceCategories';
-import { PropertyUnitSelector } from './PropertyUnitSelector';
+// PropertyUnitSelector archived — property_manager role removed
 import { CustomerPropertySelector } from './CustomerPropertySelector';
 import { useAuth } from '@/features/auth';
 
@@ -54,14 +54,6 @@ export const BookingForm = ({
     onFormDataChange(prev => ({
       ...prev,
       location: address.formatted_address
-    }));
-  };
-
-  const handlePropertyLocationSelect = (address: string, unitInfo?: string) => {
-    const locationText = unitInfo ? `${address} - ${unitInfo}` : address;
-    onFormDataChange(prev => ({
-      ...prev,
-      location: locationText
     }));
   };
 
@@ -154,22 +146,12 @@ export const BookingForm = ({
           <div className="space-y-4">
             <Label htmlFor="location">Service Location *</Label>
 
-            {/* Property Manager Quick Selector */}
-            {profile?.user_role === 'property_manager' && (
-              <PropertyUnitSelector
-                onLocationSelect={handlePropertyLocationSelect}
-                selectedLocation={formData.location}
-              />
-            )}
-
             {/* Customer Quick Selector */}
-            {profile?.user_role !== 'property_manager' && (
-              <CustomerPropertySelector
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                onLocationSelect={(address) => onFormDataChange((prev: any) => ({ ...prev, location: address }))}
-                selectedLocation={formData.location}
-              />
-            )}
+            <CustomerPropertySelector
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              onLocationSelect={(address) => onFormDataChange((prev: any) => ({ ...prev, location: address }))}
+              selectedLocation={formData.location}
+            />
 
             <div>
               <Label htmlFor="address-input" className="text-sm text-gray-600">

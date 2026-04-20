@@ -58,9 +58,9 @@ export const HeroSection = () => {
     }
   };
 
-  const handleSelectProfessionalType = (type: 'handyman' | 'contractor') => {
+  const handleSelectProfessionalType = (type: 'handyman') => {
     setIsProfessionalTypeModalOpen(false);
-    navigate(type === 'handyman' ? '/handyman' : '/contractors');
+    navigate('/handyman');
   };
 
   const content = HERO_CONTENT[audience];

@@ -3,8 +3,6 @@
 export const USER_ROLES = {
   CUSTOMER: 'customer',
   HANDYMAN: 'handyman',
-  CONTRACTOR: 'contractor',
-  PROPERTY_MANAGER: 'property_manager',
   ADMIN: 'admin'
 } as const;
 

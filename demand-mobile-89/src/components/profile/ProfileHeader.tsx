@@ -7,7 +7,7 @@ import { Star, Phone, MessageCircle, CheckCircle2, Crown, Calendar } from 'lucid
 interface Professional {
   id: string;
   full_name: string;
-  user_role: 'handyman' | 'contractor';
+  user_role: 'handyman';
   avatar_url?: string;
   subscription_plan?: string;
   account_status: string;
@@ -42,11 +42,7 @@ export const ProfileHeader = ({
     month: 'long'
   });
 
-  // Get display name - prioritize business name for contractors
   const getDisplayName = () => {
-    if (professional.user_role === 'contractor') {
-      return professional.business_name || professional.company_name || professional.full_name;
-    }
     return professional.full_name;
   };
 
@@ -88,10 +84,6 @@ export const ProfileHeader = ({
               )}
             </div>
             
-            {/* Show owner name for contractors only if business name is displayed */}
-            {professional.user_role === 'contractor' && (professional.business_name || professional.company_name) && professional.full_name && (
-              <p className="text-sm text-gray-600">Owner: {professional.full_name}</p>
-            )}
             
             {/* Professional Type and Status - responsive badges */}
             <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">

@@ -99,14 +99,8 @@ export const useUnifiedNotifications = () => {
       case 'handyman':
         setupHandymanNotifications();
         break;
-      case 'contractor':
-        setupContractorNotifications();
-        break;
       case 'customer':
         setupCustomerNotifications();
-        break;
-      case 'property_manager':
-        setupPropertyManagerNotifications();
         break;
     }
 
@@ -207,67 +201,8 @@ export const useUnifiedNotifications = () => {
       subscriptions.push(assignmentsChannel);
     }
 
-    function setupContractorNotifications() {
-      // Contractor jobs
-      const contractorJobsChannel = supabase
-        .channel('contractor-jobs')
-        .on(
-          'postgres_changes',
-          {
-            event: 'INSERT',
-            schema: 'public',
-            table: 'job_requests',
-            filter: `job_type=eq.contractor_service`
-          },
-          (payload) => {
-            console.log('🏗️ New project for contractor:', payload);
-            
-            if (shouldPlayNotification('job_request')) {
-              playJobRequestTone();
-            }
-            toast.info('New Project Available!', {
-              description: `${payload.new.title || 'New project'} posted`,
-              duration: 5000,
-              action: {
-                label: 'View Projects',
-                onClick: () => navigate('/jobs'),
-              },
-            });
-          }
-        )
-        .subscribe();
-      subscriptions.push(contractorJobsChannel);
-
-      // Contractor quote requests
-      const contractorQuotesChannel = supabase
-        .channel('contractor-quotes')
-        .on(
-          'postgres_changes',
-          {
-            event: 'INSERT',
-            schema: 'public',
-            table: 'contractor_quote_requests',
-            filter: `status=eq.pending`
-          },
-          (payload) => {
-            console.log('💰 New contractor quote request:', payload);
-            
-            if (shouldPlayNotification('quote_request')) {
-              playQuoteNotificationTone();
-            }
-            toast.info('New Quote Request!', {
-              description: `${payload.new.service_name || 'Service'} request`,
-              duration: 5000,
-              action: {
-                label: 'View Quotes',
-                onClick: () => navigate('/', { state: { activeTab: 'quotes' } }),
-              },
-            });
-          }
-        )
-        .subscribe();
-      subscriptions.push(contractorQuotesChannel);
-    }
+    // CONTRACTOR NOTIFICATIONS — archived (contractor role removed)
+    // function setupContractorNotifications() { ... }
 
     function setupCustomerNotifications() {
       // Quote submissions
@@ -356,66 +291,8 @@ export const useUnifiedNotifications = () => {
       subscriptions.push(jobUpdatesChannel);
     }
 
-    function setupPropertyManagerNotifications() {
-      // Maintenance requests
-      const maintenanceChannel = supabase
-        .channel('property-maintenance')
-        .on(
-          'postgres_changes',
-          {
-            event: 'INSERT',
-            schema: 'public',
-            table: 'job_requests',
-            filter: `job_type=eq.maintenance`
-          },
-          (payload) => {
-            console.log('🔧 New maintenance request for property manager:', payload);
-            
-            if (shouldPlayNotification('maintenance')) {
-              playJobRequestTone();
-            }
-            toast.info('New Maintenance Request!', {
-              description: `${payload.new.title || 'Maintenance'} request submitted`,
-              duration: 5000,
-              action: {
-                label: 'View Request',
-                onClick: () => navigate('/', { state: { activeTab: 'maintenance' } }),
-              },
-            });
-          }
-        )
-        .subscribe();
-      subscriptions.push(maintenanceChannel);
-
-      // Emergency requests
-      const emergencyChannel = supabase
-        .channel('property-emergency')
-        .on(
-          'postgres_changes',
-          {
-            event: 'INSERT',
-            schema: 'public',
-            table: 'emergency_requests'
-          },
-          (payload) => {
-            console.log('🚨 Emergency request for property manager:', payload);
-            
-            if (shouldPlayNotification('emergency')) {
-              playJobRequestTone();
-            }
-            toast.error('Emergency Request!', {
-              description: `Urgent: ${payload.new.description || 'Emergency situation'}`,
-              duration: 10000,
-              action: {
-                label: 'View Emergency',
-                onClick: () => navigate('/', { state: { activeTab: 'emergency' } }),
-              },
-            });
-          }
-        )
-        .subscribe();
-      subscriptions.push(emergencyChannel);
-    }
+    // PROPERTY MANAGER NOTIFICATIONS — archived (property_manager role removed)
+    // function setupPropertyManagerNotifications() { ... }
 
     return () => {
       console.log('🔔 Cleaning up unified notification subscriptions');

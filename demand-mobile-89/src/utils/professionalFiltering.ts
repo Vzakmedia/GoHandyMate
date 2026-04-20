@@ -4,7 +4,7 @@ import { Professional } from '@/types/professional';
 export const filterProfessionals = (
   professionals: Professional[],
   searchTerm: string,
-  selectedType: 'handyman' | 'contractor' | 'all'
+  selectedType: 'handyman' | 'all'
 ): Professional[] => {
   return professionals.filter(prof => {
     const matchesSearch = prof.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||

@@ -10,11 +10,8 @@ import { supabase } from '@/integrations/supabase/client';
 
 import { BasicInfoSection } from './signup/BasicInfoSection';
 import { HandymanRequirementsSection } from './signup/HandymanRequirementsSection';
-// CONTRACTOR - PENDING (commented out)
-// import { ContractorRequirementsSection } from './signup/ContractorRequirementsSection';
-import { SignUpFormData, HandymanFormData, ContractorFormData } from './signup/types';
+import { SignUpFormData, HandymanFormData } from './signup/types';
 import { validateBasicForm, validateHandymanForm } from './signup/utils/validation';
-// import { validateContractorForm } from './signup/utils/validation'; // CONTRACTOR - PENDING
 
 interface DetailedSignUpFormProps {
   onSwitchToSignIn: () => void;
@@ -58,18 +55,6 @@ export const DetailedSignUpForm = ({
     bio: '',
   });
 
-  const [contractorData, setContractorData] = useState<ContractorFormData>({
-    ein: '',
-    businessName: '',
-    licenseNumber: '',
-    licenseFile: null,
-    insuranceFile: null,
-    businessDescription: '',
-    servicesOffered: [],
-    newService: '',
-    website: '',
-  });
-
   const [isLoading, setIsLoading] = useState(false);
   const [step, setStep] = useState<'form' | 'otp'>('form');
   const [otpCode, setOtpCode] = useState('');
@@ -88,25 +73,13 @@ export const DetailedSignUpForm = ({
       return;
     }
 
-    switch (type) {
-      case 'validId':
-        setHandymanData(prev => ({ ...prev, validIdFile: file }));
-        break;
-      case 'license':
-        setContractorData(prev => ({ ...prev, licenseFile: file }));
-        break;
-      case 'insurance':
-        setContractorData(prev => ({ ...prev, insuranceFile: file }));
-        break;
+    if (type === 'validId') {
+      setHandymanData(prev => ({ ...prev, validIdFile: file }));
     }
   };
 
   const handleHandymanFileUpload = (file: File | null) => {
     handleFileUpload(file, 'validId');
-  };
-
-  const handleContractorFileUpload = (file: File | null, type: 'license' | 'insurance') => {
-    handleFileUpload(file, type);
   };
 
   const updateBasicData = (field: keyof SignUpFormData, value: string) => {
@@ -115,10 +88,6 @@ export const DetailedSignUpForm = ({
 
   const updateHandymanData = (field: keyof HandymanFormData, value: string | string[] | File | null) => {
     setHandymanData(prev => ({ ...prev, [field]: value }));
-  };
-
-  const updateContractorData = (field: keyof ContractorFormData, value: string | string[] | File | null) => {
-    setContractorData(prev => ({ ...prev, [field]: value }));
   };
 
   const validateForm = () => {
@@ -143,15 +112,6 @@ export const DetailedSignUpForm = ({
         return false;
       }
     }
-
-    // CONTRACTOR - PENDING (commented out)
-    // if (basicData.userRole === 'contractor') {
-    //   const contractorError = validateContractorForm(contractorData);
-    //   if (contractorError) {
-    //     toast({ title: 'Missing contractor requirements', description: contractorError, variant: 'destructive' });
-    //     return false;
-    //   }
-    // }
 
     return true;
   };
@@ -307,17 +267,6 @@ export const DetailedSignUpForm = ({
             />
           </div>
         )}
-
-        {/* Contractor Specific Fields - CONTRACTOR - PENDING (commented out) */}
-        {/* {basicData.userRole === 'contractor' && (
-          <div className="animate-in fade-in slide-in-from-bottom-2 duration-500">
-            <ContractorRequirementsSection
-              data={contractorData}
-              onUpdate={updateContractorData}
-              onFileUpload={handleContractorFileUpload}
-            />
-          </div>
-        )} */}
 
         <Button
           type="submit"

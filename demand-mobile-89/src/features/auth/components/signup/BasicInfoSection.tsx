@@ -191,10 +191,6 @@ export const BasicInfoSection = ({ data, onUpdate, hideRoleSelector = false }: B
               <SelectContent className="rounded-2xl border-slate-100 shadow-xl">
                 <SelectItem value="customer">Customer - I need services</SelectItem>
                 <SelectItem value="handyman">Handyman - Service Pro</SelectItem>
-                {/* PROPERTY_MANAGER - Moved to customer upgrade features */}
-                {/* <SelectItem value="property_manager">Property Manager</SelectItem> */}
-                {/* CONTRACTOR - PENDING */}
-                {/* <SelectItem value="contractor">Licensed Contractor</SelectItem> */}
               </SelectContent>
             </Select>
           </div>

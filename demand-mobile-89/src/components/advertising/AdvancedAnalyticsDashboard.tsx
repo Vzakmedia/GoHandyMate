@@ -290,7 +290,7 @@ export const AdvancedAnalyticsDashboard: React.FC<AdvancedAnalyticsDashboardProp
                   </div>
                   
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">Property Managers</span>
+                    <span className="text-sm font-medium">Service Owners</span>
                     <span className="text-sm text-gray-600">25%</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">

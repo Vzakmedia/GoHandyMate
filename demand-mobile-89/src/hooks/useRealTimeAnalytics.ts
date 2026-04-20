@@ -16,9 +16,9 @@ interface AnalyticsData {
   pendingJobs: number;
   totalProfessionals: number;
   handymen: number;
-  contractors: number;
+  contractors: number; // legacy field — always 0, contractor role archived
   customers: number;
-  propertyManagers: number;
+  propertyManagers: number; // legacy field — always 0, property_manager role archived
   monthlyData: MonthlyData[];
   averageRating: number;
   totalRevenue: number;
@@ -72,9 +72,9 @@ export const useRealTimeAnalytics = (): AnalyticsData => {
       // Calculate user statistics
       const totalProfessionals = userStats?.length || 0;
       const handymen = userStats?.filter(user => user.user_role === 'handyman').length || 0;
-      const contractors = userStats?.filter(user => user.user_role === 'contractor').length || 0;
+      const contractors = 0; // contractor role archived — always 0
       const customers = userStats?.filter(user => user.user_role === 'customer').length || 0;
-      const propertyManagers = userStats?.filter(user => user.user_role === 'property_manager').length || 0;
+      const propertyManagers = 0; // property_manager role archived — always 0
 
       // Calculate average rating
       const totalRatings = ratings?.length || 0;

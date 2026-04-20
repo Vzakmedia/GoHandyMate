@@ -14,7 +14,6 @@ import { DashboardTopbar } from "@/components/DashboardTopbar";
 
 interface MainAppLayoutProps {
   userRole: 'customer' | 'handyman';
-  // NOTE: 'contractor' pending. 'property_manager' merged into customer upgrade features.
   isAuthenticated: boolean;
   user: {
     id: string;

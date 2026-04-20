@@ -36,7 +36,7 @@ export const PendingUsersTable = ({
           <div>
             <CardTitle>Pending Account Verifications</CardTitle>
             <CardDescription>
-              Review and approve handyman and contractor account applications
+              Review and approve handyman account applications
             </CardDescription>
           </div>
           <Button

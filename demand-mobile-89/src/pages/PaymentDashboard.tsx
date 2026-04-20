@@ -33,7 +33,7 @@ const PaymentDashboard = () => {
     );
   }
 
-  const isProvider = profile?.user_role === 'handyman' || profile?.user_role === 'contractor';
+  const isProvider = profile?.user_role === 'handyman';
   const hasActiveSubscription = profile?.subscription_status === 'active';
   const subscriptionPlan = profile?.subscription_plan;
 

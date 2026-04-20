@@ -48,28 +48,7 @@ export const getNotificationConfig = (userRole: Profile['user_role']): Record<st
         }
       };
 
-    case 'contractor':
-      return {
-        ...baseConfig,
-        job_requests: {
-          channels: ['job-requests', 'contractor-assignments'],
-          filters: { status: 'pending', job_type: ['contractor_service', 'project'] },
-          actionLabel: 'View Projects',
-          navigationPath: '/jobs'
-        },
-        quote_requests: {
-          channels: ['contractor-quote-requests'],
-          filters: { status: 'pending' },
-          actionLabel: 'View Quotes',
-          navigationPath: '/?tab=quotes'
-        },
-        contract_updates: {
-          channels: ['contract-updates'],
-          filters: { contractor_id: 'current_user' },
-          actionLabel: 'View Contract',
-          navigationPath: '/contracts'
-        }
-      };
+    // contractor case archived — contractor role removed
 
     case 'customer':
       return {
@@ -94,28 +73,7 @@ export const getNotificationConfig = (userRole: Profile['user_role']): Record<st
         }
       };
 
-    case 'property_manager':
-      return {
-        ...baseConfig,
-        maintenance_requests: {
-          channels: ['maintenance-requests'],
-          filters: { job_type: 'maintenance' },
-          actionLabel: 'View Request',
-          navigationPath: '/?tab=maintenance'
-        },
-        emergency_requests: {
-          channels: ['emergency-requests'],
-          filters: { priority: 'emergency' },
-          actionLabel: 'View Emergency',
-          navigationPath: '/?tab=emergency'
-        },
-        property_updates: {
-          channels: ['property-notifications'],
-          filters: { property_manager_id: 'current_user' },
-          actionLabel: 'View Property',
-          navigationPath: '/?tab=properties'
-        }
-      };
+    // property_manager case archived — property_manager role removed
 
     default:
       return baseConfig;
@@ -131,13 +89,6 @@ export const getNotificationTitle = (type: string, userRole: Profile['user_role'
       messages: 'New Message',
       system: 'System Notification'
     },
-    contractor: {
-      job_requests: 'New Project Available!',
-      quote_requests: 'New Quote Request!',
-      contract_updates: 'Contract Update',
-      messages: 'New Message',
-      system: 'System Notification'
-    },
     customer: {
       quote_submissions: 'New Quote Received!',
       job_updates: 'Job Update',
@@ -145,13 +96,6 @@ export const getNotificationTitle = (type: string, userRole: Profile['user_role'
       messages: 'New Message',
       system: 'System Notification'
     },
-    property_manager: {
-      maintenance_requests: 'New Maintenance Request!',
-      emergency_requests: 'Emergency Request!',
-      property_updates: 'Property Update',
-      messages: 'New Message',
-      system: 'System Notification'
-    }
   };
 
   return titles[userRole]?.[type] || 'Notification';

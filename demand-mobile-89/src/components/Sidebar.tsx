@@ -1,10 +1,9 @@
 
-import { Home, Search, MessageSquare, User, Wrench, DollarSign, Building2, BarChart3, LayoutDashboard, Briefcase, Settings, LogOut, ChevronRight, Menu, Crown } from 'lucide-react';
+import { Home, Search, MessageSquare, User, Wrench, DollarSign, BarChart3, LayoutDashboard, Briefcase, Settings, LogOut, ChevronRight, Menu, Crown } from 'lucide-react';
 import { useUserRole } from '@/hooks/useUserRole';
 import { useAuth } from '@/features/auth';
 import { supabase } from '@/integrations/supabase/client';
 import { HeaderLogo } from './header/HeaderLogo';
-import { useCustomerUpgrade } from '@/hooks/useCustomerUpgrade';
 
 interface SidebarProps {
     activeTab: string;
@@ -15,14 +14,10 @@ interface SidebarProps {
 export const Sidebar = ({ activeTab, onTabChange, onChangeRole }: SidebarProps) => {
     const { userRole } = useUserRole();
     const { user } = useAuth();
-    const { isUpgraded } = useCustomerUpgrade();
-
     const customerTabs = [
         { id: 'home', label: 'Home', icon: Home },
         { id: 'search', label: 'Services', icon: Search },
         { id: 'community', label: 'Community', icon: MessageSquare },
-        // Properties tab - only shown for upgraded customers
-        ...(isUpgraded ? [{ id: 'property', label: 'Properties', icon: Building2 }] : []),
         { id: 'profile', label: 'Profile', icon: User },
     ];
 
@@ -33,27 +28,9 @@ export const Sidebar = ({ activeTab, onTabChange, onChangeRole }: SidebarProps) 
         { id: 'profile', label: 'Profile', icon: User },
     ];
 
-    // CONTRACTOR - PENDING (commented out)
-    // const contractorTabs = [
-    //     { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
-    //     { id: 'projects', label: 'Projects', icon: Building2 },
-    //     { id: 'quotes', label: 'Quotes', icon: DollarSign },
-    //     { id: 'profile', label: 'Profile', icon: User },
-    // ];
-
-    // PROPERTY_MANAGER - Moved to customer upgrade features (commented out as standalone)
-    // const propertyManagerTabs = [
-    //     { id: 'properties', label: 'Properties', icon: Building2 },
-    //     { id: 'jobs', label: 'Jobs', icon: Wrench },
-    //     { id: 'analytics', label: 'Analytics', icon: BarChart3 },
-    //     { id: 'profile', label: 'Profile', icon: User },
-    // ];
-
     const getTabsForRole = () => {
         switch (userRole) {
             case 'handyman': return handymanTabs;
-            // case 'contractor': return contractorTabs; // CONTRACTOR - PENDING
-            // case 'property_manager': return propertyManagerTabs; // PROPERTY_MANAGER - in customer upgrade
             default: return customerTabs;
         }
     };

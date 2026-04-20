@@ -12,7 +12,7 @@ import { useUnifiedHandymanMetrics } from '@/hooks/useUnifiedHandymanMetrics';
 interface Professional {
   id: string;
   full_name: string;
-  user_role: 'handyman' | 'contractor';
+  user_role: 'handyman';
   avatar_url?: string;
   subscription_plan?: string;
   account_status: string;

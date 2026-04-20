@@ -52,9 +52,8 @@ const TARGET_AUDIENCES = [
   { value: 'all', label: 'All Users' },
   { value: 'new_customers', label: 'New Customers' },
   { value: 'existing_customers', label: 'Existing Customers' },
-  { value: 'handymen', label: 'Handymen' },
-  { value: 'contractors', label: 'Contractors' },
-  { value: 'property_managers', label: 'Property Managers' }
+  { value: 'handymen', label: 'Handymen' }
+  // contractors and property_managers removed — those roles are archived
 ];
 
 export const PromotionManagement = () => {

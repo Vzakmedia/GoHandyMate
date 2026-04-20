@@ -1,6 +1,6 @@
 
 export interface RequestBody {
-  type?: 'handyman' | 'contractor' | 'all'
+  type?: 'handyman' | 'all'
   lat?: string
   lng?: string
   radius?: string
@@ -12,7 +12,7 @@ export interface Professional {
   id: string
   full_name: string
   email: string
-  user_role: 'handyman' | 'contractor'
+  user_role: 'handyman'
   subscription_plan?: string
   subscription_status: string
   account_status: string

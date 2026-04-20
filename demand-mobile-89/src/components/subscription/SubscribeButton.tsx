@@ -8,7 +8,7 @@ import { Crown, Loader2 } from 'lucide-react';
 
 interface SubscribeButtonProps {
   planId: string;
-  userRole: 'handyman' | 'contractor';
+  userRole: 'handyman';
   isCurrentPlan?: boolean;
   className?: string;
 }

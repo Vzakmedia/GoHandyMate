@@ -54,15 +54,7 @@ const ChoosingProfessional = lazy(() => import('@/pages/help/ChoosingProfessiona
 const FirstBooking = lazy(() => import('@/pages/help/FirstBooking').then(m => ({ default: m.FirstBooking })));
 const ProjectChanges = lazy(() => import('@/pages/help/ProjectChanges').then(m => ({ default: m.ProjectChanges })));
 const DisputesRefunds = lazy(() => import('@/pages/help/DisputesRefunds').then(m => ({ default: m.DisputesRefunds })));
-const SetupPropertiesHelp = lazy(() => import('@/components/help/SetupPropertiesHelp').then(m => ({ default: m.SetupPropertiesHelp })));
-const ManagingUnitsHelp = lazy(() => import('@/components/help/ManagingUnitsHelp').then(m => ({ default: m.ManagingUnitsHelp })));
-const RequestingServicesHelp = lazy(() => import('@/components/help/RequestingServicesHelp').then(m => ({ default: m.RequestingServicesHelp })));
-const UnderstandingInvoicesHelp = lazy(() => import('@/components/help/UnderstandingInvoicesHelp').then(m => ({ default: m.UnderstandingInvoicesHelp })));
-const BulkBillingHelp = lazy(() => import('@/components/help/BulkBillingHelp').then(m => ({ default: m.BulkBillingHelp })));
 const PaymentMethodsHelp = lazy(() => import('@/components/help/PaymentMethodsHelp').then(m => ({ default: m.PaymentMethodsHelp })));
-const EmergencyProceduresHelp = lazy(() => import('@/components/help/EmergencyProceduresHelp').then(m => ({ default: m.EmergencyProceduresHelp })));
-const SchedulingRecurringServicesHelp = lazy(() => import('@/components/help/SchedulingRecurringServicesHelp').then(m => ({ default: m.SchedulingRecurringServicesHelp })));
-const WorkingWithTechniciansHelp = lazy(() => import('@/components/help/WorkingWithTechniciansHelp').then(m => ({ default: m.WorkingWithTechniciansHelp })));
 const CommonIssuesHelp = lazy(() => import('@/components/help/CommonIssuesHelp').then(m => ({ default: m.CommonIssuesHelp })));
 const AccountProblemsHelp = lazy(() => import('@/components/help/AccountProblemsHelp').then(m => ({ default: m.AccountProblemsHelp })));
 const TechnicalSupportHelp = lazy(() => import('@/components/help/TechnicalSupportHelp').then(m => ({ default: m.TechnicalSupportHelp })));
@@ -110,15 +102,7 @@ export const AppRoutes = () => {
         <Route path="/professionals" element={<Professionals />} />
         <Route path="/handyman-profile/:profileId" element={<HandymanProfilePage />} />
         <Route path="/quote-request/:professionalId" element={<QuoteRequestPage />} />
-        <Route path="/help/setup-properties" element={<SetupPropertiesHelp />} />
-        <Route path="/help/managing-units" element={<ManagingUnitsHelp />} />
-        <Route path="/help/requesting-services" element={<RequestingServicesHelp />} />
-        <Route path="/help/understanding-invoices" element={<UnderstandingInvoicesHelp />} />
-        <Route path="/help/bulk-billing" element={<BulkBillingHelp />} />
         <Route path="/help/payment-methods" element={<PaymentMethodsHelp />} />
-        <Route path="/help/emergency-procedures" element={<EmergencyProceduresHelp />} />
-        <Route path="/help/scheduling-recurring-services" element={<SchedulingRecurringServicesHelp />} />
-        <Route path="/help/working-with-technicians" element={<WorkingWithTechniciansHelp />} />
         <Route path="/help/common-issues" element={<CommonIssuesHelp />} />
         <Route path="/help/account-problems" element={<AccountProblemsHelp />} />
         <Route path="/help/technical-support" element={<TechnicalSupportHelp />} />

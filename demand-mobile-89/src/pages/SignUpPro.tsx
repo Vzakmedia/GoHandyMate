@@ -46,8 +46,8 @@ export const SignUpPro = () => {
     },
     {
       label: "SPECIALISTS",
-      title: "Licensed Contractors",
-      description: "For established businesses and licensed specialists in HVAC, roofing, and major remodeling.",
+      title: "Skilled Tradespeople",
+      description: "For established professionals specializing in HVAC, roofing, electrical, plumbing, and major home services.",
       color: "bg-green-50",
       icon: <Award className="w-5 h-5" />,
       highlights: ["High-value project leads", "Team management tools", "Priority support"]

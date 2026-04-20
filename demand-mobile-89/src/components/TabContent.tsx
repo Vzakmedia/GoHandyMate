@@ -3,15 +3,9 @@ import { CustomerTabContent } from "@/components/CustomerTabContent";
 import { HandymanDashboard } from "@/components/HandymanDashboard";
 import { RoleProtectedRoute } from "@/features/auth";
 
-// CONTRACTOR - PENDING (commented out)
-// import { ContractorDashboard } from "@/components/ContractorDashboard";
-// PROPERTY_MANAGER - Moved to customer upgrade features (commented out as standalone)
-// import { PropertyManagerTabContent } from "@/components/PropertyManagerTabContent";
-
 interface TabContentProps {
   activeTab: string;
   userRole: 'customer' | 'handyman';
-  // NOTE: 'contractor' pending. 'property_manager' handled inside CustomerTabContent (upgrade-gated).
   selectedCategory: string | null;
   setSelectedCategory: (category: string | null) => void;
   onTabChange?: (tab: string) => void;
@@ -68,24 +62,6 @@ export const TabContent = ({
           </div>
         </RoleProtectedRoute>
       );
-
-    // CONTRACTOR - PENDING (commented out)
-    // case 'contractor':
-    //   return (
-    //     <RoleProtectedRoute requiredRole="contractor" onBackToHome={handleBackToHome}>
-    //       <div className="px-3 sm:px-4 lg:px-6 py-4 sm:py-6">
-    //         <ContractorDashboard activeTab={activeTab} onTabChange={onTabChange || (() => {})} />
-    //       </div>
-    //     </RoleProtectedRoute>
-    //   );
-
-    // PROPERTY_MANAGER - Moved to customer upgrade features (commented out as standalone)
-    // case 'property_manager':
-    //   return (
-    //     <RoleProtectedRoute requiredRole="property_manager" onBackToHome={handleBackToHome}>
-    //       <PropertyManagerTabContent activeTab={activeTab} mockTasks={mockTasks} />
-    //     </RoleProtectedRoute>
-    //   );
 
     default:
       return (

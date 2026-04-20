@@ -135,7 +135,7 @@ export const useVerificationActions = () => {
         .from('profiles')
         .select('id, full_name, email, user_role, account_status, created_at')
         .eq('account_status', 'pending')
-        .in('user_role', ['handyman', 'contractor', 'property_manager'])
+        .eq('user_role', 'handyman')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
@@ -161,7 +161,7 @@ export const useVerificationActions = () => {
       const { data, error } = await supabase
         .from('profiles')
         .select('account_status, user_role')
-        .in('user_role', ['handyman', 'contractor']);
+        .eq('user_role', 'handyman');
 
       if (error) throw error;
 

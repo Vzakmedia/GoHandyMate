@@ -21,9 +21,10 @@ export const getStatusBadge = (status: string) => {
 export const getRoleBadge = (role: string) => {
   const roleColors = {
     handyman: 'bg-blue-100 text-blue-800',
-    contractor: 'bg-purple-100 text-purple-800',
     customer: 'bg-green-100 text-green-800',
-    property_manager: 'bg-orange-100 text-orange-800'
+    // Legacy roles (archived):
+    contractor: 'bg-gray-100 text-gray-500',
+    property_manager: 'bg-gray-100 text-gray-500'
   };
 
   return (

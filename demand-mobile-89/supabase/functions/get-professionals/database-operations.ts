@@ -75,69 +75,43 @@ export const fetchNearbyProfessionals = async (userLat: number, userLng: number,
           return distance <= radius;
         });
       }
-    } else if (userType === 'contractor') {
-      // For contractors, filter by active account status and active subscription
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('user_role', 'contractor')
-        .eq('account_status', 'active')
-        .in('subscription_status', ['active', 'trialing']);
-      
-      profiles = data;
-      profileError = error;
     } else {
-      // For 'all', combine both handymen and contractors
-      const [handymenResult, contractorsResult] = await Promise.all([
-        supabase
-          .from('profiles')
-          .select(`
-            *,
-            handyman_locations!inner(
-              latitude,
-              longitude,
-              is_active,
-              last_updated
-            )
-          `)
-          .eq('user_role', 'handyman')
-          .eq('account_status', 'active')
-          .in('subscription_status', ['active', 'trialing'])
-          .eq('handyman_locations.is_active', true),
-        supabase
-          .from('profiles')
-          .select('*')
-          .eq('user_role', 'contractor')
-          .eq('account_status', 'active')
-          .in('subscription_status', ['active', 'trialing'])
-      ]);
+      // For 'all', fetch handymen only
+      const handymenResult = await supabase
+        .from('profiles')
+        .select(`
+          *,
+          handyman_locations!inner(
+            latitude,
+            longitude,
+            is_active,
+            last_updated
+          )
+        `)
+        .eq('user_role', 'handyman')
+        .eq('account_status', 'active')
+        .in('subscription_status', ['active', 'trialing'])
+        .eq('handyman_locations.is_active', true);
 
-      if (handymenResult.error || contractorsResult.error) {
-        profileError = handymenResult.error || contractorsResult.error;
+      if (handymenResult.error) {
+        profileError = handymenResult.error;
       } else {
         let handymen = handymenResult.data || [];
-        const contractors = contractorsResult.data || [];
-        
-        // Filter handymen by distance
         handymen = handymen.filter(profile => {
           if (!profile.handyman_locations?.[0]) return false;
-          
           const location = profile.handyman_locations[0];
           const lat1 = userLat * Math.PI / 180;
           const lat2 = location.latitude * Math.PI / 180;
           const deltaLat = (location.latitude - userLat) * Math.PI / 180;
           const deltaLng = (location.longitude - userLng) * Math.PI / 180;
-
           const a = Math.sin(deltaLat/2) * Math.sin(deltaLat/2) +
                     Math.cos(lat1) * Math.cos(lat2) *
                     Math.sin(deltaLng/2) * Math.sin(deltaLng/2);
           const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-          const distance = 3959 * c; // Distance in miles
-
+          const distance = 3959 * c;
           return distance <= radius;
         });
-
-        profiles = [...handymen, ...contractors];
+        profiles = handymen;
       }
     }
 
@@ -334,7 +308,7 @@ export const ensureTestData = async () => {
     .select('id')
     .eq('account_status', 'active')
     .in('subscription_status', ['active', 'trialing'])
-    .in('user_role', ['handyman', 'contractor'])
+    .eq('user_role', 'handyman')
 
   if (error) {
     console.log('[DB] Error checking existing professionals:', error)

@@ -9,7 +9,7 @@ import { useRealRatings } from '@/hooks/useRealRatings';
 interface Professional {
   id: string;
   full_name: string;
-  user_role: 'handyman' | 'contractor';
+  user_role: 'handyman';
   avatar_url?: string;
   handyman?: {
     hourly_rate?: number;

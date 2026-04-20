@@ -1,6 +1,5 @@
 
 import { EnhancedServiceGrid } from "@/components/services/EnhancedServiceGrid";
-import { ContractorServiceCategories } from "@/components/ContractorServiceCategories";
 import { TopProfessionals } from "@/components/TopProfessionals";
 import { RealTimeServiceSync } from "@/components/RealTimeServiceSync";
 import { Input } from "@/components/ui/input";
@@ -160,12 +159,6 @@ export const SearchTabContent = ({ onProtectedAction }: SearchTabContentProps) =
           </div>
           <div className="bg-white rounded-[2rem] sm:rounded-[3rem] border border-black/5 shadow-sm p-4 sm:p-8">
             <RealTimeServiceSync />
-          </div>
-        </div>
-
-        <div className="space-y-4 sm:space-y-6">
-          <div className="bg-white rounded-[2rem] sm:rounded-[3rem] border border-black/5 shadow-sm p-4 sm:p-8">
-            <ContractorServiceCategories />
           </div>
         </div>
 

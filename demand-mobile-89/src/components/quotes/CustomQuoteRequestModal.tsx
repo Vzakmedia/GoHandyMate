@@ -259,7 +259,7 @@ export const CustomQuoteRequestModal = ({
                 >
                   <div className="font-medium mb-1">Public Job Feed</div>
                   <div className="text-sm text-muted-foreground">
-                    Post to contractor job board for all qualified contractors to see
+                    Post to job board for all qualified handymen to see
                   </div>
                 </Button>
                 <Button
@@ -268,9 +268,9 @@ export const CustomQuoteRequestModal = ({
                   onClick={() => handleInputChange('quote_type', 'direct')}
                   className="h-auto p-4 flex flex-col items-start text-left"
                 >
-                  <div className="font-medium mb-1">Direct to Contractor</div>
+                  <div className="font-medium mb-1">Direct to Handyman</div>
                   <div className="text-sm text-muted-foreground">
-                    Send directly to specific contractors in your area
+                    Send directly to specific handymen in your area
                   </div>
                 </Button>
               </div>
@@ -283,15 +283,15 @@ export const CustomQuoteRequestModal = ({
               </h4>
               {formData.quote_type === 'public' ? (
                 <ul className="text-sm text-blue-700 space-y-1">
-                  <li>• Your request will be posted in the contractor job feed</li>
-                  <li>• All qualified contractors in your area can see and bid</li>
+                  <li>• Your request will be posted in the handyman job feed</li>
+                  <li>• All qualified handymen in your area can see and bid</li>
                   <li>• You'll receive multiple competitive quotes within 24-48 hours</li>
-                  <li>• Compare proposals and choose the best contractor for your project</li>
+                  <li>• Compare proposals and choose the best handyman for your project</li>
                 </ul>
               ) : (
                 <ul className="text-sm text-blue-700 space-y-1">
-                  <li>• Your request will be sent directly to specific contractors</li>
-                  <li>• Contractors will receive a private quote invitation</li>
+                  <li>• Your request will be sent directly to specific handymen</li>
+                  <li>• Handymen will receive a private quote invitation</li>
                   <li>• You'll receive personalized quotes from selected professionals</li>
                   <li>• More privacy and targeted responses for your project</li>
                 </ul>

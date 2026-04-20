@@ -32,11 +32,11 @@ export const useAppMetrics = (): AppMetrics => {
         .select('*', { count: 'exact', head: true })
         .eq('status', 'completed');
 
-      // Fetch total active professionals (handymen and contractors only)
+      // Fetch total active professionals (handymen only)
       const { count: totalProfessionals } = await supabase
         .from('profiles')
         .select('*', { count: 'exact', head: true })
-        .in('user_role', ['handyman', 'contractor'])
+        .eq('user_role', 'handyman')
         .eq('account_status', 'active')
         .in('subscription_status', ['active', 'trialing']);
 
@@ -125,7 +125,7 @@ export const useAppMetrics = (): AppMetrics => {
           event: '*', 
           schema: 'public', 
           table: 'profiles',
-          filter: 'user_role=in.(handyman,contractor)'
+          filter: 'user_role=eq.handyman'
         },
         () => {
           console.log('useAppMetrics: Profile update received, refreshing metrics');

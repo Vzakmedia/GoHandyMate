@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ArrowLeft, Send, Building, User, Lightbulb } from 'lucide-react';
+import { ArrowLeft, Send, User, Lightbulb } from 'lucide-react';
 import { LoadingScreen } from '@/components/LoadingScreen';
 import { toast } from 'sonner';
 
@@ -212,11 +212,7 @@ export const QuoteRequestPage = () => {
               <div>
                 <h2 className="text-xl font-semibold text-gray-900">{displayName}</h2>
                 <div className="flex items-center space-x-1 text-sm text-gray-600">
-                  {professional.user_role === 'contractor' ? (
-                    <Building className="w-4 h-4" />
-                  ) : (
-                    <User className="w-4 h-4" />
-                  )}
+                  <User className="w-4 h-4" />
                   <span className="capitalize">{professional.user_role}</span>
                 </div>
               </div>

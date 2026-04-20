@@ -12,7 +12,7 @@ interface Profile {
   city?: string;
   zip_code?: string;
   avatar_url?: string;
-  user_role: 'customer' | 'handyman' | 'contractor' | 'property_manager';
+  user_role: 'customer' | 'handyman' | 'admin';
   subscription_plan?: string;
   subscription_status?: string;
   subscription_start_date?: string;
@@ -52,10 +52,15 @@ export const useSecureAuth = () => {
         return null;
       }
       
-      // Properly type the profile data
+      // Coerce any unexpected roles to 'customer'
+      const rawRole = profileData.user_role as string;
+      const resolvedRole: 'customer' | 'handyman' | 'admin' =
+        rawRole === 'handyman' ? 'handyman' :
+        rawRole === 'admin' ? 'admin' :
+        'customer';
       const typedProfile: Profile = {
         ...profileData,
-        user_role: profileData.user_role as 'customer' | 'handyman' | 'contractor' | 'property_manager',
+        user_role: resolvedRole,
         account_status: profileData.account_status as 'pending' | 'active' | 'rejected' | 'suspended'
       };
       

@@ -10,7 +10,7 @@ import { ProviderJobsSection } from "@/components/ProviderJobsSection";
 import { GoHandyMateHomepage } from "@/components/gohandymate/GoHandyMateHomepage";
 
 interface HomeTabContentProps {
-  userRole: 'customer' | 'handyman' | 'contractor' | 'property_manager';
+  userRole: 'customer' | 'handyman';
   selectedCategory: string | null;
   setSelectedCategory: (category: string | null) => void;
   mockTasks: Array<{
@@ -57,7 +57,7 @@ export const HomeTabContent = ({
 
       {/* Content based on user role */}
       <div className="px-4 sm:px-6 lg:px-8 py-8 sm:py-12 max-w-7xl mx-auto">
-        {(userRole === 'handyman' || userRole === 'contractor') && (
+        {userRole === 'handyman' && (
           <>
             <div className="text-center mb-8 sm:mb-12">
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
@@ -70,28 +70,7 @@ export const HomeTabContent = ({
             <ProviderJobsSection mockTasks={mockTasks} />
           </>
         )}
-
-        {userRole === 'property_manager' && (
-          <>
-            <div className="text-center mb-8 sm:mb-12">
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
-                Recent Service Requests
-              </h2>
-              <p className="text-gray-600 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">
-                Manage your properties efficiently
-              </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-              {mockTasks.slice(0, 3).map((task) => (
-                <div key={task.id} className="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300">
-                  <h3 className="font-semibold text-gray-900 text-base sm:text-lg mb-2">{task.title}</h3>
-                  <p className="text-sm text-gray-600 mb-3">{task.location} • {task.timeAgo}</p>
-                  <p className="text-lg font-bold text-green-600">${task.price}</p>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
+        {/* contractor and property_manager cases removed — those roles are archived */}
       </div>
 
       {/* Modern Testimonials Section */}

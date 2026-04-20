@@ -4,8 +4,6 @@ import { CustomerDashboardHeader } from "./CustomerDashboardHeader";
 import { CustomerBookingWidget } from "./CustomerBookingWidget";
 import { CustomerQuickActions } from "./CustomerQuickActions";
 import { CustomerRecommendedPros } from "./CustomerRecommendedPros";
-import { PropertyManagerUpgradePrompt } from "@/components/customer/PropertyManagerUpgradePrompt";
-import { useCustomerUpgrade } from "@/hooks/useCustomerUpgrade";
 
 interface MockTask {
   id: number;
@@ -26,7 +24,6 @@ interface CustomerDashboardProps {
 
 export const CustomerDashboard = ({ onTabChange, mockTasks }: CustomerDashboardProps) => {
   const { profile } = useAuth();
-  const { isUpgraded } = useCustomerUpgrade();
 
   return (
     <div className="space-y-8 pb-20 lg:pb-6 animate-fade-in text-slate-900">
@@ -43,12 +40,6 @@ export const CustomerDashboard = ({ onTabChange, mockTasks }: CustomerDashboardP
         {/* Right Column - Sidebar Widgets */}
         <div className="lg:col-span-4 flex flex-col gap-6 md:gap-8">
           <CustomerRecommendedPros />
-          
-          {!isUpgraded && (
-            <div className="mt-4">
-              <PropertyManagerUpgradePrompt compact />
-            </div>
-          )}
         </div>
       </div>
     </div>

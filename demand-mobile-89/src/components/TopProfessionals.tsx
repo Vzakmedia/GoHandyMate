@@ -9,7 +9,7 @@ import { ProfessionalsLoadingSkeleton } from "@/components/professionals/Profess
 
 interface TopProfessionalsProps {
   showViewAllButton?: boolean;
-  userRole?: 'customer' | 'property_manager';
+  userRole?: 'customer';
 }
 
 export const TopProfessionals = ({
@@ -29,9 +29,8 @@ export const TopProfessionals = ({
     userLocation
   });
 
-  // Separate handymen and contractors
+  // All professionals are handymen — contractor role archived
   const handymen = professionals.filter(p => p.user_role === 'handyman');
-  const contractors = professionals.filter(p => p.user_role === 'contractor');
 
   if (loading) {
     return (
@@ -44,19 +43,11 @@ export const TopProfessionals = ({
             ))}
           </div>
         </div>
-        <div>
-          <h2 className="text-lg font-semibold mb-4">Meet Our Top Contractors</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-            {Array.from({ length: 3 }).map((_, i) => (
-              <ProfessionalsLoadingSkeleton key={i} />
-            ))}
-          </div>
-        </div>
       </div>
     );
   }
 
-  const renderCarousel = (professionals: typeof handymen, title: string, type: 'handyman' | 'contractor') => {
+  const renderCarousel = (professionals: typeof handymen, title: string, type: 'handyman') => {
     if (professionals.length === 0) {
       return (
         <div className="mb-12">
@@ -147,8 +138,7 @@ export const TopProfessionals = ({
   return (
     <div className="py-2 space-y-4">
       {renderCarousel(handymen, "Luxury Handyman Services", "handyman")}
-      <div className="h-[1px] w-full bg-slate-100/50 my-4"></div>
-      {renderCarousel(contractors, "Specialist Contractors", "contractor")}
+      {/* Contractor carousel removed — contractor role archived */}
     </div>
   );
 };

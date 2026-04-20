@@ -25,7 +25,7 @@ export const useSubscription = () => {
     }
   };
 
-  const startFreeTrial = async (planId: string, userRole: 'handyman' | 'contractor') => {
+  const startFreeTrial = async (planId: string, userRole: 'handyman') => {
     try {
       const { data, error } = await supabase.functions.invoke('start-trial', {
         body: { planId, userRole }
@@ -47,13 +47,12 @@ export const useSubscription = () => {
     }
 
     const limits = {
-      handyman: { starter: 15, pro: 40, elite: -1 },
-      contractor: { basic: 25, business: 60, enterprise: -1 }
+      handyman: { starter: 15, pro: 40, elite: -1 }
     };
 
-    const userRole = profile.user_role as keyof typeof limits;
+    const userRole = profile.user_role === 'handyman' ? 'handyman' : null;
     const plan = profile.subscription_plan;
-    
+
     if (!userRole || !plan || !limits[userRole]) {
       return false;
     }
@@ -68,11 +67,10 @@ export const useSubscription = () => {
     if (!profile?.user_role || !profile?.subscription_plan) return 0;
     
     const limits = {
-      handyman: { starter: 15, pro: 40, elite: -1 },
-      contractor: { basic: 25, business: 60, enterprise: -1 }
+      handyman: { starter: 15, pro: 40, elite: -1 }
     };
-    
-    return limits[profile.user_role as keyof typeof limits]?.[profile.subscription_plan as keyof typeof limits.handyman] || 0;
+
+    return limits[profile.user_role === 'handyman' ? 'handyman' : 'handyman']?.[profile.subscription_plan as keyof typeof limits.handyman] || 0;
   };
 
   const getPlanFeatures = () => {
@@ -83,15 +81,10 @@ export const useSubscription = () => {
         starter: ['15 jobs per month', 'Basic profile visibility', 'Standard support'],
         pro: ['40 jobs per month', 'Enhanced profile visibility', 'Priority support', 'Advanced analytics'],
         elite: ['Unlimited jobs', 'Premium profile placement', '24/7 dedicated support', 'Custom branding']
-      },
-      contractor: {
-        basic: ['25 leads per month', 'Project management tools', 'Standard support'],
-        business: ['60 leads per month', 'Advanced project tools', 'Priority support', 'Team management'],
-        enterprise: ['Unlimited leads', 'Full business suite', '24/7 dedicated support', 'White-label options']
       }
     };
 
-    return features[profile.user_role as keyof typeof features]?.[profile.subscription_plan as keyof typeof features.handyman] || [];
+    return features['handyman']?.[profile.subscription_plan as keyof typeof features.handyman] || [];
   };
 
   useEffect(() => {
@@ -112,8 +105,8 @@ export const useSubscription = () => {
   };
 
   const canStartTrial = () => {
-    return !profile?.is_trial_used && 
-           (profile?.user_role === 'handyman' || profile?.user_role === 'contractor') &&
+    return !profile?.is_trial_used &&
+           profile?.user_role === 'handyman' &&
            profile?.subscription_status !== 'active' &&
            profile?.subscription_status !== 'trial';
   };

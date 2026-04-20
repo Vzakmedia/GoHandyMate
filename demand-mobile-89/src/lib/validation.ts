@@ -104,7 +104,7 @@ export const signUpSchema = z.object({
   email: emailSchema,
   password: passwordSchema,
   fullName: nameSchema,
-  userRole: z.enum(['customer', 'handyman', 'contractor', 'property_manager'])
+  userRole: z.enum(['customer', 'handyman']) // contractor and property_manager removed — those roles are archived
 });
 
 export const signInSchema = z.object({

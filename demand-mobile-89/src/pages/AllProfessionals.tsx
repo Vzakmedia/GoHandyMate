@@ -12,7 +12,7 @@ import { Star, MapPin, CheckCircle, Clock, DollarSign, ArrowLeft, Search, Filter
 interface Professional {
   id: string;
   name: string;
-  type: 'handyman' | 'contractor';
+  type: 'handyman';
   rating: number;
   reviews: number;
   location: string;
@@ -62,32 +62,7 @@ const mockProfessionals: Professional[] = [
     ]
   },
   {
-    id: '2',
-    name: 'Sarah Martinez',
-    type: 'contractor',
-    businessName: 'Martinez Construction LLC',
-    rating: 4.8,
-    reviews: 89,
-    location: 'Midtown',
-    distance: '2.3 miles',
-    image: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
-    verified: true,
-    completedTasks: 67,
-    responseTime: '2 hours avg',
-    isPromoted: false,
-    specialties: ['Kitchen Remodeling', 'Bathroom Renovation', 'Flooring', 'Roofing'],
-    availability: 'Available this week',
-    phone: '(555) 987-6543',
-    email: 'sarah@martinezconstruction.com',
-    yearsExperience: 12,
-    description: 'Full-service general contractor specializing in residential renovations. Family-owned business with 12 years of excellence.',
-    certifications: ['General Contractor License', 'OSHA 30', 'Green Building Certified'],
-    gallery: [
-      'https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=300&h=200&fit=crop',
-      'https://images.unsplash.com/photo-1571962478258-2650d43b0cdb?w=300&h=200&fit=crop',
-      'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=300&h=200&fit=crop'
-    ]
-  },
+    // Contractor mock entry removed — contractor role archived
   {
     id: '3',
     name: 'Mike Rodriguez',
@@ -119,7 +94,7 @@ const mockProfessionals: Professional[] = [
 const AllProfessionals = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterType, setFilterType] = useState<'all' | 'handyman' | 'contractor'>('all');
+  const [filterType, setFilterType] = useState<'all' | 'handyman'>('all');
   const [sortBy, setSortBy] = useState<'rating' | 'distance' | 'experience'>('rating');
   const [activeTab, setActiveTab] = useState('all');
 
@@ -166,7 +141,7 @@ const AllProfessionals = () => {
               </Button>
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">All Professionals</h1>
-                <p className="text-gray-600">Find trusted handymen and contractors in your area</p>
+                <p className="text-gray-600">Find trusted handymen in your area</p>
               </div>
             </div>
           </div>
@@ -195,7 +170,7 @@ const AllProfessionals = () => {
               <SelectContent>
                 <SelectItem value="all">All Types</SelectItem>
                 <SelectItem value="handyman">Handymen</SelectItem>
-                <SelectItem value="contractor">Contractors</SelectItem>
+                {/* Contractor option removed — contractor role archived */}
               </SelectContent>
             </Select>
 
@@ -221,7 +196,7 @@ const AllProfessionals = () => {
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="all">All Professionals</TabsTrigger>
             <TabsTrigger value="handyman">Handymen</TabsTrigger>
-            <TabsTrigger value="contractor">Contractors</TabsTrigger>
+            {/* Contractor tab removed — contractor role archived */}
           </TabsList>
         </Tabs>
 
@@ -269,11 +244,11 @@ const AllProfessionals = () => {
                           </div>
                         </div>
 
-                        <Badge 
-                          variant="outline" 
-                          className={professional.type === 'contractor' ? 'text-blue-600 border-blue-300' : 'text-green-600 border-green-300'}
+                        <Badge
+                          variant="outline"
+                          className="text-green-600 border-green-300"
                         >
-                          {professional.type === 'contractor' ? 'Contractor' : 'Handyman'}
+                          Handyman
                         </Badge>
                       </div>
                     </div>

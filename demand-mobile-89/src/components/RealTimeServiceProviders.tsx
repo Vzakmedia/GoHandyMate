@@ -5,7 +5,7 @@ interface RealTimeServiceProvidersProps {
   serviceCategory?: string;
   maxResults?: number;
   showDistance?: boolean;
-  userRole?: 'customer' | 'property_manager';
+  userRole?: 'customer';
 }
 
 export const RealTimeServiceProviders = (props: RealTimeServiceProvidersProps) => {

@@ -21,7 +21,7 @@ export const AdminQuickActions = ({ onTabChange }: AdminQuickActionsProps) => {
           <div className="p-6 bg-slate-50 rounded-[1.5rem] border border-black/5 hover:bg-white hover:shadow-lg transition-all duration-300 group">
             <h3 className="text-sm font-black text-slate-900 uppercase tracking-tight mb-2">Account Verification Queue</h3>
             <p className="text-xs text-slate-500 mb-4 leading-relaxed">
-              Review and approve pending handyman and contractor applications to ensure platform quality.
+              Review and approve pending handyman applications to ensure platform quality.
             </p>
             <button
               onClick={() => onTabChange('verification')}

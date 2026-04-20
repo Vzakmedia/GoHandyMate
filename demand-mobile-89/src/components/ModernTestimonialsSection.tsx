@@ -29,7 +29,7 @@ export const ModernTestimonialsSection = () => {
     {
       id: "2", 
       rating: 5,
-      review_text: "Managing 50+ properties is challenging, but GoHandyMate makes finding reliable contractors so much easier. Same-day service is a game changer!",
+      review_text: "I have multiple rental units and GoHandyMate makes finding reliable handymen so much easier. Same-day service is a game changer!",
       customer_name: "Mike Chen",
       customer_location: "San Francisco, CA", 
       created_at: new Date().toISOString(),

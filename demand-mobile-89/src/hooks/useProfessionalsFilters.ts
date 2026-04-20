@@ -6,9 +6,9 @@ export const useProfessionalsFilters = () => {
   const [searchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState<'rating' | 'distance' | 'experience'>('rating');
-  const [selectedType, setSelectedType] = useState<'handyman' | 'contractor' | 'all'>(() => {
+  const [selectedType, setSelectedType] = useState<'handyman' | 'all'>(() => {
     const typeParam = searchParams.get('type');
-    if (typeParam === 'handyman' || typeParam === 'contractor') {
+    if (typeParam === 'handyman') {
       return typeParam;
     }
     return 'all';

@@ -7,7 +7,7 @@ export const useProfessionalsData = () => {
   const [loading, setLoading] = useState(false);
 
   const fetchProfessionals = useCallback(async (
-    type: 'handyman' | 'contractor' | 'all' = 'all',
+    type: 'handyman' | 'all' = 'all',
     userLocation?: { lat: number; lng: number } | null
   ) => {
     try {
@@ -66,12 +66,12 @@ export const useProfessionalsData = () => {
   }, []);
 
   const fetchProfessionalsDirectly = async (
-    type: 'handyman' | 'contractor' | 'all',
+    type: 'handyman' | 'all',
     userLocation?: { lat: number; lng: number } | null
   ) => {
     console.log('useProfessionalsData - fetching directly from database...');
 
-    const userRoles = type === 'all' ? ['handyman', 'contractor'] : [type];
+    const userRoles = ['handyman'];
 
     const { data: professionalsData, error: professionalsError } = await supabase
       .from('profiles')
@@ -130,7 +130,7 @@ export const useProfessionalsData = () => {
     // Combine all data
     const enrichedProfessionals = professionalsData.map(professional => ({
       ...professional,
-      user_role: professional.user_role as 'handyman' | 'contractor',
+      user_role: 'handyman' as const,
       rating: professional.average_rating || 0,
       reviewCount: professional.total_ratings || 0,
       experienceYears: 2, // Default fallback

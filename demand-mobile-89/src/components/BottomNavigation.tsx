@@ -1,8 +1,7 @@
 
-import { Home, Search, MessageSquare, User, Wrench, DollarSign, Building2, BarChart3, Calendar, LayoutDashboard, Briefcase, Crown } from 'lucide-react';
+import { Home, Search, MessageSquare, User, Wrench, DollarSign, BarChart3, Calendar, LayoutDashboard, Briefcase, Crown } from 'lucide-react';
 import { useUserRole } from '@/hooks/useUserRole';
 import { useResponsiveBreakpoints } from '@/hooks/useResponsiveBreakpoints';
-import { useCustomerUpgrade } from '@/hooks/useCustomerUpgrade';
 
 interface BottomNavigationProps {
   activeTab: string;
@@ -12,14 +11,11 @@ interface BottomNavigationProps {
 export const BottomNavigation = ({ activeTab, onTabChange }: BottomNavigationProps) => {
   const { userRole } = useUserRole();
   const { isMobile, isTablet, isFoldable } = useResponsiveBreakpoints();
-  const { isUpgraded } = useCustomerUpgrade();
 
   const customerTabs = [
     { id: 'home', label: 'Home', icon: Home },
     { id: 'search', label: 'Services', icon: Search },
     { id: 'community', label: 'Community', icon: MessageSquare },
-    // Properties tab — visible only for upgraded customers
-    ...(isUpgraded ? [{ id: 'property', label: 'Properties', icon: Building2 }] : []),
     { id: 'profile', label: 'Profile', icon: User },
   ];
 

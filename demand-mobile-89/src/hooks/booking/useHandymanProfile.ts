@@ -8,7 +8,7 @@ interface HandymanProfile {
   id: string;
   full_name: string;
   avatar_url?: string;
-  user_role: 'handyman' | 'contractor';
+  user_role: 'handyman';
   average_rating?: number;
   total_ratings?: number;
   phone?: string;
@@ -47,40 +47,21 @@ export const useHandymanProfile = (handymanId: string | undefined) => {
     try {
       console.log('useHandymanProfile: Fetching from get-professionals function for ID:', handymanId);
       
-      // Try to fetch both handyman and contractor data
-      const [handymanResponse, contractorResponse] = await Promise.all([
-        supabase.functions.invoke('get-professionals', {
-          body: {
-            userType: 'handyman',
-            userId: handymanId,
-            includeServicePricing: true
-          }
-        }),
-        supabase.functions.invoke('get-professionals', {
-          body: {
-            userType: 'contractor', 
-            userId: handymanId,
-            includeServicePricing: true
-          }
-        })
-      ]);
+      // Fetch handyman data
+      const handymanResponse = await supabase.functions.invoke('get-professionals', {
+        body: {
+          userType: 'handyman',
+          userId: handymanId,
+          includeServicePricing: true
+        }
+      });
 
-      // Check handyman response first
       let professionalData = null;
       if (!handymanResponse.error && handymanResponse.data) {
         if (Array.isArray(handymanResponse.data) && handymanResponse.data.length > 0) {
           professionalData = handymanResponse.data.find((p: any) => p.id === handymanId) || handymanResponse.data[0];
         } else if (handymanResponse.data && typeof handymanResponse.data === 'object' && handymanResponse.data.id) {
           professionalData = handymanResponse.data;
-        }
-      }
-      
-      // If not found as handyman, check contractor response
-      if (!professionalData && !contractorResponse.error && contractorResponse.data) {
-        if (Array.isArray(contractorResponse.data) && contractorResponse.data.length > 0) {
-          professionalData = contractorResponse.data.find((p: any) => p.id === handymanId) || contractorResponse.data[0];
-        } else if (contractorResponse.data && typeof contractorResponse.data === 'object' && contractorResponse.data.id) {
-          professionalData = contractorResponse.data;
         }
       }
 

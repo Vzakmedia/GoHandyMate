@@ -16,7 +16,7 @@ interface ProfileData {
   email: string;
   phone?: string;
   avatar_url?: string;
-  user_role: 'handyman' | 'contractor';
+  user_role: 'handyman';
   account_status: string;
   city?: string;
   address?: string;
@@ -48,7 +48,7 @@ const ProfileView = () => {
 
       const profileData: ProfileData = {
         ...data,
-        user_role: data.user_role as 'handyman' | 'contractor',
+        user_role: 'handyman' as const,
         account_status: data.account_status || 'pending'
       };
 

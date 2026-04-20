@@ -48,8 +48,8 @@ const DEFAULT_CONFIGS = [
     key: 'commission_rates',
     value: {
       handyman: 0.15,
-      contractor: 0.12,
-      property_manager: 0.10,
+      // contractor: 0.12, — archived (contractor role removed)
+      // property_manager: 0.10, — archived (property_manager role removed)
       emergency_multiplier: 1.5
     },
     description: 'Commission rates by user type',
@@ -86,12 +86,8 @@ const DEFAULT_CONFIGS = [
         starter: 15,
         pro: 40,
         elite: -1
-      },
-      contractor: {
-        basic: 25,
-        business: 60,
-        enterprise: -1
       }
+      // contractor job limits removed — contractor role archived
     },
     description: 'Job limits by subscription plan',
     isPublic: true

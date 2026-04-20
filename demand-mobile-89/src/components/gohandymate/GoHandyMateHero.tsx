@@ -46,7 +46,7 @@ export const GoHandyMateHero = () => {
           </h1>
 
           <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-2xl mx-auto px-2 sm:px-0">
-            Connect with verified handymen and contractors in your area. From quick fixes to major renovations.
+            Connect with verified handymen in your area. From quick fixes to major renovations.
           </p>
 
           {/* Search bar */}

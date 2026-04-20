@@ -19,6 +19,5 @@ export const SUBSCRIPTION_PLANS = {
 export const USER_ROLES = {
   CUSTOMER: 'customer',
   HANDYMAN: 'handyman',
-  CONTRACTOR: 'contractor',
-  PROPERTY_MANAGER: 'property_manager'
+  // CONTRACTOR and PROPERTY_MANAGER removed — those roles are archived
 } as const;

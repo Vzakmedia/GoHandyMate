@@ -25,7 +25,7 @@ export const OnboardingPage = () => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [demoVideoUrl, setDemoVideoUrl] = useState<string | null>(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const [pendingRole, setPendingRole] = useState<'customer' | 'handyman' | 'contractor' | 'property_manager' | null>(null);
+  const [pendingRole, setPendingRole] = useState<'customer' | 'handyman' | null>(null);
   const currentYear = new Date().getFullYear();
 
   // Removed auto-redirect: authenticated users can browse the landing page freely.
@@ -57,7 +57,7 @@ export const OnboardingPage = () => {
     }
   };
 
-  const handleRoleSelection = (role: 'customer' | 'handyman' | 'contractor' | 'property_manager') => {
+  const handleRoleSelection = (role: 'customer' | 'handyman') => {
     if (isAuthenticated) {
       // User is authenticated, navigate directly to app
       handleRoleSelect(role);
@@ -66,11 +66,7 @@ export const OnboardingPage = () => {
           navigate('/app?tab=home');
           break;
         case 'handyman':
-        case 'contractor':
           navigate('/app?tab=search');
-          break;
-        case 'property_manager':
-          navigate('/app?tab=profile');
           break;
         default:
           navigate('/app');
@@ -92,11 +88,7 @@ export const OnboardingPage = () => {
           navigate('/app?tab=home');
           break;
         case 'handyman':
-        case 'contractor':
           navigate('/app?tab=search');
-          break;
-        case 'property_manager':
-          navigate('/app?tab=profile');
           break;
         default:
           navigate('/app');
@@ -355,40 +347,8 @@ export const OnboardingPage = () => {
                 </div>
               </div>
 
-              {/* Contractors Card (Commented out) */}
-              {/* 
-              <div
-                className="group relative flex flex-col justify-between p-8 rounded-[2.5rem] bg-[#F1F5F9] border border-transparent hover:border-slate-300 transition-all duration-500 cursor-pointer overflow-hidden min-h-[420px]"
-                onClick={() => handleRoleSelect('contractor')}
-              >
-                <div className="space-y-6">
-                  <div className="text-[10px] font-black tracking-[0.15em] text-slate-500 uppercase">
-                    Contractors
-                  </div>
-                  <h3 className="text-2xl font-black text-[#0A0A0A] leading-tight group-hover:text-slate-900 transition-colors">
-                    Coordinate larger projects with ease
-                  </h3>
-                  <p className="text-slate-500 text-sm font-medium leading-relaxed">
-                    Manage crews, subcontractors, and timelines in one place while keeping clients in the loop.
-                  </p>
-                </div>
-
-                <div className="mt-12 bg-white rounded-2xl p-4 flex items-center justify-between shadow-sm border border-slate-100 group-hover:shadow-md transition-shadow">
-                  <div className="space-y-1">
-                    <div className="text-[9px] font-black tracking-wider text-slate-400 uppercase">Includes</div>
-                    <div className="text-[11px] font-bold text-[#0A0A0A] leading-tight max-w-[120px]">
-                      Job scheduling, crew assignment & progress tracking
-                    </div>
-                  </div>
-                  <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600">
-                    <TrendingUp className="w-5 h-5" strokeWidth={1.5} />
-                  </div>
-                </div>
-              </div>
-              */}
-
               {/* Property Managers Card (Commented out) */}
-              {/* 
+              {/*
               <div
                 className="group relative flex flex-col justify-between p-8 rounded-[2.5rem] bg-[#F8FAFC] border border-transparent hover:border-slate-300 transition-all duration-500 cursor-pointer overflow-hidden min-h-[420px]"
                 onClick={() => handleRoleSelect('property_manager')}
@@ -471,7 +431,7 @@ export const OnboardingPage = () => {
                 {/* Mid Right (Outer Peak) */}
                 <div className="absolute right-[3%] top-[50%] w-[100px] h-[140px] rounded-[1.5rem] bg-white/40 backdrop-blur-md p-2 shadow-xl border border-white/50 transform -rotate-[10deg] transition-transform duration-500">
                   <div className="w-full h-full rounded-xl overflow-hidden relative">
-                    <img src="/avatars/avatar-5.png" alt="Contractor" className="w-full h-full object-cover" />
+                    <img src="/avatars/avatar-5.png" alt="Professional" className="w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-[#166534]/5" />
                   </div>
                 </div>

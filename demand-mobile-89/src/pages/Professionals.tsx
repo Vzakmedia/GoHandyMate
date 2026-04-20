@@ -19,7 +19,7 @@ const Professionals = () => {
   const [searchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState<'rating' | 'distance' | 'experience'>('rating');
-  const [selectedType, setSelectedType] = useState<'handyman' | 'contractor' | 'all'>('all');
+  const [selectedType, setSelectedType] = useState<'handyman' | 'all'>('all');
 
   const { currentLocation } = useLocationTracking();
 

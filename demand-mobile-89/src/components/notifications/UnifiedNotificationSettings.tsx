@@ -170,26 +170,7 @@ export const UnifiedNotificationSettings = () => {
           }
         ];
 
-      case 'contractor':
-        return [
-          ...baseSettings,
-          {
-            key: 'job_notifications' as const,
-            label: 'Project Notifications',
-            description: 'Get notified when new contractor projects are posted',
-            icon: Home,
-            testAction: () => testSound('job'),
-            testLabel: 'Test Project Sound'
-          },
-          {
-            key: 'quote_notifications' as const,
-            label: 'Quote Request Notifications',
-            description: 'Get notified when clients request contractor quotes',
-            icon: DollarSign,
-            testAction: () => testSound('quote'),
-            testLabel: 'Test Quote Sound'
-          }
-        ];
+      // contractor case archived — contractor role removed
 
       case 'customer':
         return [
@@ -220,34 +201,7 @@ export const UnifiedNotificationSettings = () => {
           }
         ];
 
-      case 'property_manager':
-        return [
-          ...baseSettings,
-          {
-            key: 'maintenance_notifications' as const,
-            label: 'Maintenance Request Notifications',
-            description: 'Get notified about new maintenance requests',
-            icon: Wrench,
-            testAction: () => testSound('job'),
-            testLabel: 'Test Maintenance Sound'
-          },
-          {
-            key: 'emergency_notifications' as const,
-            label: 'Emergency Notifications',
-            description: 'Critical emergency alerts for properties',
-            icon: AlertTriangle,
-            testAction: () => testSound('job'),
-            testLabel: 'Test Emergency Sound'
-          },
-          {
-            key: 'job_notifications' as const,
-            label: 'Job Status Notifications',
-            description: 'Updates on ongoing maintenance and repairs',
-            icon: Briefcase,
-            testAction: () => testSound('job'),
-            testLabel: 'Test Job Sound'
-          }
-        ];
+      // property_manager case archived — property_manager role removed
 
       default:
         return baseSettings;

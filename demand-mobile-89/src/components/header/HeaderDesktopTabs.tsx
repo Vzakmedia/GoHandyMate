@@ -1,15 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { 
-  Home, 
-  Search, 
-  MessageSquare, 
-  User, 
-  Briefcase, 
-  DollarSign, 
-  Building, 
-  BarChart3, 
-  LayoutDashboard,
-  Wrench
+import {
+  Home,
+  Search,
+  MessageSquare,
+  User,
+  Briefcase,
+  DollarSign,
+  LayoutDashboard
 } from "lucide-react";
 import { useUserRole } from "@/hooks/useUserRole";
 
@@ -35,28 +32,13 @@ export const HeaderDesktopTabs = ({ activeTab, onTabChange }: HeaderDesktopTabsP
     { id: 'profile', label: 'Profile', icon: User },
   ];
 
-  const contractorTabs = [
-    { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
-    { id: 'projects', label: 'Projects', icon: Building },
-    { id: 'quotes', label: 'Quotes', icon: DollarSign },
-    { id: 'profile', label: 'Profile', icon: User },
-  ];
-
-  const propertyManagerTabs = [
-    { id: 'properties', label: 'Properties', icon: Building },
-    { id: 'jobs', label: 'Jobs', icon: Wrench },
-    { id: 'analytics', label: 'Analytics', icon: BarChart3 },
-    { id: 'profile', label: 'Profile', icon: User },
-  ];
+  // contractorTabs and propertyManagerTabs removed — those roles are archived
 
   const getTabsForRole = () => {
     switch (userRole) {
       case 'handyman':
         return handymanTabs;
-      case 'contractor':
-        return contractorTabs;
-      case 'property_manager':
-        return propertyManagerTabs;
+      // contractor and property_manager cases removed — those roles are archived
       default:
         return customerTabs;
     }

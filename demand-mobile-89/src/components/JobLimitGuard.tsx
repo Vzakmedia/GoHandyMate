@@ -34,7 +34,7 @@ export const JobLimitGuard = ({ children, action, onUpgrade }: JobLimitGuardProp
       // Get job limits based on role and plan
       const limits = {
         handyman: { starter: 15, pro: 40, elite: -1 },
-        contractor: { basic: 25, business: 60, enterprise: -1 }
+        // contractor limits removed — contractor role archived
       };
 
       const userRole = profile.user_role as keyof typeof limits;

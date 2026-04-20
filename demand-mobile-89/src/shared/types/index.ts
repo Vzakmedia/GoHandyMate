@@ -1,6 +1,6 @@
 // Shared TypeScript types and interfaces
 
-export type UserRole = 'customer' | 'handyman' | 'contractor' | 'property_manager' | 'admin';
+export type UserRole = 'customer' | 'handyman' | 'admin';
 
 export type AccountStatus = 'pending' | 'active' | 'rejected' | 'suspended';
 

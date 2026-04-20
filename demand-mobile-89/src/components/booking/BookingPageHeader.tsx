@@ -5,12 +5,12 @@ import { ArrowLeft } from 'lucide-react';
 interface BookingPageHeaderProps {
   serviceName: string;
   handymanName: string;
-  userRole?: 'handyman' | 'contractor';
+  userRole?: 'handyman';
   onBack: () => void;
 }
 
 export const BookingPageHeader = ({ serviceName, handymanName, userRole = 'handyman', onBack }: BookingPageHeaderProps) => {
-  const actionText = userRole === 'contractor' ? 'Request Quote' : 'Book Service';
+  const actionText = 'Book Service';
   
   return (
     <div className="flex items-center justify-between mb-6">

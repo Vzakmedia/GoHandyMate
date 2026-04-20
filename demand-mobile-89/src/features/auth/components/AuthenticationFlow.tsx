@@ -6,7 +6,7 @@ import { AuthScreen } from "./AuthScreen";
 interface AuthenticationFlowProps {
   showWelcome: boolean;
   showAuth: boolean;
-  onRoleSelect: (role: 'customer' | 'handyman' | 'contractor' | 'property_manager') => void;
+  onRoleSelect: (role: 'customer' | 'handyman') => void;
   onContinueAsGuest: () => void;
   onBackToWelcome: () => void;
   children?: ReactNode;

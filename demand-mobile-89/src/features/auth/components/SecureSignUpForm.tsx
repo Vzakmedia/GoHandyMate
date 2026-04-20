@@ -193,8 +193,6 @@ export const SecureSignUpForm = ({ onSwitchToSignIn }: SecureSignUpFormProps) =>
               <SelectContent>
                 <SelectItem value="customer">Customer - I need services</SelectItem>
                 <SelectItem value="handyman">Handyman - I provide quick fixes</SelectItem>
-                <SelectItem value="contractor">Licensed Contractor - I handle large projects</SelectItem>
-                <SelectItem value="property_manager">Property Manager - I manage properties</SelectItem>
               </SelectContent>
             </Select>
             {validationErrors.userRole && (

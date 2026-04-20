@@ -10,7 +10,7 @@ import { HandymanProfileModal } from '@/components/real-time-service-sync/Handym
 interface Professional {
   id: string;
   full_name: string;
-  user_role: 'handyman' | 'contractor';
+  user_role: 'handyman';
   avatar_url?: string;
   subscription_plan?: string;
   account_status: string;
@@ -59,13 +59,8 @@ export const HandymanCard = ({ professional, showDistance = true, isCarousel = f
   const [showProfileModal, setShowProfileModal] = useState(false);
 
   const handleViewProfile = () => {
-    if (professional.user_role === 'handyman') {
-      // Show popup modal for handymen
-      setShowProfileModal(true);
-    } else {
-      // Keep current navigation for contractors
-      navigate(`/handyman-profile/${professional.id}`);
-    }
+    // Show popup modal for handymen
+    setShowProfileModal(true);
   };
 
   const handleMessage = () => {

@@ -342,7 +342,7 @@ export const QuickQuoteCalculator = ({
           formData={formData}
           customerInfo={customerInfo}
           contractorInfo={{
-            name: profile?.full_name || user?.email || "Contractor",
+            name: profile?.full_name || user?.email || "Handyman",
             email: user?.email || "",
             phone: profile?.phone || ""
           }}

@@ -7,7 +7,7 @@ interface UseProfessionalsIntegratedProps {
   serviceCategory?: string;
   maxResults?: number;
   userLocation?: { lat: number; lng: number } | null;
-  selectedType?: 'handyman' | 'contractor' | 'all';
+  selectedType?: 'handyman' | 'all';
 }
 
 export const useProfessionalsIntegrated = ({
@@ -144,12 +144,8 @@ export const useProfessionalsIntegrated = ({
       .eq('account_status', 'active')
       .in('subscription_status', ['active', 'trialing']);
 
-    // Apply user role filter based on selectedType
-    if (selectedType !== 'all') {
-      query = query.eq('user_role', selectedType);
-    } else {
-      query = query.in('user_role', ['handyman', 'contractor']);
-    }
+    // Only fetch handymen (contractor role archived)
+    query = query.eq('user_role', 'handyman');
 
     const { data: handymenData, error: handymenError } = await query;
 

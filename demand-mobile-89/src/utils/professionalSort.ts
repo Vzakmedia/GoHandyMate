@@ -2,7 +2,7 @@
 interface Professional {
   id: string;
   full_name: string;
-  user_role: 'handyman' | 'contractor';
+  user_role: 'handyman';
   rating: number;
   distance?: number;
   isSponsored: boolean;

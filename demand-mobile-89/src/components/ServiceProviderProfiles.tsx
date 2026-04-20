@@ -22,7 +22,7 @@ interface ServiceProvider {
   phone?: string;
   address?: string;
   city?: string;
-  user_role: 'handyman' | 'contractor';
+  user_role: 'handyman';
   subscription_plan?: string;
   account_status: 'pending' | 'active' | 'rejected' | 'suspended';
   avatar_url?: string;
@@ -33,7 +33,7 @@ export const ServiceProviderProfiles = () => {
   const [providers, setProviders] = useState<ServiceProvider[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterRole, setFilterRole] = useState<'all' | 'handyman' | 'contractor'>('all');
+  const [filterRole, setFilterRole] = useState<'all' | 'handyman'>('all');
   const [filterLocation, setFilterLocation] = useState('');
 
   useEffect(() => {
@@ -46,7 +46,7 @@ export const ServiceProviderProfiles = () => {
       const { data: profilesData, error: profilesError } = await supabase
         .from('profiles')
         .select('*')
-        .in('user_role', ['handyman', 'contractor'])
+        .eq('user_role', 'handyman')
         .eq('account_status', 'active');
 
       if (profilesError) throw profilesError;
@@ -73,7 +73,7 @@ export const ServiceProviderProfiles = () => {
         phone: profile.phone || undefined,
         address: profile.address || undefined,
         city: profile.city || undefined,
-        user_role: profile.user_role as 'handyman' | 'contractor',
+        user_role: 'handyman' as const,
         subscription_plan: profile.subscription_plan || undefined,
         account_status: profile.account_status as 'pending' | 'active' | 'rejected' | 'suspended',
         avatar_url: profile.avatar_url || undefined,
@@ -123,7 +123,7 @@ export const ServiceProviderProfiles = () => {
           />
         </div>
         
-        <Select value={filterRole} onValueChange={(value: 'all' | 'handyman' | 'contractor') => setFilterRole(value)}>
+        <Select value={filterRole} onValueChange={(value: 'all' | 'handyman') => setFilterRole(value)}>
           <SelectTrigger className="w-full lg:w-48">
             <Filter className="w-4 h-4 mr-2" />
             <SelectValue placeholder="Filter by role" />
@@ -131,7 +131,7 @@ export const ServiceProviderProfiles = () => {
           <SelectContent>
             <SelectItem value="all">All Providers</SelectItem>
             <SelectItem value="handyman">Handymen</SelectItem>
-            <SelectItem value="contractor">Contractors</SelectItem>
+            {/* contractor option removed — contractor role archived */}
           </SelectContent>
         </Select>
 

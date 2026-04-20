@@ -16,7 +16,6 @@ interface AuthScreenProps {
 }
 
 type UserRole = 'customer' | 'handyman';
-// NOTE: 'contractor' pending. 'property_manager' moved to customer upgrade.
 
 export const AuthScreen = ({ onBack, onSuccess, isModal = false, defaultIsSignUp = false, defaultRole = 'customer' }: AuthScreenProps) => {
   const [isSignUp, setIsSignUp] = useState(defaultIsSignUp);
@@ -34,10 +33,6 @@ export const AuthScreen = ({ onBack, onSuccess, isModal = false, defaultIsSignUp
   const roles = [
     { id: 'customer', label: 'Customer', icon: Users2, color: 'green' },
     { id: 'handyman', label: 'Handyman', icon: Hammer, color: 'emerald' },
-    // CONTRACTOR - PENDING (commented out)
-    // { id: 'contractor', label: 'Contractor', icon: TrendingUp, color: 'slate' },
-    // PROPERTY_MANAGER - Moved to customer upgrade features
-    // { id: 'property_manager', label: 'Manager', icon: Building, color: 'slate' },
   ];
 
   return (

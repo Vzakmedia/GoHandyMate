@@ -6,7 +6,7 @@ import { supabase } from '@/integrations/supabase/client';
  */
 
 export const fetchProfessionalsWithFallback = async (params: {
-  type?: 'handyman' | 'contractor' | 'all';
+  type?: 'handyman' | 'all';
   serviceName?: string;
   lat?: string;
   lng?: string;
@@ -39,16 +39,14 @@ export const fetchProfessionalsWithFallback = async (params: {
 };
 
 const fetchProfessionalsFromDatabase = async (params: {
-  type?: 'handyman' | 'contractor' | 'all';
+  type?: 'handyman' | 'all';
   serviceName?: string;
   includeServicePricing?: boolean;
   includeSkillRates?: boolean;
 }) => {
   console.log('fetchProfessionalsFromDatabase: Fetching directly from database...');
 
-  const userRoles = params.type === 'all' 
-    ? ['handyman', 'contractor'] 
-    : [params.type || 'handyman'];
+  const userRoles = ['handyman']; // contractor role archived — always handyman only
 
   // Get professionals
   const { data: professionalsData, error: professionalsError } = await supabase

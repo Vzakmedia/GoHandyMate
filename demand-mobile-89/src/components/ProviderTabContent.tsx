@@ -3,10 +3,8 @@ import { JobBoard } from "@/components/JobBoard";
 import { HomeTabContent } from "@/components/HomeTabContent";
 import { ProviderDashboard } from "@/components/ProviderDashboard";
 import { ProviderEarnings } from "@/components/ProviderEarnings";
-import { ContractorDashboard } from "@/components/ContractorDashboard";
 import { SubscriptionPage } from "@/components/SubscriptionPage";
 import { ProviderProfileEditor } from "@/components/ProviderProfileEditor";
-import { useState } from "react";
 
 interface ProviderTabContentProps {
   activeTab: string;
@@ -31,12 +29,6 @@ export const ProviderTabContent = ({
   setSelectedCategory, 
   mockTasks 
 }: ProviderTabContentProps) => {
-  const [contractorActiveTab, setContractorActiveTab] = useState("dashboard");
-
-  const handleContractorTabChange = (tab: string) => {
-    setContractorActiveTab(tab);
-  };
-
   switch (activeTab) {
     case 'dashboard':
       return (
@@ -44,17 +36,7 @@ export const ProviderTabContent = ({
           <ProviderDashboard />
         </div>
       );
-    
-    case 'contractor':
-      return (
-        <div className="px-4 py-6">
-          <ContractorDashboard 
-            activeTab={contractorActiveTab}
-            onTabChange={handleContractorTabChange}
-          />
-        </div>
-      );
-    
+
     case 'jobs':
       return (
         <div className="px-4 py-6">

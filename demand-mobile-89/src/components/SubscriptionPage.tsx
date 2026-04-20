@@ -19,7 +19,7 @@ export const SubscriptionPage = () => {
 
   const userRole = profile?.user_role;
 
-  if (!userRole || !['handyman', 'contractor'].includes(userRole)) {
+  if (!userRole || userRole !== 'handyman') {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="text-center">
@@ -55,8 +55,8 @@ export const SubscriptionPage = () => {
         </TabsList>
 
         <TabsContent value="plans" className="space-y-6">
-          <SubscriptionPlans 
-            userRole={userRole as 'handyman' | 'contractor'}
+          <SubscriptionPlans
+            userRole="handyman"
             currentPlan={profile?.subscription_plan}
             onPlanSelect={() => setActiveTab("status")}
           />

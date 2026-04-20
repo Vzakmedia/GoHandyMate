@@ -2,12 +2,12 @@
 import { Button } from '@/components/ui/button';
 import { Search, RefreshCw } from 'lucide-react';
 import { HandymanCard } from './HandymanCard';
-import { ContractorCard } from './ContractorCard';
+// ContractorCard archived — contractor role removed
 
 interface Professional {
   id: string;
   full_name: string;
-  user_role: 'handyman' | 'contractor';
+  user_role: 'handyman';
   avatar_url?: string;
   subscription_plan?: string;
   account_status: string;
@@ -89,9 +89,7 @@ export const ProfessionalsList = ({
   return (
     <div className="space-y-6">
       {professionals.map((professional) => (
-        professional.user_role === 'handyman' 
-          ? <HandymanCard key={professional.id} professional={professional} />
-          : <ContractorCard key={professional.id} professional={professional} />
+        <HandymanCard key={professional.id} professional={professional} />
       ))}
     </div>
   );

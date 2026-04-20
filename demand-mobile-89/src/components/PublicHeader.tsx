@@ -15,7 +15,7 @@ export const PublicHeader = () => {
     const [showAuthModal, setShowAuthModal] = useState(false);
     const [authModalRole, setAuthModalRole] = useState<'customer' | 'handyman'>('customer');
     const [authModalIsSignUp, setAuthModalIsSignUp] = useState(false);
-    const [pendingRole, setPendingRole] = useState<'customer' | 'handyman' | 'contractor' | 'property_manager' | null>(null);
+    const [pendingRole, setPendingRole] = useState<'customer' | 'handyman' | null>(null);
     const { handleRoleSelect } = useAppState();
     const [isScrolled, setIsScrolled] = useState(false);
 
@@ -51,9 +51,7 @@ export const PublicHeader = () => {
             handleRoleSelect(pendingRole);
             switch (pendingRole) {
                 case 'customer': navigate('/app?tab=home'); break;
-                case 'handyman':
-                case 'contractor': navigate('/app?tab=search'); break;
-                case 'property_manager': navigate('/app?tab=profile'); break;
+                case 'handyman': navigate('/app?tab=search'); break;
                 default: navigate('/app');
             }
             setPendingRole(null);

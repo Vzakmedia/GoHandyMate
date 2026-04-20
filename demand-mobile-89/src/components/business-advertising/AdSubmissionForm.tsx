@@ -159,7 +159,7 @@ export const AdSubmissionForm = ({
                             <SelectContent className="rounded-2xl border-black/5 shadow-2xl">
                                 <SelectItem value="all">All Users</SelectItem>
                                 <SelectItem value="homeowners">Homeowners</SelectItem>
-                                <SelectItem value="property_managers">Property Managers</SelectItem>
+                                {/* property_managers option removed — property_manager role archived */}
                                 <SelectItem value="businesses">Businesses</SelectItem>
                             </SelectContent>
                         </Select>

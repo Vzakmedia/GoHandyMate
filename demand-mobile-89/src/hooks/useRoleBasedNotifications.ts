@@ -31,14 +31,8 @@ export const useRoleBasedNotifications = () => {
       case 'handyman':
         setupHandymanNotifications();
         break;
-      case 'contractor':
-        setupContractorNotifications();
-        break;
       case 'customer':
         setupCustomerNotifications();
-        break;
-      case 'property_manager':
-        setupPropertyManagerNotifications();
         break;
     }
 
@@ -207,61 +201,8 @@ export const useRoleBasedNotifications = () => {
       subscriptions.push(assignmentChannel);
     }
 
-    function setupContractorNotifications() {
-      // Similar to handyman but for contractor-specific tables
-      const contractorJobsChannel = supabase
-        .channel('contractor-job-requests')
-        .on(
-          'postgres_changes',
-          {
-            event: 'INSERT',
-            schema: 'public',
-            table: 'job_requests',
-            filter: `job_type=eq.contractor_service`
-          },
-          (payload) => {
-            console.log('New contractor job:', payload);
-            playJobRequestTone();
-            toast.info('New Project Available!', {
-              description: `${payload.new.title || 'New project'} posted`,
-              duration: 5000,
-              action: {
-                label: 'View Projects',
-                onClick: () => navigate('/?tab=jobs'),
-              },
-            });
-          }
-        )
-        .subscribe();
-      subscriptions.push(contractorJobsChannel);
-
-      // Contractor quote requests
-      const contractorQuotesChannel = supabase
-        .channel('contractor-quote-requests')
-        .on(
-          'postgres_changes',
-          {
-            event: 'INSERT',
-            schema: 'public',
-            table: 'contractor_quote_requests',
-            filter: `status=eq.pending`
-          },
-          (payload) => {
-            console.log('New contractor quote request:', payload);
-            playQuoteNotificationTone();
-            toast.info('New Quote Request!', {
-              description: `${payload.new.service_name || 'Service'} request`,
-              duration: 5000,
-              action: {
-                label: 'View Quotes',
-                onClick: () => navigate('/?tab=quotes'),
-              },
-            });
-          }
-        )
-        .subscribe();
-      subscriptions.push(contractorQuotesChannel);
-    }
+    // CONTRACTOR NOTIFICATIONS — archived (contractor role removed)
+    // function setupContractorNotifications() { ... }
 
     function setupCustomerNotifications() {
       // Quote submissions for customers
@@ -347,60 +288,8 @@ export const useRoleBasedNotifications = () => {
       subscriptions.push(jobUpdatesChannel);
     }
 
-    function setupPropertyManagerNotifications() {
-      // Property-related notifications
-      const propertyUpdatesChannel = supabase
-        .channel('property-manager-updates')
-        .on(
-          'postgres_changes',
-          {
-            event: 'INSERT',
-            schema: 'public',
-            table: 'job_requests',
-            filter: `job_type=eq.maintenance`
-          },
-          (payload) => {
-            console.log('New maintenance request for property manager:', payload);
-            playJobRequestTone();
-            toast.info('New Maintenance Request!', {
-              description: `${payload.new.title || 'Maintenance'} request submitted`,
-              duration: 5000,
-              action: {
-                label: 'View Request',
-                onClick: () => navigate(`/?tab=jobs&openJob=${payload.new.id}`),
-              },
-            });
-          }
-        )
-        .subscribe();
-      subscriptions.push(propertyUpdatesChannel);
-
-      // Emergency requests
-      const emergencyChannel = supabase
-        .channel('property-manager-emergency')
-        .on(
-          'postgres_changes',
-          {
-            event: 'INSERT',
-            schema: 'public',
-            table: 'emergency_requests'
-          },
-          (payload) => {
-            console.log('Emergency request for property manager:', payload);
-            playJobRequestTone();
-            toast.error('Emergency Request!', {
-              description: `Urgent: ${payload.new.description || 'Emergency situation'}`,
-              duration: 10000,
-              action: {
-                label: 'View Emergency',
-                onClick: () => navigate('/?tab=emergency'),
-              },
-            });
-          }
-        )
-        .subscribe();
-      subscriptions.push(emergencyChannel);
-    }
+    // PROPERTY MANAGER NOTIFICATIONS — archived (property_manager role removed)
+    // function setupPropertyManagerNotifications() { ... }
 
     return () => {
       console.log('Cleaning up role-based notification subscriptions');

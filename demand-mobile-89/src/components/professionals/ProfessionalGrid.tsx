@@ -1,11 +1,11 @@
 
 import { HandymanCard } from './HandymanCard';
-import { ContractorCard } from './ContractorCard';
+// ContractorCard archived — contractor role removed
 
 interface Professional {
   id: string;
   full_name: string;
-  user_role: 'handyman' | 'contractor';
+  user_role: 'handyman';
   avatar_url?: string;
   subscription_plan?: string;
   account_status: string;
@@ -57,29 +57,14 @@ export const ProfessionalGrid = ({
 
   return (
     <>
-      {professionals.map((professional) => {
-        const key = professional.id;
-        
-        if (professional.user_role === 'contractor') {
-          return (
-            <ContractorCard
-              key={key}
-              professional={professional}
-              showDistance={showDistance}
-              isCarousel={isCarousel}
-            />
-          );
-        }
-        
-        return (
-          <HandymanCard
-            key={key}
-            professional={professional}
-            showDistance={showDistance}
-            isCarousel={isCarousel}
-          />
-        );
-      })}
+      {professionals.map((professional) => (
+        <HandymanCard
+          key={professional.id}
+          professional={professional}
+          showDistance={showDistance}
+          isCarousel={isCarousel}
+        />
+      ))}
     </>
   );
 };

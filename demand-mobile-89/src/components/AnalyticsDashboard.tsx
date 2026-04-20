@@ -15,7 +15,7 @@ export const AnalyticsDashboard = () => {
     pendingJobs,
     totalProfessionals,
     handymen,
-    contractors,
+    // contractors removed — contractor role archived
     customers,
     monthlyData,
     averageRating,
@@ -140,14 +140,7 @@ export const AnalyticsDashboard = () => {
                 <span className="text-sm text-muted-foreground">Handymen</span>
                 <span className="font-semibold">{handymen}</span>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-muted-foreground">Contractors</span>
-                <span className="font-semibold">{contractors}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-muted-foreground">Property Managers</span>
-                <span className="font-semibold">{totalProfessionals - handymen - contractors - customers}</span>
-              </div>
+              {/* Contractors and Property Managers rows removed — those roles are archived */}
               <div className="flex justify-between items-center">
                 <span className="text-sm text-muted-foreground">Total Customers</span>
                 <span className="font-semibold">{customers}</span>

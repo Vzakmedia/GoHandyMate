@@ -8,7 +8,7 @@ interface HandymanProfile {
   id: string;
   full_name: string;
   avatar_url?: string;
-  user_role: 'handyman' | 'contractor';
+  user_role: 'handyman';
   average_rating?: number;
   total_ratings?: number;
   phone?: string;
@@ -49,7 +49,7 @@ export const ProfessionalInfoCard = ({
             <div className="flex items-center space-x-1">
               <CheckCircle className="w-4 h-4 text-green-600" />
               <span className="text-sm text-green-600">
-                {handyman.user_role === 'contractor' ? 'Licensed Contractor' : 'Verified Professional'}
+                Verified Professional
               </span>
             </div>
             {handyman.average_rating && (

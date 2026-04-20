@@ -25,11 +25,7 @@ export interface Booking {
     email: string;
     phone?: string;
   };
-  contractor?: {
-    full_name: string;
-    email: string;
-    phone?: string;
-  };
+  // contractor field removed — contractor role archived
 }
 
 export const useBookings = () => {

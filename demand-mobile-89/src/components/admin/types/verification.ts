@@ -24,6 +24,6 @@ export interface VerificationLog {
 
 export interface VerificationStats {
   pending_handymen: number;
-  pending_contractors: number;
+  pending_contractors: number; // legacy field — contractor role archived
   total_pending: number;
 }

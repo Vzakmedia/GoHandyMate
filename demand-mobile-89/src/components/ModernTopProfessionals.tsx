@@ -10,12 +10,10 @@ import { ProfessionalsLoadingSkeleton } from "@/components/professionals/Profess
 export const ModernTopProfessionals = () => {
   const navigate = useNavigate();
   const handymenScrollRef = useRef<HTMLDivElement>(null);
-  const contractorsScrollRef = useRef<HTMLDivElement>(null);
-  
+  // contractorsScrollRef removed — contractor role archived
+
   const [handymenCanScrollLeft, setHandymenCanScrollLeft] = useState(false);
   const [handymenCanScrollRight, setHandymenCanScrollRight] = useState(true);
-  const [contractorsCanScrollLeft, setContractorsCanScrollLeft] = useState(false);
-  const [contractorsCanScrollRight, setContractorsCanScrollRight] = useState(true);
   
   const { currentLocation } = useLocationTracking();
   
@@ -29,9 +27,8 @@ export const ModernTopProfessionals = () => {
     userLocation 
   });
 
-  // Separate handymen and contractors
+  // All professionals are handymen — contractor role archived
   const handymen = professionals.filter(p => p.user_role === 'handyman');
-  const contractors = professionals.filter(p => p.user_role === 'contractor');
 
   const checkScrollButtons = (scrollRef: React.RefObject<HTMLDivElement>, setCanScrollLeft: (val: boolean) => void, setCanScrollRight: (val: boolean) => void) => {
     if (scrollRef.current) {
@@ -76,22 +73,7 @@ export const ModernTopProfessionals = () => {
             </div>
           </div>
 
-          {/* Contractors Loading */}
-          <div>
-            <div className="text-center mb-8">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                Meet Our{" "}
-                <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                  Top Contractors
-                </span>
-              </h2>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
-              {Array.from({ length: 3 }).map((_, i) => (
-                <ProfessionalsLoadingSkeleton key={i} />
-              ))}
-            </div>
-          </div>
+          {/* Contractors loading skeleton removed — contractor role archived */}
         </div>
       </section>
     );
@@ -101,7 +83,7 @@ export const ModernTopProfessionals = () => {
     professionals: typeof handymen, 
     title: string, 
     titleGradient: string,
-    type: 'handyman' | 'contractor',
+    type: 'handyman',
     scrollRef: React.RefObject<HTMLDivElement>,
     canScrollLeft: boolean,
     canScrollRight: boolean,
@@ -139,7 +121,7 @@ export const ModernTopProfessionals = () => {
           
           {currentLocation && (
             <p className="text-sm text-gray-500 mb-4">
-              Showing {professionals.length} {type === 'handyman' ? 'handymen' : 'contractors'} near you
+              Showing {professionals.length} handymen near you
             </p>
           )}
 
@@ -226,7 +208,7 @@ export const ModernTopProfessionals = () => {
             size="lg"
             className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border-0 text-sm sm:text-base"
           >
-            View All {type === 'handyman' ? 'Handymen' : 'Contractors'} ({professionals.length} available)
+            View All Handymen ({professionals.length} available)
             <ArrowRight className="w-4 sm:w-5 h-4 sm:h-5 ml-2" />
           </Button>
         </div>
@@ -264,18 +246,7 @@ export const ModernTopProfessionals = () => {
           setHandymenCanScrollRight
         )}
 
-        {/* Contractors Section */}
-        {renderCarousel(
-          contractors, 
-          "Meet Our Top Contractors", 
-          "bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent",
-          "contractor",
-          contractorsScrollRef,
-          contractorsCanScrollLeft,
-          contractorsCanScrollRight,
-          setContractorsCanScrollLeft,
-          setContractorsCanScrollRight
-        )}
+        {/* Contractors section removed — contractor role archived */}
 
         {/* Enhanced Call to Action */}
         <div className="text-center px-4">
@@ -297,14 +268,7 @@ export const ModernTopProfessionals = () => {
                 <ArrowRight className="w-4 sm:w-5 h-4 sm:h-5 ml-2" />
               </Button>
               
-              <Button 
-                onClick={() => navigate('/professionals?type=contractor')}
-                variant="outline"
-                size="lg"
-                className="w-full sm:w-auto border-2 border-gray-300 hover:bg-gray-50 hover:border-gray-400 font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl transition-all duration-300 transform hover:scale-105 bg-white/80 backdrop-blur-sm text-sm sm:text-base"
-              >
-                Find Contractors
-              </Button>
+              {/* Find Contractors button removed — contractor role archived */}
             </div>
           </div>
         </div>

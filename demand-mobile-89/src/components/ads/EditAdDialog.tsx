@@ -124,7 +124,7 @@ export const EditAdDialog = ({ advertisement, open, onClose, onSave }: EditAdDia
               <SelectContent>
                 <SelectItem value="all">All Users</SelectItem>
                 <SelectItem value="customers">Customers Only</SelectItem>
-                <SelectItem value="property_managers">Property Managers</SelectItem>
+                {/* property_managers option removed — property_manager role archived */}
               </SelectContent>
             </Select>
           </div>

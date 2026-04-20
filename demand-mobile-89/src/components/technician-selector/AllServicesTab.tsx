@@ -205,17 +205,17 @@ export const AllServicesTab = () => {
             <CardHeader>
               <CardTitle className="flex items-center space-x-2 text-blue-800">
                 <Users className="w-5 h-5" />
-                <span>Browse All Contractors</span>
+                <span>Browse All Professionals</span>
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-blue-700 mb-4">Find licensed contractors for major projects and renovations</p>
-              <Button 
-                onClick={() => handleProfessionalSearch('Contractor')}
+              <p className="text-blue-700 mb-4">Find skilled professionals for any home service or project</p>
+              <Button
+                onClick={() => handleProfessionalSearch('Handyman')}
                 className="bg-blue-600 hover:bg-blue-700 w-full"
               >
                 <MapPin className="w-4 h-4 mr-2" />
-                View Contractors Near Me
+                View Professionals Near Me
               </Button>
             </CardContent>
           </Card>

@@ -6,12 +6,9 @@ import { SearchTabContent } from "@/components/customer-tabs/SearchTabContent";
 import { CommunityTabContent } from "@/components/customer-tabs/CommunityTabContent";
 import { ProfileTabContent } from "@/components/customer-tabs/ProfileTabContent";
 import { AuthScreen } from "@/features/auth";
-import { PropertyManagerTabContent } from "@/components/PropertyManagerTabContent";
-import { PropertyManagerUpgradePrompt } from "@/components/customer/PropertyManagerUpgradePrompt";
 import { useState } from "react";
 import { useAuth } from '@/features/auth';
 import { useNavigate } from "react-router-dom";
-import { useCustomerUpgrade } from "@/hooks/useCustomerUpgrade";
 
 interface CustomerTabContentProps {
   activeTab: string;
@@ -41,8 +38,6 @@ export const CustomerTabContent = ({
   const [showBookings, setShowBookings] = useState(false);
   const { user } = useAuth();
   const navigate = useNavigate();
-  const { isUpgraded } = useCustomerUpgrade();
-
   const handleBackToHome = () => {
     setShowBookings(false);
     if (onTabChange) {
@@ -95,13 +90,6 @@ export const CustomerTabContent = ({
 
     case 'profile':
       return <ProfileTabContent onShowAuth={() => { }} />;
-
-    // Property Manager — upgrade-gated feature for customers
-    case 'property':
-    case 'properties':
-      return isUpgraded
-        ? <PropertyManagerTabContent activeTab={activeTab} mockTasks={mockTasks} />
-        : <PropertyManagerUpgradePrompt />;
 
     default:
     case 'home':

@@ -68,11 +68,10 @@ export const SubscriptionStatus = ({ onManageSubscription }: SubscriptionStatusP
     if (!profile?.user_role || !profile?.subscription_plan) return 0;
     
     const limits = {
-      handyman: { starter: 15, pro: 40, elite: -1 },
-      contractor: { basic: 25, business: 60, enterprise: -1 }
+      handyman: { starter: 15, pro: 40, elite: -1 }
     };
-    
-    return limits[profile.user_role as keyof typeof limits]?.[profile.subscription_plan as keyof typeof limits.handyman] || 0;
+
+    return limits['handyman']?.[profile.subscription_plan as keyof typeof limits.handyman] || 0;
   };
 
   const getProgressPercentage = () => {

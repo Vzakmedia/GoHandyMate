@@ -23,7 +23,7 @@ export const AdminOverviewCards = ({ onTabChange }: AdminOverviewCardsProps) => 
         <CardContent>
           <div className="text-xl font-black text-slate-900 mb-1">Pending Reviews</div>
           <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-            Approve handyman & contractor accounts
+            Approve handyman accounts
           </p>
         </CardContent>
       </Card>

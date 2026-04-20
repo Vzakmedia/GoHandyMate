@@ -9,7 +9,7 @@ import { getSelectedServicePricing, getServiceName, calculateEstimatedCost } fro
 interface HandymanProfile {
   id: string;
   full_name: string;
-  user_role: 'handyman' | 'contractor';
+  user_role: 'handyman';
 }
 
 interface BookingFormData {
@@ -87,7 +87,7 @@ export const useBookingSubmission = (
           priority: formData.urgency === 'emergency' ? 'high' : formData.urgency === 'same_day' ? 'medium' : 'low',
           status: 'pending',
           budget: finalCost,
-          job_type: handyman.user_role === 'handyman' ? 'handyman_service' : 'contractor_service'
+          job_type: 'handyman_service'
         });
         
         toast.success(`Test booking submitted successfully for ${serviceName}!`);

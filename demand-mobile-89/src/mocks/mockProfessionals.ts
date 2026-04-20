@@ -40,7 +40,7 @@ export const MOCK_PROFESSIONALS: Professional[] = [
         completedJobs: 210,
         isSponsored: false,
         isOnline: true,
-        user_role: 'contractor',
+        user_role: 'handyman',
         zip_code: '94601',
         subscription_status: 'active',
         account_status: 'active',

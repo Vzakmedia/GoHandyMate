@@ -19,7 +19,7 @@ interface Plan {
 }
 
 interface SubscriptionPlansProps {
-  userRole: 'handyman' | 'contractor';
+  userRole: 'handyman';
   currentPlan?: string;
   onPlanSelect?: (planId: string) => void;
 }
@@ -59,35 +59,7 @@ export const SubscriptionPlans = ({ userRole, currentPlan, onPlanSelect }: Subsc
     }
   ];
 
-  const contractorPlans: Plan[] = [
-    {
-      id: "basic",
-      name: "Basic",
-      price: 199,
-      description: "Essential tools for contractors",
-      features: ["25 leads per month", "Project management tools", "Standard support", "Lead tracking"],
-      icon: <Zap className="w-6 h-6" />
-    },
-    {
-      id: "business",
-      name: "Business",
-      price: 299,
-      description: "Scale your contracting business",
-      features: ["60 leads per month", "Advanced project tools", "Priority support", "Team management", "Custom estimates"],
-      popular: true,
-      icon: <Star className="w-6 h-6" />
-    },
-    {
-      id: "enterprise",
-      name: "Enterprise",
-      price: 499,
-      description: "Ultimate contractor solution",
-      features: ["Unlimited leads", "Full business suite", "24/7 dedicated support", "White-label options", "API access"],
-      icon: <Crown className="w-6 h-6" />
-    }
-  ];
-
-  const plans = userRole === 'handyman' ? handymanPlans : contractorPlans;
+  const plans = handymanPlans;
 
   const handleSelectPlan = async (planId: string) => {
     if (!user) {
